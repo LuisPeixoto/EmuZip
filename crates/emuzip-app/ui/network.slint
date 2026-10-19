@@ -1,0 +1,157 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { Net, Api, NetEntry } from "store.slint";
+import { Btn, IconBtn, Chip, Icon, Divider, Segmented, EmptyState } from "widgets.slint";
+import { LineEdit, ComboBox, ListView, TextEdit, ScrollView, Switch } from "std-widgets.slint";
+
+component MethodChip inherits Rectangle {
+    in property <string> m;
+    width: 52px;
+    height: 20px;
+    border-radius: 5px;
+    background: m == "GET" ? Theme.info-soft : m == "POST" ? Theme.success-soft : m == "DELETE" ? Theme.danger-soft : m == "CONNECT" ? Theme.surface-hover : Theme.warning-soft;
+    Text {
+        text: m;
+        font-size: 10px;
+        font-weight: 800;
+        color: m == "GET" ? Theme.info : m == "POST" ? Theme.success : m == "DELETE" ? Theme.danger : m == "CONNECT" ? Theme.text-3 : Theme.warning;
+    }
+}
+
+component Row inherits Rectangle {
+    in property <NetEntry> e;
+    in property <bool> wide;
+    height: 34px;
+    background: Net.selected == e.id ? Theme.primary-soft : ta.has-hover ? Theme.surface-hover : transparent;
+    ta := TouchArea { mouse-cursor: pointer; clicked => { Api.net-select(e.id); } }
+    HorizontalLayout {
+        padding-left: 8px;
+        padding-right: 8px;
+        spacing: 8px;
+        MethodChip { m: e.method; y: (parent.height - self.height) / 2; }
+        Text {
+            width: 34px;
+            text: e.status == 0 ? (e.error ? @tr("ERR") : @tr("…")) : e.status;
+            font-weight: 700;
+            font-size: Theme.font-sm;
+            vertical-alignment: center;
+            color: e.error || e.status >= 500 ? Theme.danger : e.status >= 400 ? Theme.warning : e.status >= 300 ? Theme.info : e.status >= 200 ? Theme.success : Theme.text-3;
+        }
+        if e.tls: Icon { source: Icons.lock; size: 12px; color: e.decrypted ? Theme.success : Theme.text-3; y: (parent.height - self.height) / 2; }
+        Text { text: e.host; font-size: Theme.font-sm; color: Theme.text-2; vertical-alignment: center; overflow: elide; width: root.wide ? 200px : 110px; }
+        Text { text: e.path; font-size: Theme.font-sm; color: Theme.text; vertical-alignment: center; overflow: elide; horizontal-stretch: 1; }
+        if root.wide: Text { text: e.kind; font-size: Theme.font-xs; color: Theme.text-3; vertical-alignment: center; width: 70px; overflow: elide; }
+        Text { text: e.size; font-size: Theme.font-xs; color: Theme.text-3; vertical-alignment: center; width: 58px; horizontal-alignment: right; }
+        if root.wide: Text { text: e.time; font-size: Theme.font-xs; color: Theme.text-3; vertical-alignment: center; width: 56px; horizontal-alignment: right; }
+    }
+}
+
+component Detail inherits VerticalLayout {
+    spacing: 8px;
+    HorizontalLayout {
+        spacing: 6px;
+        Text { text: Net.d-url; font-size: Theme.font-sm; font-weight: 700; color: Theme.text; overflow: elide; horizontal-stretch: 1; vertical-alignment: center; }
+        IconBtn { icon: Icons.terminal; tip: @tr("Copy as cURL"); size: 28px; tip-left: true; clicked => { Api.net-copy-curl(); } }
+        IconBtn { icon: Icons.download; tip: @tr("Save response body"); size: 28px; tip-left: true; clicked => { Api.net-save-body("response"); } }
+        IconBtn { icon: Icons.x; size: 28px; clicked => { Net.selected = -1; } }
+    }
+    Text { text: Net.d-summary; font-size: Theme.font-xs; color: Theme.text-3; }
+    Segmented { items: [@tr("Request"), @tr("Response"), @tr("Headers"), @tr("Timing")]; selected <=> Net.detail-tab; }
+    Rectangle {
+        vertical-stretch: 1;
+        border-radius: 8px;
+        background: Theme.surface-2;
+        border-width: 1px;
+        border-color: Theme.border;
+        if Net.detail-tab == 1 && Net.d-has-image: Image { source: Net.d-image; image-fit: contain; width: parent.width - 16px; height: parent.height - 16px; }
+        if !(Net.detail-tab == 1 && Net.d-has-image): TextEdit {
+            width: parent.width;
+            height: parent.height;
+            read-only: true;
+            font-size: 11px;
+            wrap: word-wrap;
+            text: Net.detail-tab == 0 ? Net.d-req-body : Net.detail-tab == 1 ? Net.d-resp-body : Net.detail-tab == 2 ? Net.d-req-headers + "\n\n" + Net.d-resp-headers : Net.d-timing;
+        }
+    }
+}
+
+export component NetworkPanel inherits VerticalLayout {
+    in property <bool> expanded;
+    padding: 14px;
+    padding-top: 0px;
+    spacing: 10px;
+    HorizontalLayout {
+        spacing: 8px;
+        VerticalLayout {
+            alignment: center;
+            Text { text: @tr("Network inspector"); font-size: Theme.font-lg; font-weight: 800; color: Theme.text; }
+            Text { text: Net.capturing ? @tr("Capturing via proxy 10.0.2.2:{}", Net.port) : @tr("Stopped"); font-size: Theme.font-xs; color: Net.capturing ? Theme.success : Theme.text-3; }
+        }
+        Rectangle { }
+        if !Net.capturing: Btn { text: @tr("Start capture"); variant: "primary"; icon: Icons.play; has-icon: true; small: true; loading: Net.starting; y: (parent.height - self.height) / 2; clicked => { Api.net-start(); } }
+        if Net.capturing: Btn { text: @tr("Stop"); variant: "danger"; icon: Icons.stop; has-icon: true; small: true; y: (parent.height - self.height) / 2; clicked => { Api.net-stop(); } }
+    }
+    Rectangle {
+        height: cat.preferred-height + 14px;
+        border-radius: 8px;
+        background: Net.ca-system ? Theme.success-soft : Theme.warning-soft;
+        cat := HorizontalLayout {
+            x: 10px;
+            width: parent.width - 20px;
+            spacing: 8px;
+            Icon { source: Icons.lock; size: 14px; color: Net.ca-system ? Theme.success : Theme.warning; y: (parent.height - self.height) / 2; }
+            Text { text: Net.ca-status; font-size: Theme.font-xs; color: Theme.text-2; wrap: word-wrap; vertical-alignment: center; horizontal-stretch: 1; }
+            if !Net.ca-system: Btn { text: @tr("Install certificate"); small: true; variant: "soft"; y: (parent.height - self.height) / 2; clicked => { Api.net-install-ca(); } }
+        }
+    }
+    HorizontalLayout {
+        spacing: 8px;
+        VerticalLayout {
+            alignment: center;
+            horizontal-stretch: 1;
+            Text { text: @tr("Decrypt HTTPS"); font-size: Theme.font-sm; font-weight: 700; color: Theme.text; }
+            Text { text: Net.ca-system ? @tr("System certificate: all apps") : @tr("Only turn on if the app trusts the EmuZip certificate; otherwise its HTTPS will fail"); font-size: Theme.font-xs; color: Theme.text-3; wrap: word-wrap; }
+        }
+        Switch { checked <=> Net.decrypt; toggled => { Api.net-set-decrypt(Net.decrypt); } }
+    }
+    HorizontalLayout {
+        spacing: 6px;
+        LineEdit { placeholder-text: @tr("Filter by URL, host or status"); text <=> Net.filter; edited => { Api.net-filter-changed(); } }
+        ComboBox {
+            width: 120px;
+            model: [@tr("All"), @tr("XHR/JSON"), @tr("Documents"), @tr("Images"), @tr("Errors"), @tr("HTTPS")];
+            current-index <=> Net.kind-filter;
+            selected => { Api.net-filter-changed(); }
+        }
+    }
+    HorizontalLayout {
+        spacing: 6px;
+        Btn { text: Net.paused ? @tr("Resume") : @tr("Pause"); small: true; icon: Net.paused ? Icons.play : Icons.pause; has-icon: true; clicked => { Net.paused = !Net.paused; } }
+        Btn { text: @tr("Clear"); small: true; icon: Icons.trash; has-icon: true; clicked => { Api.net-clear(); } }
+        Rectangle { }
+        ComboBox { width: 132px; model: [@tr("HAR 1.2"), @tr("JSON"), @tr("CSV"), @tr("Postman v2.1"), @tr("cURL (.sh)")]; current-index <=> Net.export-format; }
+        ComboBox { width: 110px; model: [@tr("All"), @tr("Filtered"), @tr("Selected")]; current-index <=> Net.export-scope; }
+        Btn { text: @tr("Export"); small: true; variant: "soft"; icon: Icons.download; has-icon: true; clicked => { Api.net-export(); } }
+    }
+    Text { text: Net.stats; font-size: Theme.font-xs; color: Theme.text-3; }
+    if Net.entries.length == 0: EmptyState {
+        vertical-stretch: 1;
+        icon: Icons.network;
+        title: Net.capturing ? @tr("Waiting for requests…") : @tr("No requests captured");
+        text: Net.capturing ? @tr("Use an app or open a page on the device.") : @tr("Start capturing to see the Request and Response of each HTTP/HTTPS call.");
+    }
+    if Net.entries.length > 0: HorizontalLayout {
+        vertical-stretch: 1;
+        spacing: 10px;
+        Rectangle {
+            horizontal-stretch: 3;
+            border-radius: 8px;
+            border-width: 1px;
+            border-color: Theme.border;
+            clip: true;
+            ListView { for e in Net.entries: Row { e: e; wide: root.expanded; } }
+        }
+        if Net.selected >= 0 && root.expanded: Detail { horizontal-stretch: 2; }
+    }
+    if Net.selected >= 0 && !root.expanded: Detail { height: 300px; }
+}
