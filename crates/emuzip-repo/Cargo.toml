@@ -1,0 +1,20 @@
+[package]
+name = "emuzip-repo"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Android system-image catalog and downloader"
+publish = false
+
+[dependencies]
+anyhow.workspace = true
+emuzip-core.workspace = true
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream"] }
+futures-util = "0.3"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "fs", "io-util"] }
+roxmltree = "0.20"
+zip = { version = "9", default-features = false, features = ["deflate"] }
+sha1 = "0.10"
+hex = "0.4"
