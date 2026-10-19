@@ -1,0 +1,20 @@
+[package]
+name = "emuzip-grpc"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Android emulator gRPC client"
+publish = false
+
+[dependencies]
+tonic = { version = "0.12", default-features = false, features = ["transport", "codegen", "prost"] }
+prost = "0.13"
+prost-types = "0.13"
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+anyhow.workspace = true
+
+[build-dependencies]
+tonic-build = { version = "0.12", default-features = false, features = ["prost", "transport"] }
+protox = "0.7"
