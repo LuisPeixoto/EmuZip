@@ -1,0 +1,150 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { Store, Api, ImageItem } from "store.slint";
+import { Btn, IconBtn, Chip, Card, Icon, Segmented, EmptyState, Skeleton, Progress, Divider } from "widgets.slint";
+import { LineEdit, ScrollView, Spinner } from "std-widgets.slint";
+
+component ImageRow inherits Rectangle {
+    in property <ImageItem> img;
+    height: img.downloading ? 84px : 66px;
+    border-radius: Theme.radius;
+    background: ta.has-hover ? Theme.surface-hover : Theme.surface;
+    animate height { duration: 150ms; }
+    ta := TouchArea { }
+    HorizontalLayout {
+        padding-left: 14px;
+        padding-right: 14px;
+        spacing: 14px;
+        Rectangle {
+            width: 40px;
+            height: 40px;
+            y: (parent.height - self.height) / 2;
+            border-radius: 10px;
+            background: img.installed ? Theme.brand : Theme.primary-soft;
+            Text { text: img.api; color: img.installed ? white : Theme.primary; font-weight: 800; }
+        }
+        VerticalLayout {
+            alignment: center;
+            spacing: 3px;
+            horizontal-stretch: 1;
+            HorizontalLayout {
+                spacing: 8px;
+                Text { text: img.title; font-weight: 700; color: Theme.text; overflow: elide; }
+                if img.installed: Chip { text: @tr("Installed"); kind: "success"; }
+                if img.tag == "google_apis_playstore": Chip { text: @tr("Play Store"); kind: "primary"; }
+                Rectangle { }
+            }
+            Text { text: img.subtitle; font-size: Theme.font-xs; color: Theme.text-3; overflow: elide; }
+            if img.downloading: VerticalLayout {
+                spacing: 4px;
+                padding-top: 4px;
+                Progress { progress: img.progress; }
+                Text { text: img.status; font-size: Theme.font-xs; color: Theme.primary; }
+            }
+        }
+        Text { text: img.size; color: Theme.text-3; font-size: Theme.font-sm; vertical-alignment: center; width: 76px; horizontal-alignment: right; }
+        if !img.installed && !img.downloading: Btn {
+            text: @tr("Download");
+            variant: "soft";
+            icon: Icons.download;
+            has-icon: true;
+            small: true;
+            y: (parent.height - self.height) / 2;
+            clicked => { Api.download-image(img.id); }
+        }
+        if img.downloading: Btn {
+            text: @tr("Cancel");
+            variant: "danger";
+            small: true;
+            icon: Icons.x;
+            has-icon: true;
+            y: (parent.height - self.height) / 2;
+            clicked => { Api.cancel-download(img.id); }
+        }
+        if img.installed && !img.downloading: IconBtn {
+            icon: Icons.trash;
+            tip: @tr("Remove image");
+            tint: Theme.danger;
+            size: 32px;
+            y: (parent.height - self.height) / 2;
+            clicked => { Api.remove-image(img.id); }
+        }
+    }
+}
+
+export component ImagesPage inherits VerticalLayout {
+    in-out property <int> tab: 0;
+    padding: 28px;
+    padding-top: 22px;
+    spacing: 18px;
+    HorizontalLayout {
+        spacing: 10px;
+        VerticalLayout {
+            alignment: center;
+            spacing: 2px;
+            Text { text: @tr("Android images"); font-size: Theme.font-2xl; font-weight: 800; color: Theme.text; }
+            Text { text: @tr("Downloaded straight from Google's official repository, with SHA-1 verification."); font-size: Theme.font-sm; color: Theme.text-3; }
+        }
+        Rectangle { }
+        if tab == 1: LineEdit { width: 220px; placeholder-text: @tr("Search (e.g. 34, tv, arm64)…"); text <=> Store.catalog-search; edited => { Api.catalog-filter-changed(); } y: (parent.height - self.height) / 2; }
+        IconBtn { icon: Icons.refresh; tip: @tr("Reload catalog"); y: (parent.height - self.height) / 2; clicked => { Api.load-catalog(); } }
+    }
+    HorizontalLayout {
+        spacing: 12px;
+        alignment: start;
+        Segmented {
+            items: [@tr("Installed ({})", Store.installed-images.length), @tr("Catalog")];
+            selected <=> root.tab;
+            changed(i) => { if (i == 1 && Store.catalog.length == 0) { Api.load-catalog(); } }
+        }
+        if tab == 1: Segmented {
+            items: [@tr("images" => "All"), @tr("Google Play"), @tr("Google APIs"), @tr("AOSP"), @tr("TV"), @tr("Wear"), @tr("Other")];
+            selected <=> Store.catalog-filter;
+            changed => { Api.catalog-filter-changed(); }
+        }
+    }
+
+    if tab == 0 && Store.installed-images.length == 0: EmptyState {
+        vertical-stretch: 1;
+        icon: Icons.download;
+        title: @tr("No images installed");
+        text: @tr("Download an Android version from the catalog to create devices.");
+        HorizontalLayout { alignment: center; Btn { text: @tr("Open catalog"); variant: "primary"; clicked => { root.tab = 1; Api.load-catalog(); } } }
+    }
+    if tab == 0 && Store.installed-images.length > 0: ScrollView {
+        vertical-stretch: 1;
+        content-height: il.preferred-height;
+        il := VerticalLayout {
+            width: parent.visible-width - 4px;
+            spacing: 6px;
+            for img in Store.installed-images: ImageRow { img: img; }
+        }
+    }
+
+    if tab == 1 && Store.catalog-loading: VerticalLayout {
+        spacing: 8px;
+        HorizontalLayout {
+            spacing: 10px;
+            Spinner { width: 18px; height: 18px; indeterminate: true; }
+            Text { text: @tr("Fetching images from the 8 official channels…"); color: Theme.text-2; vertical-alignment: center; }
+        }
+        for i in 6: Skeleton { height: 58px; border-radius: Theme.radius; }
+        Rectangle { }
+    }
+    if tab == 1 && !Store.catalog-loading && Store.catalog-error != "": EmptyState {
+        vertical-stretch: 1;
+        icon: Icons.alert;
+        title: @tr("Couldn't load the catalog");
+        text: Store.catalog-error;
+        HorizontalLayout { alignment: center; Btn { text: @tr("Try again"); variant: "primary"; icon: Icons.refresh; has-icon: true; clicked => { Api.load-catalog(); } } }
+    }
+    if tab == 1 && !Store.catalog-loading && Store.catalog-error == "": ScrollView {
+        vertical-stretch: 1;
+        content-height: cl.preferred-height;
+        cl := VerticalLayout {
+            width: parent.visible-width - 4px;
+            spacing: 6px;
+            for img in Store.catalog: ImageRow { img: img; }
+        }
+    }
+}
