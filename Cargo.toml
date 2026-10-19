@@ -13,7 +13,7 @@ homepage = "https://github.com/LuisPeixoto/EmuZip"
 [workspace.dependencies]
 anyhow = "1"
 serde = { version = "1", features = ["derive"] }
-toml = "0.8"
+toml = "1.1"
 directories = "5"
 emuzip-core = { path = "crates/emuzip-core" }
 emuzip-adb = { path = "crates/emuzip-adb" }
