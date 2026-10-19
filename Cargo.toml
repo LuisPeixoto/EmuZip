@@ -1,0 +1,27 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.3.0"
+edition = "2021"
+license = "MIT"
+authors = ["Luis Peixoto"]
+repository = "https://github.com/LuisPeixoto/EmuZip"
+homepage = "https://github.com/LuisPeixoto/EmuZip"
+
+[workspace.dependencies]
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+toml = "0.8"
+directories = "5"
+emuzip-core = { path = "crates/emuzip-core" }
+emuzip-adb = { path = "crates/emuzip-adb" }
+emuzip-backend = { path = "crates/emuzip-backend" }
+
+[profile.release]
+opt-level = "s"
+lto = "thin"
+codegen-units = 1
+strip = true
+panic = "abort"
