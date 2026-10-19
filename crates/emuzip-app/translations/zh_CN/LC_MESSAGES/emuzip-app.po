@@ -1,0 +1,1874 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh_CN\n"
+"X-Language-Name: Chinese (Simplified)\n"
+
+msgid "ERR"
+msgstr "ERR"
+
+msgid "…"
+msgstr "…"
+
+msgid "Copy as cURL"
+msgstr "复制为 cURL"
+
+msgid "Save response body"
+msgstr "保存响应正文"
+
+msgid "Request"
+msgstr "请求"
+
+msgid "Response"
+msgstr "响应"
+
+msgid "Headers"
+msgstr "标头"
+
+msgid "Timing"
+msgstr "耗时"
+
+msgid "Network inspector"
+msgstr "网络检查器"
+
+msgid "Capturing via proxy 10.0.2.2:{}"
+msgstr "正在通过代理 10.0.2.2:{} 抓包"
+
+msgid "Stopped"
+msgstr "已停止"
+
+msgid "Start capture"
+msgstr "开始抓包"
+
+msgid "Stop"
+msgstr "停止"
+
+msgid "Install certificate"
+msgstr "安装证书"
+
+msgid "Decrypt HTTPS"
+msgstr "解密 HTTPS"
+
+msgid "System certificate: all apps"
+msgstr "系统证书：所有应用"
+
+msgid "Only turn on if the app trusts the EmuZip certificate; otherwise its HTTPS will fail"
+msgstr "仅当应用信任 EmuZip 证书时开启，否则其 HTTPS 会失败"
+
+msgid "Filter by URL, host or status"
+msgstr "按 URL、主机或状态筛选"
+
+msgid "All"
+msgstr "全部"
+
+msgid "XHR/JSON"
+msgstr "XHR/JSON"
+
+msgid "Documents"
+msgstr "文档"
+
+msgid "Images"
+msgstr "镜像"
+
+msgid "Errors"
+msgstr "错误"
+
+msgid "HTTPS"
+msgstr "HTTPS"
+
+msgid "Resume"
+msgstr "继续"
+
+msgid "Pause"
+msgstr "暂停"
+
+msgid "Clear"
+msgstr "清除"
+
+msgid "HAR 1.2"
+msgstr "HAR 1.2"
+
+msgid "JSON"
+msgstr "JSON"
+
+msgid "CSV"
+msgstr "CSV"
+
+msgid "Postman v2.1"
+msgstr "Postman v2.1"
+
+msgid "cURL (.sh)"
+msgstr "cURL (.sh)"
+
+msgid "Filtered"
+msgstr "已筛选"
+
+msgid "Selected"
+msgstr "已选中"
+
+msgid "Export"
+msgstr "导出"
+
+msgid "Waiting for requests…"
+msgstr "正在等待请求…"
+
+msgid "No requests captured"
+msgstr "未捕获到请求"
+
+msgid "Use an app or open a page on the device."
+msgstr "请使用某个应用或在设备上打开一个网页。"
+
+msgid "Start capturing to see the Request and Response of each HTTP/HTTPS call."
+msgstr "开始抓包即可查看每个 HTTP/HTTPS 调用的请求和响应。"
+
+msgid "Choose the Android image"
+msgstr "选择 Android 镜像"
+
+msgid "Images with Google Play include the Play Store. Download other versions in the Images tab."
+msgstr "带 Google Play 的镜像包含 Play Store。可在“镜像”标签页下载其他版本。"
+
+msgid "No images installed"
+msgstr "尚未安装镜像"
+
+msgid "Download images"
+msgstr "下载镜像"
+
+msgid "Play Store"
+msgstr "Play Store"
+
+msgid "Hardware profile"
+msgstr "硬件配置文件"
+
+msgid "Sets screen, density and features. Everything can be adjusted in the next step."
+msgstr "定义屏幕、密度和功能。所有内容均可在下一步调整。"
+
+msgid "Tablet"
+msgstr "平板电脑"
+
+msgid "TV"
+msgstr "TV"
+
+msgid "Watch"
+msgstr "手表"
+
+msgid "Phone"
+msgstr "手机"
+
+msgid "Hardware and features"
+msgstr "硬件和功能"
+
+msgid "Higher values make Android faster but use more of your computer."
+msgstr "数值越大 Android 越快，但会占用更多电脑资源。"
+
+msgid "Name"
+msgstr "名称"
+
+msgid "Processors"
+msgstr "处理器"
+
+msgid "Virtual cores"
+msgstr "虚拟核心"
+
+msgid "RAM memory"
+msgstr "内存 (RAM)"
+
+msgid "In MB"
+msgstr "单位 MB"
+
+msgid "Internal storage"
+msgstr "内部存储"
+
+msgid "In GB"
+msgstr "单位 GB"
+
+msgid "Resolution"
+msgstr "分辨率"
+
+msgid "Width × height in pixels"
+msgstr "宽 × 高（像素）"
+
+msgid "×"
+msgstr "×"
+
+msgid "Density"
+msgstr "密度"
+
+msgid "DPI (120–640)"
+msgstr "DPI (120–640)"
+
+msgid "Rendering (GPU)"
+msgstr "渲染 (GPU)"
+
+msgid "Auto picks the best for your system"
+msgstr "“自动”会为你的系统选择最佳选项"
+
+msgid "Automatic"
+msgstr "自动"
+
+msgid "Host GPU"
+msgstr "电脑 GPU"
+
+msgid "Software (SwiftShader)"
+msgstr "软件 (SwiftShader)"
+
+msgid "ANGLE"
+msgstr "ANGLE"
+
+msgid "Back camera"
+msgstr "后置摄像头"
+
+msgid "Virtual scene"
+msgstr "虚拟场景"
+
+msgid "Emulated"
+msgstr "模拟"
+
+msgid "Webcam"
+msgstr "网络摄像头"
+
+msgctxt "f"
+msgid "None"
+msgstr "无"
+
+msgid "Front camera"
+msgstr "前置摄像头"
+
+msgid "Physical keyboard"
+msgstr "物理键盘"
+
+msgid "Type on Android using your computer's keyboard"
+msgstr "使用电脑键盘在 Android 中输入"
+
+msgid "Navigation buttons"
+msgstr "导航按钮"
+
+msgid "Back/Home/Recents instead of gestures"
+msgstr "使用 返回/主屏幕/最近 按钮代替手势"
+
+msgid "Review"
+msgstr "检查"
+
+msgid "Changes take effect on next boot."
+msgstr "更改将在下次启动时生效。"
+
+msgid "The device is created in seconds, with no downloads."
+msgstr "设备几秒内即可创建，无需下载任何内容。"
+
+msgid "Android"
+msgstr "Android"
+
+msgid "Profile"
+msgstr "配置文件"
+
+msgid "Custom"
+msgstr "自定义"
+
+msgid "Display"
+msgstr "显示"
+
+msgid "Processor"
+msgstr "处理器"
+
+msgid "{} cores"
+msgstr "{} 核"
+
+msgid "Memory"
+msgstr "内存"
+
+msgid "Storage"
+msgstr "存储"
+
+msgid "Start once created"
+msgstr "创建后立即启动"
+
+msgid "Edit device"
+msgstr "编辑设备"
+
+msgid "New device"
+msgstr "新建设备"
+
+msgid "Step "
+msgstr "第 "
+
+msgid " of 4"
+msgstr " 步，共 4 步"
+
+msgid "Close"
+msgstr "关闭"
+
+msgid "Image"
+msgstr "镜像"
+
+msgid "Hardware"
+msgstr "硬件"
+
+msgid "Select an image to continue"
+msgstr "请选择一个镜像以继续"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Back"
+msgstr "返回"
+
+msgid "Next"
+msgstr "下一步"
+
+msgid "Saving…"
+msgstr "正在保存…"
+
+msgid "Creating…"
+msgstr "正在创建…"
+
+msgid "Save changes"
+msgstr "保存更改"
+
+msgid "Create device"
+msgstr "创建设备"
+
+msgid "Confirm"
+msgstr "确认"
+
+msgid "OK"
+msgstr "确定"
+
+msgid "Detect automatically"
+msgstr "自动检测"
+
+msgid "Browse…"
+msgstr "浏览…"
+
+msgid "Settings"
+msgstr "设置"
+
+msgid "You have unsaved changes"
+msgstr "有未保存的更改"
+
+msgid "Saved to settings.toml"
+msgstr "已保存到 settings.toml"
+
+msgid "Restore defaults"
+msgstr "恢复默认值"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Appearance"
+msgstr "外观"
+
+msgid "Light theme is the default."
+msgstr "默认使用浅色主题。"
+
+msgid "Theme"
+msgstr "主题"
+
+msgid "Light"
+msgstr "浅色"
+
+msgid "Dark"
+msgstr "深色"
+
+msgid "System"
+msgstr "跟随系统"
+
+msgid "Language"
+msgstr "语言"
+
+msgid "Applied instantly across the whole interface"
+msgstr "立即应用到整个界面"
+
+msgid "Confirm destructive actions"
+msgstr "确认破坏性操作"
+
+msgid "Asks for confirmation before deleting or restoring"
+msgstr "删除或恢复前请求确认"
+
+msgid "Paths"
+msgstr "路径"
+
+msgid "Leave blank to detect automatically."
+msgstr "留空则自动检测。"
+
+msgid "Android SDK"
+msgstr "Android SDK"
+
+msgid "Contains emulator/ and platform-tools/"
+msgstr "包含 emulator/ 和 platform-tools/"
+
+msgid "Devices folder (AVD)"
+msgstr "设备文件夹 (AVD)"
+
+msgid "Default: ~/.android/avd"
+msgstr "默认：~/.android/avd"
+
+msgid "QEMU"
+msgstr "QEMU"
+
+msgid "Folder with qemu-system-* and qemu-img (optional)"
+msgstr "包含 qemu-system-* 和 qemu-img 的文件夹（可选）"
+
+msgid "Search in PATH"
+msgstr "在 PATH 中查找"
+
+msgid "Captures"
+msgstr "截图与录屏"
+
+msgid "Screenshots and screen recordings"
+msgstr "截图和屏幕录制"
+
+msgid "~/Pictures/EmuZip"
+msgstr "~/Pictures/EmuZip"
+
+msgid "Emulation"
+msgstr "模拟"
+
+msgid "How devices are started and displayed."
+msgstr "设备的启动和显示方式。"
+
+msgid "Embedded display in EmuZip"
+msgstr "在 EmuZip 中内嵌显示"
+
+msgid "When off, opens the emulator's own window"
+msgstr "关闭时将打开模拟器自带的窗口"
+
+msgid "Display frame rate"
+msgstr "屏幕帧率"
+
+msgid "15 fps"
+msgstr "15 fps"
+
+msgid "24 fps"
+msgstr "24 fps"
+
+msgid "30 fps"
+msgstr "30 fps"
+
+msgid "60 fps"
+msgstr "60 fps"
+
+msgid "Fit window when opening the player"
+msgstr "打开播放器时调整窗口"
+
+msgid "Sizes the window to the device screen"
+msgstr "使窗口与设备屏幕尺寸一致"
+
+msgid "Always cold boot"
+msgstr "始终冷启动"
+
+msgid "Skips the quick-boot snapshot on start"
+msgstr "启动时忽略快速启动快照"
+
+msgid "Audio"
+msgstr "音频"
+
+msgid "Enables device sound and microphone"
+msgstr "启用设备的声音和麦克风"
+
+msgid "Hardware acceleration"
+msgstr "硬件加速"
+
+msgid "Available"
+msgstr "可用"
+
+msgid "Unavailable"
+msgstr "不可用"
+
+msgid "Defaults for new devices"
+msgstr "新设备默认值"
+
+msgid "Default profile"
+msgstr "默认配置文件"
+
+msgid "RAM (MB)"
+msgstr "RAM (MB)"
+
+msgid "Network and downloads"
+msgstr "网络和下载"
+
+msgid "Download proxy"
+msgstr "下载代理"
+
+msgid "e.g. http://user:password@proxy:3128"
+msgstr "例如：http://用户名:密码@proxy:3128"
+
+msgid "No proxy"
+msgstr "不使用代理"
+
+msgid "Repository mirror"
+msgstr "仓库镜像站"
+
+msgid "Alternative base URL for sys-img"
+msgstr "sys-img 的备用基础 URL"
+
+msgid "https://dl.google.com/android/repository/sys-img"
+msgstr "https://dl.google.com/android/repository/sys-img"
+
+msgid "Download cache"
+msgstr "下载缓存"
+
+msgid "Clear cache"
+msgstr "清除缓存"
+
+msgid "Diagnostics and about"
+msgstr "诊断与关于"
+
+msgid "Version"
+msgstr "版本"
+
+msgid "EmuZip "
+msgstr "EmuZip "
+
+msgid " · Rust + Slint"
+msgstr " · Rust + Slint"
+
+msgid "Backends"
+msgstr "后端"
+
+msgid "Export diagnostic logs"
+msgstr "导出诊断日志"
+
+msgid "Creates a .zip with settings, versions and emulator logs"
+msgstr "生成包含设置、版本和模拟器日志的 .zip 文件"
+
+msgid "Export…"
+msgstr "导出…"
+
+msgid "Running"
+msgstr "运行中"
+
+msgid "Starting…"
+msgstr "正在启动…"
+
+msgid "Error"
+msgstr "异常"
+
+msgid "Stopping…"
+msgstr "正在停止…"
+
+msgid "Edit hardware…"
+msgstr "编辑硬件…"
+
+msgid "Cold boot"
+msgstr "冷启动"
+
+msgid "Restart"
+msgstr "重启"
+
+msgid "Clone…"
+msgstr "克隆…"
+
+msgid "Rename…"
+msgstr "重命名…"
+
+msgid "Open folder"
+msgstr "打开文件夹"
+
+msgid "View emulator log"
+msgstr "查看模拟器日志"
+
+msgid "Factory reset…"
+msgstr "恢复出厂设置…"
+
+msgid "Delete…"
+msgstr "删除…"
+
+msgid "Start"
+msgstr "启动"
+
+msgid "View boot"
+msgstr "查看启动过程"
+
+msgid "Open"
+msgstr "打开"
+
+msgid "Repair"
+msgstr "修复"
+
+msgid "More actions"
+msgstr "更多操作"
+
+msgid "Booting Android…"
+msgstr "正在初始化 Android…"
+
+msgid "Devices"
+msgstr "设备"
+
+msgid "Loading…"
+msgstr "正在加载…"
+
+msgid "{} device(s)"
+msgstr "{} 台设备"
+
+msgid "Search devices…"
+msgstr "搜索设备…"
+
+msgid "List view"
+msgstr "列表视图"
+
+msgid "Grid view"
+msgstr "网格视图"
+
+msgid "Refresh"
+msgstr "刷新"
+
+msgctxt "devices"
+msgid "All"
+msgstr "全部"
+
+msgctxt "filter"
+msgid "Stopped"
+msgstr "已停止"
+
+msgid "Nothing found"
+msgstr "未找到结果"
+
+msgid "No devices yet"
+msgstr "还没有设备"
+
+msgid "Adjust your search or filter."
+msgstr "请调整搜索或筛选条件。"
+
+msgid "Create your first virtual Android in a few clicks."
+msgstr "几步即可创建你的第一台 Android 虚拟设备。"
+
+msgid "Installed"
+msgstr "已安装"
+
+msgid "Download"
+msgstr "下载"
+
+msgid "Remove image"
+msgstr "移除镜像"
+
+msgid "Android images"
+msgstr "Android 镜像"
+
+msgid "Downloaded straight from Google's official repository, with SHA-1 verification."
+msgstr "直接从 Google 官方仓库下载，并进行 SHA-1 校验。"
+
+msgid "Search (e.g. 34, tv, arm64)…"
+msgstr "搜索（例如：34、tv、arm64）…"
+
+msgid "Reload catalog"
+msgstr "重新加载目录"
+
+msgid "Installed ({})"
+msgstr "已安装 ({})"
+
+msgid "Catalog"
+msgstr "目录"
+
+msgctxt "images"
+msgid "All"
+msgstr "全部"
+
+msgid "Google Play"
+msgstr "Google Play"
+
+msgid "Google APIs"
+msgstr "Google APIs"
+
+msgid "AOSP"
+msgstr "AOSP"
+
+msgid "Wear"
+msgstr "Wear"
+
+msgid "Other"
+msgstr "其他"
+
+msgid "Download an Android version from the catalog to create devices."
+msgstr "从目录下载一个 Android 版本以创建设备。"
+
+msgid "Open catalog"
+msgstr "打开目录"
+
+msgid "Fetching images from the 8 official channels…"
+msgstr "正在从 8 个官方渠道搜索镜像…"
+
+msgid "Couldn't load the catalog"
+msgstr "无法加载目录"
+
+msgid "Try again"
+msgstr "重试"
+
+msgid "Copy error"
+msgstr "复制错误"
+
+msgid "Activity"
+msgstr "活动"
+
+msgid "{} in progress"
+msgstr "{} 个进行中"
+
+msgid "All done"
+msgstr "全部完成"
+
+msgid "Clear completed"
+msgstr "清除已完成"
+
+msgid "No activity"
+msgstr "暂无活动"
+
+msgid "Downloads, device creation, boots and installs show up here with real-time progress."
+msgstr "下载、创建设备、启动和安装会在此实时显示进度。"
+
+msgid "Battery"
+msgstr "电池"
+
+msgid "Simulate charge level, charger and health."
+msgstr "模拟电量、充电器和电池健康状况。"
+
+msgid "Level"
+msgstr "电量"
+
+msgid "Charger"
+msgstr "充电器"
+
+msgid "None"
+msgstr "无"
+
+msgid "Wall (AC)"
+msgstr "电源 (AC)"
+
+msgid "USB"
+msgstr "USB"
+
+msgid "Wireless"
+msgstr "无线"
+
+msgid "Status"
+msgstr "状态"
+
+msgid "Unknown"
+msgstr "未知"
+
+msgid "Charging"
+msgstr "正在充电"
+
+msgid "Discharging"
+msgstr "正在放电"
+
+msgid "Not charging"
+msgstr "未充电"
+
+msgid "Full"
+msgstr "已充满"
+
+msgid "Health"
+msgstr "健康状况"
+
+msgid "Good"
+msgstr "良好"
+
+msgid "Failed"
+msgstr "故障"
+
+msgid "Dead"
+msgstr "损坏"
+
+msgid "Overvoltage"
+msgstr "过压"
+
+msgid "Overheated"
+msgstr "过热"
+
+msgid "GPS"
+msgstr "GPS"
+
+msgid "Set the location or simulate a route."
+msgstr "设置位置或模拟路线。"
+
+msgid "Latitude"
+msgstr "纬度"
+
+msgid "Longitude"
+msgstr "经度"
+
+msgid "Altitude (m)"
+msgstr "海拔 (m)"
+
+msgid "Apply position"
+msgstr "应用位置"
+
+msgid "Places"
+msgstr "地点"
+
+msgid "São Paulo"
+msgstr "圣保罗"
+
+msgid "Rio"
+msgstr "里约"
+
+msgid "Brasília"
+msgstr "巴西利亚"
+
+msgid "New York"
+msgstr "纽约"
+
+msgid "London"
+msgstr "伦敦"
+
+msgid "Tokyo"
+msgstr "东京"
+
+msgid "Lisbon"
+msgstr "里斯本"
+
+msgid "Sydney"
+msgstr "悉尼"
+
+msgid "Mountain View"
+msgstr "山景城"
+
+msgid "Simulated route: from the current position to Av. Paulista, in 60 steps of 1 s."
+msgstr "模拟路线：从当前位置到保利斯塔大道，共 60 步，每步 1 秒。"
+
+msgid "Stop route"
+msgstr "停止路线"
+
+msgid "Simulate route"
+msgstr "模拟路线"
+
+msgid "Connectivity"
+msgstr "网络连接"
+
+msgid "Wi-Fi, data, speed, latency and signal."
+msgstr "Wi-Fi、移动数据、速度、延迟和信号。"
+
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+msgid "Mobile data"
+msgstr "移动数据"
+
+msgid "Airplane mode"
+msgstr "飞行模式"
+
+msgid "Speed"
+msgstr "速度"
+
+msgid "Max"
+msgstr "最高"
+
+msgid "5G"
+msgstr "5G"
+
+msgid "LTE"
+msgstr "LTE"
+
+msgid "HSPA+"
+msgstr "HSPA+"
+
+msgid "3G (UMTS)"
+msgstr "3G (UMTS)"
+
+msgid "EDGE"
+msgstr "EDGE"
+
+msgid "GPRS"
+msgstr "GPRS"
+
+msgid "GSM"
+msgstr "GSM"
+
+msgid "Latency"
+msgstr "延迟"
+
+msgid "UMTS (35–200 ms)"
+msgstr "UMTS (35–200 ms)"
+
+msgid "EDGE (80–400 ms)"
+msgstr "EDGE (80–400 ms)"
+
+msgid "GPRS (150–550 ms)"
+msgstr "GPRS (150–550 ms)"
+
+msgid "Signal strength"
+msgstr "信号强度"
+
+msgid "Weak"
+msgstr "弱"
+
+msgid "Moderate"
+msgstr "中"
+
+msgctxt "signal"
+msgid "Good"
+msgstr "良好"
+
+msgid "Great"
+msgstr "极佳"
+
+msgid "Phone and SMS"
+msgstr "电话和 SMS"
+
+msgid "Simulate incoming calls and messages."
+msgstr "模拟来电和短信。"
+
+msgid "Number"
+msgstr "号码"
+
+msgid "Call"
+msgstr "呼叫"
+
+msgid "Answer"
+msgstr "接听"
+
+msgid "End"
+msgstr "挂断"
+
+msgid "On hold"
+msgstr "保持"
+
+msgid "Busy"
+msgstr "占线"
+
+msgid "SMS message"
+msgstr "SMS 消息"
+
+msgid "Send SMS"
+msgstr "发送 SMS"
+
+msgid "Sensors"
+msgstr "传感器"
+
+msgid "Values are sent when you release the control."
+msgstr "松开控件时发送数值。"
+
+msgid "Accelerometer X"
+msgstr "加速度计 X"
+
+msgid "Accelerometer Y"
+msgstr "加速度计 Y"
+
+msgid "Accelerometer Z"
+msgstr "加速度计 Z"
+
+msgid "Portrait"
+msgstr "竖直"
+
+msgid "Lying flat"
+msgstr "平放"
+
+msgid "Landscape"
+msgstr "横向"
+
+msgid "Ambient light"
+msgstr "环境光"
+
+msgid "Proximity"
+msgstr "距离"
+
+msgid "Temperature"
+msgstr "温度"
+
+msgid "Humidity"
+msgstr "湿度"
+
+msgid "Pressure"
+msgstr "气压"
+
+msgid "Biometrics"
+msgstr "生物识别"
+
+msgid "Enroll a fingerprint in Settings > Security, then tap here."
+msgstr "请先在 设置 > 安全 中录入指纹，然后点按此处。"
+
+msgid "Fingerprint not recognized"
+msgstr "指纹无法识别"
+
+msgid "Identifiers"
+msgstr "标识符"
+
+msgid "Android ID and phone number."
+msgstr "Android ID 和电话号码。"
+
+msgid "Android ID"
+msgstr "Android ID"
+
+msgid "16 hex digits"
+msgstr "16 位十六进制数字"
+
+msgid "Apply"
+msgstr "应用"
+
+msgid "Generate random"
+msgstr "随机生成"
+
+msgid "Device number"
+msgstr "设备号码"
+
+msgid "Apply number"
+msgstr "应用号码"
+
+msgid "System properties"
+msgstr "系统属性"
+
+msgid "Load"
+msgstr "加载"
+
+msgid "Brightness, theme, density and font."
+msgstr "亮度、主题、密度和字体。"
+
+msgid "Brightness"
+msgstr "亮度"
+
+msgid "Android dark mode"
+msgstr "Android 深色模式"
+
+msgid "Show taps"
+msgstr "显示点按操作反馈"
+
+msgid "Font scale"
+msgstr "字体缩放"
+
+msgid "Density (DPI)"
+msgstr "密度 (DPI)"
+
+msgid "Profile default"
+msgstr "配置文件默认值"
+
+msgid "Default"
+msgstr "默认"
+
+msgid "Cameras"
+msgstr "摄像头"
+
+msgid "Source for each camera. Takes effect on next boot."
+msgstr "每个摄像头的来源。下次启动时生效。"
+
+msgid "Rear"
+msgstr "后置"
+
+msgid "Virtual 3D scene"
+msgstr "3D 虚拟场景"
+
+msgid "Front"
+msgstr "前置"
+
+msgid "Save and apply on next boot"
+msgstr "保存并在下次启动时应用"
+
+msgid "Apps"
+msgstr "应用"
+
+msgid "Install, open, clear data and uninstall."
+msgstr "安装、打开、清除数据和卸载。"
+
+msgid "Install APK…"
+msgstr "安装 APK…"
+
+msgid "Show system apps"
+msgstr "显示系统应用"
+
+msgid "Open link / deep link"
+msgstr "打开链接 / 深层链接"
+
+msgid "Click refresh to list apps."
+msgstr "点击刷新以列出应用。"
+
+msgid "Force stop"
+msgstr "强行停止"
+
+msgid "Clear data"
+msgstr "清除数据"
+
+msgid "Uninstall"
+msgstr "卸载"
+
+msgid "Files"
+msgstr "文件"
+
+msgid "Send files from your computer to the device, with progress."
+msgstr "将文件从电脑发送到设备，并显示进度。"
+
+msgid "Destination folder"
+msgstr "目标文件夹"
+
+msgid "Send file…"
+msgstr "发送文件…"
+
+msgid "Clipboard"
+msgstr "剪贴板"
+
+msgid "Share text between your computer and Android."
+msgstr "在电脑和 Android 之间共享文本。"
+
+msgid "Send to Android"
+msgstr "发送到 Android"
+
+msgid "Read from Android"
+msgstr "从 Android 读取"
+
+msgid "Snapshots"
+msgstr "快照"
+
+msgid "Save the full state and return to it in seconds."
+msgstr "保存完整状态，几秒内即可恢复。"
+
+msgid "name"
+msgstr "名称"
+
+msgid "Saved"
+msgstr "已保存"
+
+msgid "No snapshots saved."
+msgstr "没有已保存的快照。"
+
+msgid "Restore"
+msgstr "恢复"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Logcat"
+msgstr "Logcat"
+
+msgid "Live stream (last 800 lines)."
+msgstr "实时流（最近 800 行）。"
+
+msgid "Filter by tag or text"
+msgstr "按标签或文本筛选"
+
+msgid "D+"
+msgstr "D+"
+
+msgid "I+"
+msgstr "I+"
+
+msgid "W+"
+msgstr "W+"
+
+msgid "E+"
+msgstr "E+"
+
+msgid "Shell"
+msgstr "Shell"
+
+msgid "Run adb shell commands."
+msgstr "执行 adb shell 命令。"
+
+msgid "e.g. getprop ro.build.version.release"
+msgstr "例如：getprop ro.build.version.release"
+
+msgid "Proxy and language"
+msgstr "代理和语言"
+
+msgid "Android global HTTP proxy (useful with Charles/mitmproxy). 10.0.2.2 is your computer."
+msgstr "Android 全局 HTTP 代理（配合 Charles/mitmproxy 使用）。10.0.2.2 即你的电脑。"
+
+msgid "Proxy (host:port)"
+msgstr "代理（主机:端口）"
+
+msgid "Enable proxy"
+msgstr "启用代理"
+
+msgid "Disable"
+msgstr "停用"
+
+msgid "System language"
+msgstr "系统语言"
+
+msgid "Português (Brasil)"
+msgstr "Português (Brasil)"
+
+msgid "English (US)"
+msgstr "English (US)"
+
+msgid "Español"
+msgstr "Español"
+
+msgid "Français"
+msgstr "Français"
+
+msgid "Deutsch"
+msgstr "Deutsch"
+
+msgid "Italiano"
+msgstr "Italiano"
+
+msgid "日本語"
+msgstr "日本語"
+
+msgid "中文"
+msgstr "中文"
+
+msgid "Apply language"
+msgstr "应用语言"
+
+msgid "Home"
+msgstr "主屏幕"
+
+msgid "Recents"
+msgstr "最近"
+
+msgid "Rotate"
+msgstr "旋转"
+
+msgid "Collapse panel"
+msgstr "收起面板"
+
+msgid "Expand panel"
+msgstr "展开面板"
+
+msgid "Back to Devices"
+msgstr "返回设备"
+
+msgid "Screenshot"
+msgstr "截图"
+
+msgid "Stop recording ({})"
+msgstr "停止录制 ({})"
+
+msgid "Record screen"
+msgstr "录制屏幕"
+
+msgid "Install APK"
+msgstr "安装 APK"
+
+msgid "Power off device"
+msgstr "关闭设备"
+
+msgid "Power button"
+msgstr "电源键"
+
+msgid "Volume +"
+msgstr "音量 +"
+
+msgid "Volume −"
+msgstr "音量 −"
+
+msgid "Back (Android)"
+msgstr "返回 (Android)"
+
+msgid "Performance"
+msgstr "性能"
+
+msgid "Files and clipboard"
+msgstr "文件和剪贴板"
+
+msgid "Fit window to device"
+msgstr "窗口适应设备"
+
+msgid "Exit full screen (Esc)"
+msgstr "退出全屏 (Esc)"
+
+msgid "Full screen"
+msgstr "全屏"
+
+msgid "EmuZip"
+msgstr "EmuZip"
+
+msgid "Z"
+msgstr "Z"
+
+msgid "Fast, lightweight Android"
+msgstr "轻快的 Android"
+
+msgid "MENU"
+msgstr "菜单"
+
+msgid "Environment"
+msgstr "环境"
+
+msgid "Android SDK found"
+msgstr "已找到 Android SDK"
+
+msgid "Android SDK not found"
+msgstr "未找到 Android SDK"
+
+msgid "Foreground: {}"
+msgstr "前台：{}"
+
+msgid "Updates every second"
+msgstr "每秒更新"
+
+msgid "Export CSV"
+msgstr "导出 CSV"
+
+msgid "Emulator CPU (host)"
+msgstr "模拟器 CPU（主机）"
+
+msgid "qemu process on your computer"
+msgstr "你电脑上的 qemu 进程"
+
+msgid "Emulator RAM (host)"
+msgstr "模拟器 RAM（主机）"
+
+msgid "process resident memory"
+msgstr "进程常驻内存"
+
+msgid "GPU (slow frames)"
+msgstr "GPU（慢帧）"
+
+msgid "Android CPU"
+msgstr "Android CPU"
+
+msgid "sum of all processes"
+msgstr "所有进程总和"
+
+msgid "Android RAM"
+msgstr "Android RAM"
+
+msgid "{}% in use"
+msgstr "已用 {}%"
+
+msgid "GPU is measured inside Android (frame time of the foreground app); macOS doesn't report per-process GPU usage."
+msgstr "GPU 在 Android 内部测量（前台应用的帧时间）；macOS 不提供按进程的 GPU 使用率。"
+
+msgid "Top consumers"
+msgstr "资源占用最多"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "RAM"
+msgstr "RAM"
+
+msgid "Kill process"
+msgstr "结束进程"
+
+msgid "Memory stress"
+msgstr "内存压力测试"
+
+msgid "Fills real Android RAM in chunks to see how apps and the LMK react."
+msgstr "分块占用 Android 的真实 RAM，观察应用和 LMK 的反应。"
+
+msgid "No root on this image: sends official memory pressure (trim) signals to apps."
+msgstr "此镜像无 root：向应用发送官方内存压力（trim）信号。"
+
+msgid "Amount"
+msgstr "数量"
+
+msgid " MB"
+msgstr " MB"
+
+msgid "Fill memory"
+msgstr "填充内存"
+
+msgid "Release"
+msgstr "释放"
+
+msgid "Moderate pressure"
+msgstr "中等压力"
+
+msgid "Critical pressure"
+msgstr "严重压力"
+
+msgid "Release all"
+msgstr "全部释放"
+
+msgid "Used: {} MB"
+msgstr "已占用：{} MB"
+
+msgid "Killed by LMK: {}"
+msgstr "被 LMK 终止：{}"
+
+msgid "no new frames (static screen)"
+msgstr "无新帧（画面静止）"
+
+msgid "Filling {} MB of Android RAM"
+msgstr "正在填充 Android 的 {} MB RAM"
+
+msgid "{} of {} MB used"
+msgstr "已占用 {} / {} MB"
+
+msgid "{} MB used on Android"
+msgstr "Android 中已占用 {} MB"
+
+msgid "Memory used: {} MB. Watch apps being killed by the LMK."
+msgstr "已占用内存：{} MB。观察被 LMK 终止的应用。"
+
+msgid "Memory released"
+msgstr "内存已释放"
+
+msgid "No samples yet"
+msgstr "暂无采样"
+
+msgid "{} samples exported"
+msgstr "已导出 {} 个采样"
+
+msgid "{} sent to {}"
+msgstr "{} 已发送到 {}"
+
+msgid "Kill {}?"
+msgstr "结束 {}？"
+
+msgid "The process will be terminated immediately on Android."
+msgstr "该进程将在 Android 中立即终止。"
+
+msgid "No permission to kill {} (system process)"
+msgstr "无权结束 {}（系统进程）"
+
+msgid "{} killed"
+msgstr "{} 已结束"
+
+msgid "{} is ready"
+msgstr "{} 已就绪"
+
+msgid "{} closed during boot"
+msgstr "{} 在启动过程中关闭"
+
+msgid "View log"
+msgstr "查看日志"
+
+msgid "Powering on…"
+msgstr "正在开机…"
+
+msgid "Starting {}"
+msgstr "正在启动 {}"
+
+msgid "Couldn't start: {}"
+msgstr "无法启动：{}"
+
+msgid "Emulator open, booting Android…"
+msgstr "模拟器已打开，正在初始化 Android…"
+
+msgid "VM started"
+msgstr "虚拟机已启动"
+
+msgid "Ready in {}s"
+msgstr "{} 秒内就绪"
+
+msgid "Booting Android… {}s"
+msgstr "正在初始化 Android… {} 秒"
+
+msgid "The emulator closed. Check the log."
+msgstr "模拟器已关闭。请查看日志。"
+
+msgid "The emulator closed during boot"
+msgstr "模拟器在初始化过程中关闭"
+
+msgid "Opening the emulator…"
+msgstr "正在打开模拟器…"
+
+msgid "Timed out waiting for boot"
+msgstr "等待启动超时"
+
+msgid "{} was powered off"
+msgstr "{} 已关机"
+
+msgid "Restarting {}…"
+msgstr "正在重启 {}…"
+
+msgid "“{}” and all its data will be erased. This can't be undone."
+msgstr "“{}”及其所有数据将被删除。此操作无法撤消。"
+
+msgid "Delete {}?"
+msgstr "删除 {}？"
+
+msgid "Deleting {}"
+msgstr "正在删除 {}"
+
+msgid "{} deleted"
+msgstr "已删除 {}"
+
+msgid "Factory reset {}?"
+msgstr "将 {} 恢复出厂设置？"
+
+msgid "The device's apps, accounts, files and snapshots will be erased. The hardware configuration is kept."
+msgstr "设备上的应用、帐号、文件和快照将被清除。硬件配置将保留。"
+
+msgid "Resetting {}"
+msgstr "正在恢复 {}"
+
+msgid "{} factory reset"
+msgstr "{} 已恢复出厂设置"
+
+msgid "Clone device"
+msgstr "克隆设备"
+
+msgid "Copy name:"
+msgstr "副本名称："
+
+msgid "{} (copy)"
+msgstr "{}（副本）"
+
+msgid "{} created"
+msgstr "已创建 {}"
+
+msgid "Rename device"
+msgstr "重命名设备"
+
+msgid "New name:"
+msgstr "新名称："
+
+msgid "Renaming"
+msgstr "正在重命名"
+
+msgid "Renamed to {}"
+msgstr "已重命名为 {}"
+
+msgid "Repairing…"
+msgstr "正在修复…"
+
+msgid "Repairing {}"
+msgstr "正在修复 {}"
+
+msgid "Repaired"
+msgstr "已修复"
+
+msgid "Select an installed image."
+msgstr "请选择一个已安装的镜像。"
+
+msgid "Saving configuration…"
+msgstr "正在写入配置…"
+
+msgid "Changes saved"
+msgstr "更改已保存"
+
+msgid "Detecting…"
+msgstr "正在检测…"
+
+msgid "Checking acceleration…"
+msgstr "正在检查加速…"
+
+msgid "Preparing…"
+msgstr "正在准备…"
+
+msgid "Empty catalog. Check the proxy or mirror in Settings."
+msgstr "目录为空。请在设置中检查代理或镜像站。"
+
+msgid "Set up the Android SDK before downloading images"
+msgstr "下载镜像前请先配置 Android SDK"
+
+msgid "Downloading {}"
+msgstr "正在下载 {}"
+
+msgid "Connecting…"
+msgstr "正在连接…"
+
+msgid "Verifying integrity (SHA-1)…"
+msgstr "正在校验完整性 (SHA-1)…"
+
+msgid "Extracting files {}/{}"
+msgstr "正在解压文件 {}/{}"
+
+msgctxt "image"
+msgid "{} installed"
+msgstr "{} 已安装"
+
+msgid " Used by: {}."
+msgstr " 使用者：{}。"
+
+msgid "The image will be deleted from disk ({}).{}"
+msgstr "该镜像将从磁盘中删除（{}）。{}"
+
+msgid "Removing {}"
+msgstr "正在移除 {}"
+
+msgid "Image removed"
+msgstr "镜像已移除"
+
+msgid "../translations/en/LC_MESSAGES/emuzip-app.po"
+msgstr "../translations/en/LC_MESSAGES/emuzip-app.po"
+
+msgid "../translations/es/LC_MESSAGES/emuzip-app.po"
+msgstr "../translations/es/LC_MESSAGES/emuzip-app.po"
+
+msgid "../translations/fr/LC_MESSAGES/emuzip-app.po"
+msgstr "../translations/fr/LC_MESSAGES/emuzip-app.po"
+
+msgid "../translations/de/LC_MESSAGES/emuzip-app.po"
+msgstr "../translations/de/LC_MESSAGES/emuzip-app.po"
+
+msgid "../translations/zh_CN/LC_MESSAGES/emuzip-app.po"
+msgstr "../translations/zh_CN/LC_MESSAGES/emuzip-app.po"
+
+msgid "Text"
+msgstr "文本"
+
+msgid "The device isn't ready yet"
+msgstr "设备尚未就绪"
+
+msgid "Starting network capture"
+msgstr "正在启动网络抓包"
+
+msgid "Installing the EmuZip certificate…"
+msgstr "正在安装 EmuZip 证书…"
+
+msgid "Pointing the Android proxy to EmuZip…"
+msgstr "正在将 Android 代理指向 EmuZip…"
+
+msgid "Capturing on 10.0.2.2:{}"
+msgstr "正在 10.0.2.2:{} 抓包"
+
+msgid "EmuZip certificate installed in the system: HTTPS from all apps is decrypted."
+msgstr "EmuZip 证书已安装到系统：所有应用的 HTTPS 都将被解密。"
+
+msgid "Non-root image: install the certificate as a user to decrypt HTTPS from apps that trust user CAs (e.g. Chrome, debug apps). Otherwise, HTTPS shows up as a tunnel."
+msgstr "镜像无 root：请以用户身份安装证书，以解密信任用户 CA 的应用（例如 Chrome、调试版应用）的 HTTPS。否则 HTTPS 将显示为隧道。"
+
+msgid "Capture started (HTTPS decrypted)"
+msgstr "抓包已开始（HTTPS 已解密）"
+
+msgid "Capture started"
+msgstr "抓包已开始"
+
+msgid "Couldn't start capture: {}"
+msgstr "无法开始抓包：{}"
+
+msgid "{} requests · {} shown · {} received · {} failed"
+msgstr "{} 个请求 · 显示 {} 个 · 已接收 {} · {} 个出错"
+
+msgid "(large body or streaming: not captured)"
+msgstr "（正文过大或为流式传输：未捕获）"
+
+msgid "(empty)"
+msgstr "（空）"
+
+msgid "(binary: {}, {})"
+msgstr "（二进制：{}，{}）"
+
+msgid "unknown"
+msgstr "未知"
+
+msgid "\n… (truncated in preview)"
+msgstr "\n…（预览已截断）"
+
+msgid "ERROR: {}"
+msgstr "错误：{}"
+
+msgid "Start: {}\nWaiting for response (TTFB): {}\nTotal: {}\nSent: {}\nReceived: {}\nTLS: {}{}"
+msgstr "开始：{}\n等待响应 (TTFB)：{}\n总计：{}\n已发送：{}\n已接收：{}\nTLS：{}{}"
+
+msgid "yes"
+msgstr "是"
+
+msgid "no"
+msgstr "否"
+
+msgid " (not decrypted)"
+msgstr " （未解密）"
+
+msgid "Nothing to export"
+msgstr "没有可导出的内容"
+
+msgid "{} requests exported"
+msgstr "已导出 {} 个请求"
+
+msgid "Show"
+msgstr "显示"
+
+msgid "Installing EmuZip certificate"
+msgstr "正在安装 EmuZip 证书"
+
+msgid "Certificate installed in the system"
+msgstr "证书已安装到系统"
+
+msgid "Certificate installed in the system: HTTPS will be decrypted"
+msgstr "证书已安装到系统：HTTPS 将被解密"
+
+msgid "EmuZip-CA.crt sent to Download"
+msgstr "EmuZip-CA.crt 文件已发送到 Download"
+
+msgid "On Android: Settings > Security > More > Encryption & credentials > Install a certificate > CA certificate > Download/EmuZip-CA.crt. Then turn on \"Decrypt HTTPS\"."
+msgstr "在 Android 上：设置 > 安全 > 更多安全设置 > 加密与凭据 > 安装证书 > CA 证书 > Download/EmuZip-CA.crt。然后开启 \"解密 HTTPS\"。"
+
+msgid "EmuZip becomes Android's proxy (10.0.2.2) to see every Request and Response."
+msgstr "EmuZip 将成为 Android 的代理 (10.0.2.2)，以查看每个请求和响应。"
+
+msgid "Capture stopped and Android internet restored"
+msgstr "抓包已停止，Android 网络已恢复"
+
+msgid "cURL copied"
+msgstr "已复制 cURL"
+
+msgid "Body saved ({})"
+msgstr "正文已保存（{}）"
+
+msgid "Settings saved"
+msgstr "设置已保存"
+
+msgid "Couldn't save: {}"
+msgstr "无法保存：{}"
+
+msgid "No backend"
+msgstr "无后端"
+
+msgid "not found — set the path in Settings"
+msgstr "未找到 — 请在设置中指定路径"
+
+msgid "Hypervisor.framework active"
+msgstr "Hypervisor.framework 已启用"
+
+msgid "No Hypervisor.framework"
+msgstr "无 Hypervisor.framework"
+
+msgid "KVM available"
+msgstr "KVM 可用"
+
+msgid "KVM unavailable (/dev/kvm)"
+msgstr "KVM 不可用 (/dev/kvm)"
+
+msgid "Unknown acceleration"
+msgstr "加速状态未知"
+
+msgid "Exporting diagnostics"
+msgstr "正在导出诊断信息"
+
+msgid "Diagnostics exported"
+msgstr "诊断信息已导出"
+
+msgid "Saved to {}"
+msgstr "已保存到 {}"
+
+msgid "Download cache cleared"
+msgstr "下载缓存已清除"
+
+msgid "Copied to clipboard"
+msgstr "已复制到剪贴板"
+
+msgid "System (automatic)"
+msgstr "系统（自动）"
+
+msgid "Waiting for the emulator…"
+msgstr "正在等待模拟器…"
+
+msgid "Powering on the emulator…"
+msgstr "正在开启模拟器…"
+
+msgid "This emulator was started without gRPC. Stop it and start it from EmuZip."
+msgstr "此模拟器启动时未启用 gRPC。请停止后通过 EmuZip 启动。"
+
+msgid "Connecting to display…"
+msgstr "正在连接屏幕…"
+
+msgid "Waiting for display… ({})"
+msgstr "正在等待屏幕…（{}）"
+
+msgid "The device was powered off."
+msgstr "设备已关机。"
+
+msgid "Display isn't connected yet"
+msgstr "屏幕尚未连接"
+
+msgid "Screenshot saved: {}"
+msgstr "截图已保存：{}"
+
+msgid "Saving recording"
+msgstr "正在保存录制内容"
+
+msgid "Recording saved"
+msgstr "录制内容已保存"
+
+msgid "Video: {}"
+msgstr "视频：{}"
+
+msgid "Installing {}"
+msgstr "正在安装 {}"
+
+msgid "Uploading {} of {}"
+msgstr "正在发送 {} / {}"
+
+msgid "Installing on Android…"
+msgstr "正在安装到 Android…"
+
+msgid "{} installed"
+msgstr "{} 已安装"
+
+msgid "Sending {}"
+msgstr "正在发送 {}"
+
+msgid "{} of {}"
+msgstr "{} / {}"
+
+msgid "{} stopped"
+msgstr "{} 已停止"
+
+msgid "{} data cleared"
+msgstr "{} 的数据已清除"
+
+msgid "Uninstall {}?"
+msgstr "卸载 {}？"
+
+msgid "The app and its data will be removed from the device."
+msgstr "该应用及其数据将从设备中移除。"
+
+msgid "Saving snapshot {}"
+msgstr "正在保存快照 {}"
+
+msgid "Snapshot {} saved"
+msgstr "快照 {} 已保存"
+
+msgid "Snapshot {} deleted"
+msgstr "快照 {} 已删除"
+
+msgid "Location updated"
+msgstr "位置已更新"
+
+msgid "Route completed"
+msgstr "路线已完成"
+
+msgid "Model"
+msgstr "型号"
+
+msgid "Manufacturer"
+msgstr "制造商"
+
+msgid "Security patch"
+msgstr "安全补丁"
+
+msgid "Carrier"
+msgstr "运营商"
+
+msgid "Invalid latitude/longitude"
+msgstr "纬度/经度无效"
+
+msgid "Network: {}, latency {}, signal {}/4"
+msgstr "网络：{}，延迟 {}，信号 {}/4"
+
+msgid "Wi-Fi on"
+msgstr "Wi-Fi 已开启"
+
+msgid "Wi-Fi off"
+msgstr "Wi-Fi 已关闭"
+
+msgid "Mobile data on"
+msgstr "移动数据已开启"
+
+msgid "Mobile data off"
+msgstr "移动数据已关闭"
+
+msgid "Airplane mode on"
+msgstr "飞行模式已开启"
+
+msgid "Airplane mode off"
+msgstr "飞行模式已关闭"
+
+msgid "SMS sent"
+msgstr "SMS 已发送"
+
+msgid "Android ID must be 16 hex digits"
+msgstr "Android ID 必须为 16 位十六进制数字"
+
+msgid "Android ID updated"
+msgstr "Android ID 已更新"
+
+msgid "Number updated"
+msgstr "号码已更新"
+
+msgid "Cameras saved: restart the device to apply"
+msgstr "摄像头设置已保存：重启设备后生效"
+
+msgid "{} lines exported"
+msgstr "已导出 {} 行"
+
+msgid "error: {}"
+msgstr "错误：{}"
+
+msgid "Nothing is listening on port {} of your computer: Android will have no internet until you disable the proxy."
+msgstr "你电脑的端口 {} 上没有任何程序在监听：在停用代理之前，Android 将无法联网。"
+
+msgid "Switching language to {}"
+msgstr "正在将语言切换为 {}"
+
+msgid "Language: {}"
+msgstr "语言：{}"
+
+msgid "Text sent to Android clipboard"
+msgstr "文本已发送到 Android 剪贴板"
+
+msgid "Android clipboard copied to computer"
+msgstr "Android 剪贴板内容已复制到电脑"

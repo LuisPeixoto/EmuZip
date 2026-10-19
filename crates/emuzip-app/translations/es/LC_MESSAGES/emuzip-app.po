@@ -1,0 +1,1874 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"X-Language-Name: Spanish\n"
+
+msgid "ERR"
+msgstr "ERR"
+
+msgid "…"
+msgstr "…"
+
+msgid "Copy as cURL"
+msgstr "Copiar como cURL"
+
+msgid "Save response body"
+msgstr "Guardar cuerpo de la respuesta"
+
+msgid "Request"
+msgstr "Request"
+
+msgid "Response"
+msgstr "Response"
+
+msgid "Headers"
+msgstr "Encabezados"
+
+msgid "Timing"
+msgstr "Tiempo"
+
+msgid "Network inspector"
+msgstr "Inspector de red"
+
+msgid "Capturing via proxy 10.0.2.2:{}"
+msgstr "Capturando vía proxy 10.0.2.2:{}"
+
+msgid "Stopped"
+msgstr "Detenido"
+
+msgid "Start capture"
+msgstr "Iniciar captura"
+
+msgid "Stop"
+msgstr "Detener"
+
+msgid "Install certificate"
+msgstr "Instalar certificado"
+
+msgid "Decrypt HTTPS"
+msgstr "Descifrar HTTPS"
+
+msgid "System certificate: all apps"
+msgstr "Certificado en el sistema: todas las apps"
+
+msgid "Only turn on if the app trusts the EmuZip certificate; otherwise its HTTPS will fail"
+msgstr "Actívalo solo si la app confía en el certificado de EmuZip; si no, su HTTPS fallará"
+
+msgid "Filter by URL, host or status"
+msgstr "Filtrar por URL, host o estado"
+
+msgid "All"
+msgstr "Todo"
+
+msgid "XHR/JSON"
+msgstr "XHR/JSON"
+
+msgid "Documents"
+msgstr "Documentos"
+
+msgid "Images"
+msgstr "Imágenes"
+
+msgid "Errors"
+msgstr "Errores"
+
+msgid "HTTPS"
+msgstr "HTTPS"
+
+msgid "Resume"
+msgstr "Reanudar"
+
+msgid "Pause"
+msgstr "Pausar"
+
+msgid "Clear"
+msgstr "Limpiar"
+
+msgid "HAR 1.2"
+msgstr "HAR 1.2"
+
+msgid "JSON"
+msgstr "JSON"
+
+msgid "CSV"
+msgstr "CSV"
+
+msgid "Postman v2.1"
+msgstr "Postman v2.1"
+
+msgid "cURL (.sh)"
+msgstr "cURL (.sh)"
+
+msgid "Filtered"
+msgstr "Filtradas"
+
+msgid "Selected"
+msgstr "Seleccionada"
+
+msgid "Export"
+msgstr "Exportar"
+
+msgid "Waiting for requests…"
+msgstr "Esperando solicitudes…"
+
+msgid "No requests captured"
+msgstr "No se capturaron solicitudes"
+
+msgid "Use an app or open a page on the device."
+msgstr "Usa una app o abre una página en el dispositivo."
+
+msgid "Start capturing to see the Request and Response of each HTTP/HTTPS call."
+msgstr "Inicia la captura para ver el Request y el Response de cada llamada HTTP/HTTPS."
+
+msgid "Choose the Android image"
+msgstr "Elige la imagen de Android"
+
+msgid "Images with Google Play include the Play Store. Download other versions in the Images tab."
+msgstr "Las imágenes con Google Play incluyen Play Store. Descarga otras versiones en la pestaña Imágenes."
+
+msgid "No images installed"
+msgstr "No hay imágenes instaladas"
+
+msgid "Download images"
+msgstr "Descargar imágenes"
+
+msgid "Play Store"
+msgstr "Play Store"
+
+msgid "Hardware profile"
+msgstr "Perfil de hardware"
+
+msgid "Sets screen, density and features. Everything can be adjusted in the next step."
+msgstr "Define pantalla, densidad y funciones. Todo se puede ajustar en el siguiente paso."
+
+msgid "Tablet"
+msgstr "Tablet"
+
+msgid "TV"
+msgstr "TV"
+
+msgid "Watch"
+msgstr "Reloj"
+
+msgid "Phone"
+msgstr "Teléfono"
+
+msgid "Hardware and features"
+msgstr "Hardware y funciones"
+
+msgid "Higher values make Android faster but use more of your computer."
+msgstr "Valores más altos hacen Android más rápido, pero usan más recursos de tu computadora."
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Processors"
+msgstr "Procesadores"
+
+msgid "Virtual cores"
+msgstr "Núcleos virtuales"
+
+msgid "RAM memory"
+msgstr "Memoria RAM"
+
+msgid "In MB"
+msgstr "En MB"
+
+msgid "Internal storage"
+msgstr "Almacenamiento interno"
+
+msgid "In GB"
+msgstr "En GB"
+
+msgid "Resolution"
+msgstr "Resolución"
+
+msgid "Width × height in pixels"
+msgstr "Ancho × alto en píxeles"
+
+msgid "×"
+msgstr "×"
+
+msgid "Density"
+msgstr "Densidad"
+
+msgid "DPI (120–640)"
+msgstr "DPI (120–640)"
+
+msgid "Rendering (GPU)"
+msgstr "Renderizado (GPU)"
+
+msgid "Auto picks the best for your system"
+msgstr "Auto elige lo mejor para tu sistema"
+
+msgid "Automatic"
+msgstr "Automático"
+
+msgid "Host GPU"
+msgstr "GPU de la computadora"
+
+msgid "Software (SwiftShader)"
+msgstr "Software (SwiftShader)"
+
+msgid "ANGLE"
+msgstr "ANGLE"
+
+msgid "Back camera"
+msgstr "Cámara trasera"
+
+msgid "Virtual scene"
+msgstr "Escena virtual"
+
+msgid "Emulated"
+msgstr "Emulada"
+
+msgid "Webcam"
+msgstr "Webcam"
+
+msgctxt "f"
+msgid "None"
+msgstr "Ninguna"
+
+msgid "Front camera"
+msgstr "Cámara frontal"
+
+msgid "Physical keyboard"
+msgstr "Teclado físico"
+
+msgid "Type on Android using your computer's keyboard"
+msgstr "Escribir en Android con el teclado de la computadora"
+
+msgid "Navigation buttons"
+msgstr "Botones de navegación"
+
+msgid "Back/Home/Recents instead of gestures"
+msgstr "Atrás/Inicio/Recientes en lugar de gestos"
+
+msgid "Review"
+msgstr "Revisión"
+
+msgid "Changes take effect on next boot."
+msgstr "Los cambios se aplican en el próximo arranque."
+
+msgid "The device is created in seconds, with no downloads."
+msgstr "El dispositivo se crea en segundos, sin descargar nada."
+
+msgid "Android"
+msgstr "Android"
+
+msgid "Profile"
+msgstr "Perfil"
+
+msgid "Custom"
+msgstr "Personalizado"
+
+msgid "Display"
+msgstr "Pantalla"
+
+msgid "Processor"
+msgstr "Procesador"
+
+msgid "{} cores"
+msgstr "{} núcleos"
+
+msgid "Memory"
+msgstr "Memoria"
+
+msgid "Storage"
+msgstr "Almacenamiento"
+
+msgid "Start once created"
+msgstr "Iniciar en cuanto se cree"
+
+msgid "Edit device"
+msgstr "Editar dispositivo"
+
+msgid "New device"
+msgstr "Nuevo dispositivo"
+
+msgid "Step "
+msgstr "Paso "
+
+msgid " of 4"
+msgstr " de 4"
+
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Image"
+msgstr "Imagen"
+
+msgid "Hardware"
+msgstr "Hardware"
+
+msgid "Select an image to continue"
+msgstr "Selecciona una imagen para continuar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Back"
+msgstr "Atrás"
+
+msgid "Next"
+msgstr "Siguiente"
+
+msgid "Saving…"
+msgstr "Guardando…"
+
+msgid "Creating…"
+msgstr "Creando…"
+
+msgid "Save changes"
+msgstr "Guardar cambios"
+
+msgid "Create device"
+msgstr "Crear dispositivo"
+
+msgid "Confirm"
+msgstr "Confirmar"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Detect automatically"
+msgstr "Detectar automáticamente"
+
+msgid "Browse…"
+msgstr "Examinar…"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "You have unsaved changes"
+msgstr "Hay cambios sin guardar"
+
+msgid "Saved to settings.toml"
+msgstr "Guardados en settings.toml"
+
+msgid "Restore defaults"
+msgstr "Restaurar valores predeterminados"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Appearance"
+msgstr "Apariencia"
+
+msgid "Light theme is the default."
+msgstr "El tema claro es el predeterminado."
+
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Light"
+msgstr "Claro"
+
+msgid "Dark"
+msgstr "Oscuro"
+
+msgid "System"
+msgstr "Sistema"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Applied instantly across the whole interface"
+msgstr "Se aplica al instante en toda la interfaz"
+
+msgid "Confirm destructive actions"
+msgstr "Confirmar acciones destructivas"
+
+msgid "Asks for confirmation before deleting or restoring"
+msgstr "Pide confirmación antes de eliminar o restablecer"
+
+msgid "Paths"
+msgstr "Rutas"
+
+msgid "Leave blank to detect automatically."
+msgstr "Déjalo en blanco para detectar automáticamente."
+
+msgid "Android SDK"
+msgstr "Android SDK"
+
+msgid "Contains emulator/ and platform-tools/"
+msgstr "Contiene emulator/ y platform-tools/"
+
+msgid "Devices folder (AVD)"
+msgstr "Carpeta de dispositivos (AVD)"
+
+msgid "Default: ~/.android/avd"
+msgstr "Predeterminado: ~/.android/avd"
+
+msgid "QEMU"
+msgstr "QEMU"
+
+msgid "Folder with qemu-system-* and qemu-img (optional)"
+msgstr "Carpeta con qemu-system-* y qemu-img (opcional)"
+
+msgid "Search in PATH"
+msgstr "Buscar en el PATH"
+
+msgid "Captures"
+msgstr "Capturas"
+
+msgid "Screenshots and screen recordings"
+msgstr "Capturas y grabaciones de pantalla"
+
+msgid "~/Pictures/EmuZip"
+msgstr "~/Pictures/EmuZip"
+
+msgid "Emulation"
+msgstr "Emulación"
+
+msgid "How devices are started and displayed."
+msgstr "Cómo se inician y muestran los dispositivos."
+
+msgid "Embedded display in EmuZip"
+msgstr "Pantalla integrada en EmuZip"
+
+msgid "When off, opens the emulator's own window"
+msgstr "Desactivado abre la ventana propia del emulador"
+
+msgid "Display frame rate"
+msgstr "Tasa de fotogramas de la pantalla"
+
+msgid "15 fps"
+msgstr "15 fps"
+
+msgid "24 fps"
+msgstr "24 fps"
+
+msgid "30 fps"
+msgstr "30 fps"
+
+msgid "60 fps"
+msgstr "60 fps"
+
+msgid "Fit window when opening the player"
+msgstr "Ajustar la ventana al abrir el reproductor"
+
+msgid "Sizes the window to the device screen"
+msgstr "Ajusta la ventana al tamaño de la pantalla del dispositivo"
+
+msgid "Always cold boot"
+msgstr "Siempre arranque en frío"
+
+msgid "Skips the quick-boot snapshot on start"
+msgstr "Omite el snapshot rápido al iniciar"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Enables device sound and microphone"
+msgstr "Habilita el sonido y el micrófono del dispositivo"
+
+msgid "Hardware acceleration"
+msgstr "Aceleración por hardware"
+
+msgid "Available"
+msgstr "Disponible"
+
+msgid "Unavailable"
+msgstr "No disponible"
+
+msgid "Defaults for new devices"
+msgstr "Valores predeterminados para nuevos dispositivos"
+
+msgid "Default profile"
+msgstr "Perfil predeterminado"
+
+msgid "RAM (MB)"
+msgstr "RAM (MB)"
+
+msgid "Network and downloads"
+msgstr "Red y descargas"
+
+msgid "Download proxy"
+msgstr "Proxy para descargas"
+
+msgid "e.g. http://user:password@proxy:3128"
+msgstr "Ej.: http://usuario:contraseña@proxy:3128"
+
+msgid "No proxy"
+msgstr "Sin proxy"
+
+msgid "Repository mirror"
+msgstr "Mirror del repositorio"
+
+msgid "Alternative base URL for sys-img"
+msgstr "URL base alternativa para sys-img"
+
+msgid "https://dl.google.com/android/repository/sys-img"
+msgstr "https://dl.google.com/android/repository/sys-img"
+
+msgid "Download cache"
+msgstr "Caché de descargas"
+
+msgid "Clear cache"
+msgstr "Borrar caché"
+
+msgid "Diagnostics and about"
+msgstr "Diagnóstico y acerca de"
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "EmuZip "
+msgstr "EmuZip "
+
+msgid " · Rust + Slint"
+msgstr " · Rust + Slint"
+
+msgid "Backends"
+msgstr "Backends"
+
+msgid "Export diagnostic logs"
+msgstr "Exportar logs de diagnóstico"
+
+msgid "Creates a .zip with settings, versions and emulator logs"
+msgstr "Genera un .zip con ajustes, versiones y logs de los emuladores"
+
+msgid "Export…"
+msgstr "Exportar…"
+
+msgid "Running"
+msgstr "En ejecución"
+
+msgid "Starting…"
+msgstr "Iniciando…"
+
+msgid "Error"
+msgstr "Con problemas"
+
+msgid "Stopping…"
+msgstr "Deteniendo…"
+
+msgid "Edit hardware…"
+msgstr "Editar hardware…"
+
+msgid "Cold boot"
+msgstr "Arranque en frío"
+
+msgid "Restart"
+msgstr "Reiniciar"
+
+msgid "Clone…"
+msgstr "Clonar…"
+
+msgid "Rename…"
+msgstr "Renombrar…"
+
+msgid "Open folder"
+msgstr "Abrir carpeta"
+
+msgid "View emulator log"
+msgstr "Ver log del emulador"
+
+msgid "Factory reset…"
+msgstr "Restablecer de fábrica…"
+
+msgid "Delete…"
+msgstr "Eliminar…"
+
+msgid "Start"
+msgstr "Iniciar"
+
+msgid "View boot"
+msgstr "Ver arranque"
+
+msgid "Open"
+msgstr "Abrir"
+
+msgid "Repair"
+msgstr "Reparar"
+
+msgid "More actions"
+msgstr "Más acciones"
+
+msgid "Booting Android…"
+msgstr "Iniciando Android…"
+
+msgid "Devices"
+msgstr "Dispositivos"
+
+msgid "Loading…"
+msgstr "Cargando…"
+
+msgid "{} device(s)"
+msgstr "{} dispositivo(s)"
+
+msgid "Search devices…"
+msgstr "Buscar dispositivos…"
+
+msgid "List view"
+msgstr "Ver en lista"
+
+msgid "Grid view"
+msgstr "Ver en cuadrícula"
+
+msgid "Refresh"
+msgstr "Actualizar"
+
+msgctxt "devices"
+msgid "All"
+msgstr "Todos"
+
+msgctxt "filter"
+msgid "Stopped"
+msgstr "Detenidos"
+
+msgid "Nothing found"
+msgstr "No se encontró nada"
+
+msgid "No devices yet"
+msgstr "Aún no hay dispositivos"
+
+msgid "Adjust your search or filter."
+msgstr "Ajusta la búsqueda o el filtro."
+
+msgid "Create your first virtual Android in a few clicks."
+msgstr "Crea tu primer Android virtual en pocos clics."
+
+msgid "Installed"
+msgstr "Instalada"
+
+msgid "Download"
+msgstr "Descargar"
+
+msgid "Remove image"
+msgstr "Eliminar imagen"
+
+msgid "Android images"
+msgstr "Imágenes de Android"
+
+msgid "Downloaded straight from Google's official repository, with SHA-1 verification."
+msgstr "Descargadas directamente del repositorio oficial de Google, con verificación SHA-1."
+
+msgid "Search (e.g. 34, tv, arm64)…"
+msgstr "Buscar (ej.: 34, tv, arm64)…"
+
+msgid "Reload catalog"
+msgstr "Recargar catálogo"
+
+msgid "Installed ({})"
+msgstr "Instaladas ({})"
+
+msgid "Catalog"
+msgstr "Catálogo"
+
+msgctxt "images"
+msgid "All"
+msgstr "Todas"
+
+msgid "Google Play"
+msgstr "Google Play"
+
+msgid "Google APIs"
+msgstr "Google APIs"
+
+msgid "AOSP"
+msgstr "AOSP"
+
+msgid "Wear"
+msgstr "Wear"
+
+msgid "Other"
+msgstr "Otras"
+
+msgid "Download an Android version from the catalog to create devices."
+msgstr "Descarga una versión de Android del catálogo para crear dispositivos."
+
+msgid "Open catalog"
+msgstr "Abrir catálogo"
+
+msgid "Fetching images from the 8 official channels…"
+msgstr "Buscando imágenes en los 8 canales oficiales…"
+
+msgid "Couldn't load the catalog"
+msgstr "No se pudo cargar el catálogo"
+
+msgid "Try again"
+msgstr "Reintentar"
+
+msgid "Copy error"
+msgstr "Copiar error"
+
+msgid "Activity"
+msgstr "Actividades"
+
+msgid "{} in progress"
+msgstr "{} en curso"
+
+msgid "All done"
+msgstr "Todo listo"
+
+msgid "Clear completed"
+msgstr "Borrar completadas"
+
+msgid "No activity"
+msgstr "Sin actividad"
+
+msgid "Downloads, device creation, boots and installs show up here with real-time progress."
+msgstr "Las descargas, creación de dispositivos, arranques e instalaciones aparecen aquí con progreso en tiempo real."
+
+msgid "Battery"
+msgstr "Batería"
+
+msgid "Simulate charge level, charger and health."
+msgstr "Simula el nivel de carga, el cargador y el estado."
+
+msgid "Level"
+msgstr "Nivel"
+
+msgid "Charger"
+msgstr "Cargador"
+
+msgid "None"
+msgstr "Ninguno"
+
+msgid "Wall (AC)"
+msgstr "Toma de corriente (AC)"
+
+msgid "USB"
+msgstr "USB"
+
+msgid "Wireless"
+msgstr "Inalámbrico"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Unknown"
+msgstr "Desconocido"
+
+msgid "Charging"
+msgstr "Cargando"
+
+msgid "Discharging"
+msgstr "Descargando"
+
+msgid "Not charging"
+msgstr "Sin cargar"
+
+msgid "Full"
+msgstr "Llena"
+
+msgid "Health"
+msgstr "Estado de salud"
+
+msgid "Good"
+msgstr "Buena"
+
+msgid "Failed"
+msgstr "Falló"
+
+msgid "Dead"
+msgstr "Muerta"
+
+msgid "Overvoltage"
+msgstr "Sobretensión"
+
+msgid "Overheated"
+msgstr "Sobrecalentada"
+
+msgid "GPS"
+msgstr "GPS"
+
+msgid "Set the location or simulate a route."
+msgstr "Define la ubicación o simula una ruta."
+
+msgid "Latitude"
+msgstr "Latitud"
+
+msgid "Longitude"
+msgstr "Longitud"
+
+msgid "Altitude (m)"
+msgstr "Altitud (m)"
+
+msgid "Apply position"
+msgstr "Aplicar posición"
+
+msgid "Places"
+msgstr "Lugares"
+
+msgid "São Paulo"
+msgstr "São Paulo"
+
+msgid "Rio"
+msgstr "Río"
+
+msgid "Brasília"
+msgstr "Brasilia"
+
+msgid "New York"
+msgstr "Nueva York"
+
+msgid "London"
+msgstr "Londres"
+
+msgid "Tokyo"
+msgstr "Tokio"
+
+msgid "Lisbon"
+msgstr "Lisboa"
+
+msgid "Sydney"
+msgstr "Sídney"
+
+msgid "Mountain View"
+msgstr "Mountain View"
+
+msgid "Simulated route: from the current position to Av. Paulista, in 60 steps of 1 s."
+msgstr "Ruta simulada: de la posición actual hasta la Av. Paulista, en 60 pasos de 1 s."
+
+msgid "Stop route"
+msgstr "Detener ruta"
+
+msgid "Simulate route"
+msgstr "Simular ruta"
+
+msgid "Connectivity"
+msgstr "Conectividad"
+
+msgid "Wi-Fi, data, speed, latency and signal."
+msgstr "Wi-Fi, datos, velocidad, latencia y señal."
+
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+msgid "Mobile data"
+msgstr "Datos móviles"
+
+msgid "Airplane mode"
+msgstr "Modo avión"
+
+msgid "Speed"
+msgstr "Velocidad"
+
+msgid "Max"
+msgstr "Máxima"
+
+msgid "5G"
+msgstr "5G"
+
+msgid "LTE"
+msgstr "LTE"
+
+msgid "HSPA+"
+msgstr "HSPA+"
+
+msgid "3G (UMTS)"
+msgstr "3G (UMTS)"
+
+msgid "EDGE"
+msgstr "EDGE"
+
+msgid "GPRS"
+msgstr "GPRS"
+
+msgid "GSM"
+msgstr "GSM"
+
+msgid "Latency"
+msgstr "Latencia"
+
+msgid "UMTS (35–200 ms)"
+msgstr "UMTS (35–200 ms)"
+
+msgid "EDGE (80–400 ms)"
+msgstr "EDGE (80–400 ms)"
+
+msgid "GPRS (150–550 ms)"
+msgstr "GPRS (150–550 ms)"
+
+msgid "Signal strength"
+msgstr "Intensidad de la señal"
+
+msgid "Weak"
+msgstr "Débil"
+
+msgid "Moderate"
+msgstr "Moderada"
+
+msgctxt "signal"
+msgid "Good"
+msgstr "Buena"
+
+msgid "Great"
+msgstr "Excelente"
+
+msgid "Phone and SMS"
+msgstr "Teléfono y SMS"
+
+msgid "Simulate incoming calls and messages."
+msgstr "Simula llamadas entrantes y mensajes."
+
+msgid "Number"
+msgstr "Número"
+
+msgid "Call"
+msgstr "Llamar"
+
+msgid "Answer"
+msgstr "Contestar"
+
+msgid "End"
+msgstr "Colgar"
+
+msgid "On hold"
+msgstr "En espera"
+
+msgid "Busy"
+msgstr "Ocupado"
+
+msgid "SMS message"
+msgstr "Mensaje SMS"
+
+msgid "Send SMS"
+msgstr "Enviar SMS"
+
+msgid "Sensors"
+msgstr "Sensores"
+
+msgid "Values are sent when you release the control."
+msgstr "Los valores se envían al soltar el control."
+
+msgid "Accelerometer X"
+msgstr "Acelerómetro X"
+
+msgid "Accelerometer Y"
+msgstr "Acelerómetro Y"
+
+msgid "Accelerometer Z"
+msgstr "Acelerómetro Z"
+
+msgid "Portrait"
+msgstr "Vertical"
+
+msgid "Lying flat"
+msgstr "Acostado"
+
+msgid "Landscape"
+msgstr "Horizontal"
+
+msgid "Ambient light"
+msgstr "Luz ambiental"
+
+msgid "Proximity"
+msgstr "Proximidad"
+
+msgid "Temperature"
+msgstr "Temperatura"
+
+msgid "Humidity"
+msgstr "Humedad"
+
+msgid "Pressure"
+msgstr "Presión"
+
+msgid "Biometrics"
+msgstr "Biometría"
+
+msgid "Enroll a fingerprint in Settings > Security, then tap here."
+msgstr "Registra una huella en Ajustes > Seguridad y luego toca aquí."
+
+msgid "Fingerprint not recognized"
+msgstr "Huella no reconocida"
+
+msgid "Identifiers"
+msgstr "Identificadores"
+
+msgid "Android ID and phone number."
+msgstr "Android ID y número de línea."
+
+msgid "Android ID"
+msgstr "Android ID"
+
+msgid "16 hex digits"
+msgstr "16 dígitos hexadecimales"
+
+msgid "Apply"
+msgstr "Aplicar"
+
+msgid "Generate random"
+msgstr "Generar aleatorio"
+
+msgid "Device number"
+msgstr "Número del dispositivo"
+
+msgid "Apply number"
+msgstr "Aplicar número"
+
+msgid "System properties"
+msgstr "Propiedades del sistema"
+
+msgid "Load"
+msgstr "Cargar"
+
+msgid "Brightness, theme, density and font."
+msgstr "Brillo, tema, densidad y fuente."
+
+msgid "Brightness"
+msgstr "Brillo"
+
+msgid "Android dark mode"
+msgstr "Modo oscuro de Android"
+
+msgid "Show taps"
+msgstr "Mostrar toques"
+
+msgid "Font scale"
+msgstr "Tamaño de fuente"
+
+msgid "Density (DPI)"
+msgstr "Densidad (DPI)"
+
+msgid "Profile default"
+msgstr "Predeterminado del perfil"
+
+msgid "Default"
+msgstr "Predeterminado"
+
+msgid "Cameras"
+msgstr "Cámaras"
+
+msgid "Source for each camera. Takes effect on next boot."
+msgstr "Fuente de cada cámara. Se aplica a partir del próximo arranque."
+
+msgid "Rear"
+msgstr "Trasera"
+
+msgid "Virtual 3D scene"
+msgstr "Escena virtual 3D"
+
+msgid "Front"
+msgstr "Frontal"
+
+msgid "Save and apply on next boot"
+msgstr "Guardar y aplicar en el próximo arranque"
+
+msgid "Apps"
+msgstr "Aplicaciones"
+
+msgid "Install, open, clear data and uninstall."
+msgstr "Instala, abre, borra datos y desinstala."
+
+msgid "Install APK…"
+msgstr "Instalar APK…"
+
+msgid "Show system apps"
+msgstr "Mostrar apps del sistema"
+
+msgid "Open link / deep link"
+msgstr "Abrir enlace / deep link"
+
+msgid "Click refresh to list apps."
+msgstr "Haz clic en actualizar para listar las apps."
+
+msgid "Force stop"
+msgstr "Forzar detención"
+
+msgid "Clear data"
+msgstr "Borrar datos"
+
+msgid "Uninstall"
+msgstr "Desinstalar"
+
+msgid "Files"
+msgstr "Archivos"
+
+msgid "Send files from your computer to the device, with progress."
+msgstr "Envía archivos de la computadora al dispositivo, con progreso."
+
+msgid "Destination folder"
+msgstr "Carpeta de destino"
+
+msgid "Send file…"
+msgstr "Enviar archivo…"
+
+msgid "Clipboard"
+msgstr "Portapapeles"
+
+msgid "Share text between your computer and Android."
+msgstr "Comparte texto entre la computadora y Android."
+
+msgid "Send to Android"
+msgstr "Enviar a Android"
+
+msgid "Read from Android"
+msgstr "Leer de Android"
+
+msgid "Snapshots"
+msgstr "Snapshots"
+
+msgid "Save the full state and return to it in seconds."
+msgstr "Guarda el estado completo y vuelve a él en segundos."
+
+msgid "name"
+msgstr "nombre"
+
+msgid "Saved"
+msgstr "Guardados"
+
+msgid "No snapshots saved."
+msgstr "No hay snapshots guardados."
+
+msgid "Restore"
+msgstr "Restaurar"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Logcat"
+msgstr "Logcat"
+
+msgid "Live stream (last 800 lines)."
+msgstr "Stream en vivo (últimas 800 líneas)."
+
+msgid "Filter by tag or text"
+msgstr "Filtrar por tag o texto"
+
+msgid "D+"
+msgstr "D+"
+
+msgid "I+"
+msgstr "I+"
+
+msgid "W+"
+msgstr "W+"
+
+msgid "E+"
+msgstr "E+"
+
+msgid "Shell"
+msgstr "Shell"
+
+msgid "Run adb shell commands."
+msgstr "Ejecuta comandos adb shell."
+
+msgid "e.g. getprop ro.build.version.release"
+msgstr "ej.: getprop ro.build.version.release"
+
+msgid "Proxy and language"
+msgstr "Proxy e idioma"
+
+msgid "Android global HTTP proxy (useful with Charles/mitmproxy). 10.0.2.2 is your computer."
+msgstr "Proxy HTTP global de Android (útil con Charles/mitmproxy). 10.0.2.2 es tu computadora."
+
+msgid "Proxy (host:port)"
+msgstr "Proxy (host:puerto)"
+
+msgid "Enable proxy"
+msgstr "Activar proxy"
+
+msgid "Disable"
+msgstr "Desactivar"
+
+msgid "System language"
+msgstr "Idioma del sistema"
+
+msgid "Português (Brasil)"
+msgstr "Português (Brasil)"
+
+msgid "English (US)"
+msgstr "English (US)"
+
+msgid "Español"
+msgstr "Español"
+
+msgid "Français"
+msgstr "Français"
+
+msgid "Deutsch"
+msgstr "Deutsch"
+
+msgid "Italiano"
+msgstr "Italiano"
+
+msgid "日本語"
+msgstr "日本語"
+
+msgid "中文"
+msgstr "中文"
+
+msgid "Apply language"
+msgstr "Aplicar idioma"
+
+msgid "Home"
+msgstr "Inicio"
+
+msgid "Recents"
+msgstr "Recientes"
+
+msgid "Rotate"
+msgstr "Girar"
+
+msgid "Collapse panel"
+msgstr "Contraer panel"
+
+msgid "Expand panel"
+msgstr "Expandir panel"
+
+msgid "Back to Devices"
+msgstr "Volver a Dispositivos"
+
+msgid "Screenshot"
+msgstr "Captura de pantalla"
+
+msgid "Stop recording ({})"
+msgstr "Detener grabación ({})"
+
+msgid "Record screen"
+msgstr "Grabar pantalla"
+
+msgid "Install APK"
+msgstr "Instalar APK"
+
+msgid "Power off device"
+msgstr "Apagar dispositivo"
+
+msgid "Power button"
+msgstr "Botón de encendido"
+
+msgid "Volume +"
+msgstr "Volumen +"
+
+msgid "Volume −"
+msgstr "Volumen −"
+
+msgid "Back (Android)"
+msgstr "Atrás (Android)"
+
+msgid "Performance"
+msgstr "Rendimiento"
+
+msgid "Files and clipboard"
+msgstr "Archivos y portapapeles"
+
+msgid "Fit window to device"
+msgstr "Ajustar ventana al dispositivo"
+
+msgid "Exit full screen (Esc)"
+msgstr "Salir de pantalla completa (Esc)"
+
+msgid "Full screen"
+msgstr "Pantalla completa"
+
+msgid "EmuZip"
+msgstr "EmuZip"
+
+msgid "Z"
+msgstr "Z"
+
+msgid "Fast, lightweight Android"
+msgstr "Android ligero y rápido"
+
+msgid "MENU"
+msgstr "MENÚ"
+
+msgid "Environment"
+msgstr "Entorno"
+
+msgid "Android SDK found"
+msgstr "Android SDK encontrado"
+
+msgid "Android SDK not found"
+msgstr "Android SDK no encontrado"
+
+msgid "Foreground: {}"
+msgstr "En primer plano: {}"
+
+msgid "Updates every second"
+msgstr "Se actualiza cada segundo"
+
+msgid "Export CSV"
+msgstr "Exportar CSV"
+
+msgid "Emulator CPU (host)"
+msgstr "CPU del emulador (host)"
+
+msgid "qemu process on your computer"
+msgstr "proceso qemu en tu computadora"
+
+msgid "Emulator RAM (host)"
+msgstr "RAM del emulador (host)"
+
+msgid "process resident memory"
+msgstr "memoria residente del proceso"
+
+msgid "GPU (slow frames)"
+msgstr "GPU (frames lentos)"
+
+msgid "Android CPU"
+msgstr "CPU de Android"
+
+msgid "sum of all processes"
+msgstr "suma de todos los procesos"
+
+msgid "Android RAM"
+msgstr "RAM de Android"
+
+msgid "{}% in use"
+msgstr "{}% en uso"
+
+msgid "GPU is measured inside Android (frame time of the foreground app); macOS doesn't report per-process GPU usage."
+msgstr "La GPU se mide dentro de Android (tiempo de frame de la app en primer plano); macOS no informa el uso de GPU por proceso."
+
+msgid "Top consumers"
+msgstr "Mayor consumo"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "RAM"
+msgstr "RAM"
+
+msgid "Kill process"
+msgstr "Finalizar proceso"
+
+msgid "Memory stress"
+msgstr "Estrés de memoria"
+
+msgid "Fills real Android RAM in chunks to see how apps and the LMK react."
+msgstr "Ocupa RAM real de Android, en bloques, para ver cómo reaccionan las apps y el LMK."
+
+msgid "No root on this image: sends official memory pressure (trim) signals to apps."
+msgstr "Sin root en esta imagen: envía señales oficiales de presión de memoria (trim) a las apps."
+
+msgid "Amount"
+msgstr "Cantidad"
+
+msgid " MB"
+msgstr " MB"
+
+msgid "Fill memory"
+msgstr "Llenar memoria"
+
+msgid "Release"
+msgstr "Liberar"
+
+msgid "Moderate pressure"
+msgstr "Presión moderada"
+
+msgid "Critical pressure"
+msgstr "Presión crítica"
+
+msgid "Release all"
+msgstr "Liberar todo"
+
+msgid "Used: {} MB"
+msgstr "Ocupado: {} MB"
+
+msgid "Killed by LMK: {}"
+msgstr "Cerrados por el LMK: {}"
+
+msgid "no new frames (static screen)"
+msgstr "sin frames nuevos (pantalla estática)"
+
+msgid "Filling {} MB of Android RAM"
+msgstr "Llenando {} MB de RAM de Android"
+
+msgid "{} of {} MB used"
+msgstr "{} de {} MB ocupados"
+
+msgid "{} MB used on Android"
+msgstr "{} MB ocupados en Android"
+
+msgid "Memory used: {} MB. Watch apps being killed by the LMK."
+msgstr "Memoria ocupada: {} MB. Observa cómo el LMK cierra las apps."
+
+msgid "Memory released"
+msgstr "Memoria liberada"
+
+msgid "No samples yet"
+msgstr "Aún no hay muestras"
+
+msgid "{} samples exported"
+msgstr "{} muestras exportadas"
+
+msgid "{} sent to {}"
+msgstr "{} enviado a {}"
+
+msgid "Kill {}?"
+msgstr "¿Finalizar {}?"
+
+msgid "The process will be terminated immediately on Android."
+msgstr "El proceso se finalizará inmediatamente en Android."
+
+msgid "No permission to kill {} (system process)"
+msgstr "Sin permiso para finalizar {} (proceso del sistema)"
+
+msgid "{} killed"
+msgstr "{} finalizado"
+
+msgid "{} is ready"
+msgstr "{} está listo"
+
+msgid "{} closed during boot"
+msgstr "{} se cerró durante el arranque"
+
+msgid "View log"
+msgstr "Ver log"
+
+msgid "Powering on…"
+msgstr "Encendiendo…"
+
+msgid "Starting {}"
+msgstr "Iniciando {}"
+
+msgid "Couldn't start: {}"
+msgstr "No se pudo iniciar: {}"
+
+msgid "Emulator open, booting Android…"
+msgstr "Emulador abierto, iniciando Android…"
+
+msgid "VM started"
+msgstr "VM iniciada"
+
+msgid "Ready in {}s"
+msgstr "Listo en {}s"
+
+msgid "Booting Android… {}s"
+msgstr "Iniciando Android… {}s"
+
+msgid "The emulator closed. Check the log."
+msgstr "El emulador se cerró. Revisa el log."
+
+msgid "The emulator closed during boot"
+msgstr "El emulador se cerró durante el arranque"
+
+msgid "Opening the emulator…"
+msgstr "Abriendo el emulador…"
+
+msgid "Timed out waiting for boot"
+msgstr "Tiempo de espera agotado para el arranque"
+
+msgid "{} was powered off"
+msgstr "{} se apagó"
+
+msgid "Restarting {}…"
+msgstr "Reiniciando {}…"
+
+msgid "“{}” and all its data will be erased. This can't be undone."
+msgstr "“{}” y todos sus datos se borrarán. Esta acción no se puede deshacer."
+
+msgid "Delete {}?"
+msgstr "¿Eliminar {}?"
+
+msgid "Deleting {}"
+msgstr "Eliminando {}"
+
+msgid "{} deleted"
+msgstr "{} eliminado"
+
+msgid "Factory reset {}?"
+msgstr "¿Restablecer {} de fábrica?"
+
+msgid "The device's apps, accounts, files and snapshots will be erased. The hardware configuration is kept."
+msgstr "Se borrarán las apps, cuentas, archivos y snapshots del dispositivo. La configuración de hardware se conserva."
+
+msgid "Resetting {}"
+msgstr "Restableciendo {}"
+
+msgid "{} factory reset"
+msgstr "{} restablecido de fábrica"
+
+msgid "Clone device"
+msgstr "Clonar dispositivo"
+
+msgid "Copy name:"
+msgstr "Nombre de la copia:"
+
+msgid "{} (copy)"
+msgstr "{} (copia)"
+
+msgid "{} created"
+msgstr "{} creado"
+
+msgid "Rename device"
+msgstr "Renombrar dispositivo"
+
+msgid "New name:"
+msgstr "Nuevo nombre:"
+
+msgid "Renaming"
+msgstr "Renombrando"
+
+msgid "Renamed to {}"
+msgstr "Renombrado a {}"
+
+msgid "Repairing…"
+msgstr "Reparando…"
+
+msgid "Repairing {}"
+msgstr "Reparando {}"
+
+msgid "Repaired"
+msgstr "Reparado"
+
+msgid "Select an installed image."
+msgstr "Selecciona una imagen instalada."
+
+msgid "Saving configuration…"
+msgstr "Guardando configuración…"
+
+msgid "Changes saved"
+msgstr "Cambios guardados"
+
+msgid "Detecting…"
+msgstr "Detectando…"
+
+msgid "Checking acceleration…"
+msgstr "Verificando aceleración…"
+
+msgid "Preparing…"
+msgstr "Preparando…"
+
+msgid "Empty catalog. Check the proxy or mirror in Settings."
+msgstr "Catálogo vacío. Revisa el proxy o el mirror en Ajustes."
+
+msgid "Set up the Android SDK before downloading images"
+msgstr "Configura el Android SDK antes de descargar imágenes"
+
+msgid "Downloading {}"
+msgstr "Descargando {}"
+
+msgid "Connecting…"
+msgstr "Conectando…"
+
+msgid "Verifying integrity (SHA-1)…"
+msgstr "Verificando integridad (SHA-1)…"
+
+msgid "Extracting files {}/{}"
+msgstr "Extrayendo archivos {}/{}"
+
+msgctxt "image"
+msgid "{} installed"
+msgstr "{} instalada"
+
+msgid " Used by: {}."
+msgstr " Usada por: {}."
+
+msgid "The image will be deleted from disk ({}).{}"
+msgstr "La imagen se borrará del disco ({}).{}"
+
+msgid "Removing {}"
+msgstr "Eliminando {}"
+
+msgid "Image removed"
+msgstr "Imagen eliminada"
+
+msgid "../translations/en/LC_MESSAGES/emuzip-app.po"
+msgstr "../translations/en/LC_MESSAGES/emuzip-app.po"
+
+msgid "../translations/es/LC_MESSAGES/emuzip-app.po"
+msgstr "../translations/es/LC_MESSAGES/emuzip-app.po"
+
+msgid "../translations/fr/LC_MESSAGES/emuzip-app.po"
+msgstr "../translations/fr/LC_MESSAGES/emuzip-app.po"
+
+msgid "../translations/de/LC_MESSAGES/emuzip-app.po"
+msgstr "../translations/de/LC_MESSAGES/emuzip-app.po"
+
+msgid "../translations/zh_CN/LC_MESSAGES/emuzip-app.po"
+msgstr "../translations/zh_CN/LC_MESSAGES/emuzip-app.po"
+
+msgid "Text"
+msgstr "Texto"
+
+msgid "The device isn't ready yet"
+msgstr "El dispositivo aún no está listo"
+
+msgid "Starting network capture"
+msgstr "Iniciando captura de red"
+
+msgid "Installing the EmuZip certificate…"
+msgstr "Instalando el certificado de EmuZip…"
+
+msgid "Pointing the Android proxy to EmuZip…"
+msgstr "Apuntando el proxy de Android a EmuZip…"
+
+msgid "Capturing on 10.0.2.2:{}"
+msgstr "Capturando en 10.0.2.2:{}"
+
+msgid "EmuZip certificate installed in the system: HTTPS from all apps is decrypted."
+msgstr "Certificado de EmuZip instalado en el sistema: se descifra el HTTPS de todas las apps."
+
+msgid "Non-root image: install the certificate as a user to decrypt HTTPS from apps that trust user CAs (e.g. Chrome, debug apps). Otherwise, HTTPS shows up as a tunnel."
+msgstr "Imagen sin root: instala el certificado como usuario para descifrar el HTTPS de apps que confían en CA de usuario (ej.: Chrome, apps debug). Sin esto, el HTTPS aparece como túnel."
+
+msgid "Capture started (HTTPS decrypted)"
+msgstr "Captura iniciada (HTTPS descifrado)"
+
+msgid "Capture started"
+msgstr "Captura iniciada"
+
+msgid "Couldn't start capture: {}"
+msgstr "No se pudo iniciar la captura: {}"
+
+msgid "{} requests · {} shown · {} received · {} failed"
+msgstr "{} solicitudes · {} mostradas · {} recibidos · {} con error"
+
+msgid "(large body or streaming: not captured)"
+msgstr "(cuerpo grande o streaming: no capturado)"
+
+msgid "(empty)"
+msgstr "(vacío)"
+
+msgid "(binary: {}, {})"
+msgstr "(binario: {}, {})"
+
+msgid "unknown"
+msgstr "desconocido"
+
+msgid "\n… (truncated in preview)"
+msgstr "\n… (truncado en la vista previa)"
+
+msgid "ERROR: {}"
+msgstr "ERROR: {}"
+
+msgid "Start: {}\nWaiting for response (TTFB): {}\nTotal: {}\nSent: {}\nReceived: {}\nTLS: {}{}"
+msgstr "Inicio: {}\nEsperando respuesta (TTFB): {}\nTotal: {}\nEnviado: {}\nRecibido: {}\nTLS: {}{}"
+
+msgid "yes"
+msgstr "sí"
+
+msgid "no"
+msgstr "no"
+
+msgid " (not decrypted)"
+msgstr " (no descifrado)"
+
+msgid "Nothing to export"
+msgstr "Nada que exportar"
+
+msgid "{} requests exported"
+msgstr "{} solicitudes exportadas"
+
+msgid "Show"
+msgstr "Mostrar"
+
+msgid "Installing EmuZip certificate"
+msgstr "Instalando certificado de EmuZip"
+
+msgid "Certificate installed in the system"
+msgstr "Certificado instalado en el sistema"
+
+msgid "Certificate installed in the system: HTTPS will be decrypted"
+msgstr "Certificado instalado en el sistema: se descifrará el HTTPS"
+
+msgid "EmuZip-CA.crt sent to Download"
+msgstr "Archivo EmuZip-CA.crt enviado a Download"
+
+msgid "On Android: Settings > Security > More > Encryption & credentials > Install a certificate > CA certificate > Download/EmuZip-CA.crt. Then turn on \"Decrypt HTTPS\"."
+msgstr "En Android: Ajustes > Seguridad > Más > Encriptación y credenciales > Instalar un certificado > Certificado de CA > Download/EmuZip-CA.crt. Luego activa \"Descifrar HTTPS\"."
+
+msgid "EmuZip becomes Android's proxy (10.0.2.2) to see every Request and Response."
+msgstr "EmuZip actúa como proxy de Android (10.0.2.2) para ver cada Request y Response."
+
+msgid "Capture stopped and Android internet restored"
+msgstr "Captura detenida e internet de Android restaurado"
+
+msgid "cURL copied"
+msgstr "cURL copiado"
+
+msgid "Body saved ({})"
+msgstr "Cuerpo guardado ({})"
+
+msgid "Settings saved"
+msgstr "Ajustes guardados"
+
+msgid "Couldn't save: {}"
+msgstr "No se pudo guardar: {}"
+
+msgid "No backend"
+msgstr "Ningún backend"
+
+msgid "not found — set the path in Settings"
+msgstr "no encontrado — define la ruta en Ajustes"
+
+msgid "Hypervisor.framework active"
+msgstr "Hypervisor.framework activo"
+
+msgid "No Hypervisor.framework"
+msgstr "Sin Hypervisor.framework"
+
+msgid "KVM available"
+msgstr "KVM disponible"
+
+msgid "KVM unavailable (/dev/kvm)"
+msgstr "KVM no disponible (/dev/kvm)"
+
+msgid "Unknown acceleration"
+msgstr "Aceleración desconocida"
+
+msgid "Exporting diagnostics"
+msgstr "Exportando diagnóstico"
+
+msgid "Diagnostics exported"
+msgstr "Diagnóstico exportado"
+
+msgid "Saved to {}"
+msgstr "Guardado en {}"
+
+msgid "Download cache cleared"
+msgstr "Caché de descargas borrada"
+
+msgid "Copied to clipboard"
+msgstr "Copiado al portapapeles"
+
+msgid "System (automatic)"
+msgstr "Sistema (automático)"
+
+msgid "Waiting for the emulator…"
+msgstr "Esperando el emulador…"
+
+msgid "Powering on the emulator…"
+msgstr "Encendiendo el emulador…"
+
+msgid "This emulator was started without gRPC. Stop it and start it from EmuZip."
+msgstr "Este emulador se inició sin gRPC. Detenlo e inícialo desde EmuZip."
+
+msgid "Connecting to display…"
+msgstr "Conectando a la pantalla…"
+
+msgid "Waiting for display… ({})"
+msgstr "Esperando la pantalla… ({})"
+
+msgid "The device was powered off."
+msgstr "El dispositivo se apagó."
+
+msgid "Display isn't connected yet"
+msgstr "La pantalla aún no está conectada"
+
+msgid "Screenshot saved: {}"
+msgstr "Captura guardada: {}"
+
+msgid "Saving recording"
+msgstr "Guardando grabación"
+
+msgid "Recording saved"
+msgstr "Grabación guardada"
+
+msgid "Video: {}"
+msgstr "Video: {}"
+
+msgid "Installing {}"
+msgstr "Instalando {}"
+
+msgid "Uploading {} of {}"
+msgstr "Enviando {} de {}"
+
+msgid "Installing on Android…"
+msgstr "Instalando en Android…"
+
+msgid "{} installed"
+msgstr "{} instalado"
+
+msgid "Sending {}"
+msgstr "Enviando {}"
+
+msgid "{} of {}"
+msgstr "{} de {}"
+
+msgid "{} stopped"
+msgstr "{} detenido"
+
+msgid "{} data cleared"
+msgstr "Datos de {} borrados"
+
+msgid "Uninstall {}?"
+msgstr "¿Desinstalar {}?"
+
+msgid "The app and its data will be removed from the device."
+msgstr "La app y sus datos se eliminarán del dispositivo."
+
+msgid "Saving snapshot {}"
+msgstr "Guardando snapshot {}"
+
+msgid "Snapshot {} saved"
+msgstr "Snapshot {} guardado"
+
+msgid "Snapshot {} deleted"
+msgstr "Snapshot {} eliminado"
+
+msgid "Location updated"
+msgstr "Ubicación actualizada"
+
+msgid "Route completed"
+msgstr "Ruta completada"
+
+msgid "Model"
+msgstr "Modelo"
+
+msgid "Manufacturer"
+msgstr "Fabricante"
+
+msgid "Security patch"
+msgstr "Parche de seguridad"
+
+msgid "Carrier"
+msgstr "Operador"
+
+msgid "Invalid latitude/longitude"
+msgstr "Latitud/longitud no válidas"
+
+msgid "Network: {}, latency {}, signal {}/4"
+msgstr "Red: {}, latencia {}, señal {}/4"
+
+msgid "Wi-Fi on"
+msgstr "Wi-Fi activado"
+
+msgid "Wi-Fi off"
+msgstr "Wi-Fi desactivado"
+
+msgid "Mobile data on"
+msgstr "Datos móviles activados"
+
+msgid "Mobile data off"
+msgstr "Datos móviles desactivados"
+
+msgid "Airplane mode on"
+msgstr "Modo avión activado"
+
+msgid "Airplane mode off"
+msgstr "Modo avión desactivado"
+
+msgid "SMS sent"
+msgstr "SMS enviado"
+
+msgid "Android ID must be 16 hex digits"
+msgstr "El Android ID debe tener 16 dígitos hexadecimales"
+
+msgid "Android ID updated"
+msgstr "Android ID actualizado"
+
+msgid "Number updated"
+msgstr "Número actualizado"
+
+msgid "Cameras saved: restart the device to apply"
+msgstr "Cámaras guardadas: reinicia el dispositivo para aplicar"
+
+msgid "{} lines exported"
+msgstr "{} líneas exportadas"
+
+msgid "error: {}"
+msgstr "error: {}"
+
+msgid "Nothing is listening on port {} of your computer: Android will have no internet until you disable the proxy."
+msgstr "Nada está escuchando en el puerto {} de tu computadora: Android se quedará sin internet hasta que desactives el proxy."
+
+msgid "Switching language to {}"
+msgstr "Cambiando idioma a {}"
+
+msgid "Language: {}"
+msgstr "Idioma: {}"
+
+msgid "Text sent to Android clipboard"
+msgstr "Texto enviado al portapapeles de Android"
+
+msgid "Android clipboard copied to computer"
+msgstr "Portapapeles de Android copiado a la computadora"
