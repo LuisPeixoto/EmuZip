@@ -1,0 +1,78 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { Store, Api, TaskItem } from "store.slint";
+import { Btn, IconBtn, Chip, Card, Icon, EmptyState, Progress } from "widgets.slint";
+import { ScrollView, Spinner } from "std-widgets.slint";
+
+export component TaskRow inherits Rectangle {
+    in property <TaskItem> t;
+    in property <bool> compact: false;
+    height: lay.preferred-height;
+    border-radius: Theme.radius;
+    background: Theme.surface;
+    border-width: 1px;
+    border-color: Theme.border;
+    lay := HorizontalLayout {
+        padding: compact ? 10px : 14px;
+        spacing: 12px;
+        Rectangle {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            background: t.state == 0 ? Theme.primary-soft : t.state == 1 ? Theme.success-soft : t.state == 2 ? Theme.danger-soft : Theme.surface-hover;
+            if t.state == 0: Spinner { width: 16px; height: 16px; indeterminate: true; }
+            if t.state == 1: Icon { source: Icons.check; color: Theme.success; size: 16px; }
+            if t.state == 2: Icon { source: Icons.alert; color: Theme.danger; size: 16px; }
+            if t.state == 3: Icon { source: Icons.x; color: Theme.text-3; size: 16px; }
+        }
+        VerticalLayout {
+            spacing: 5px;
+            alignment: center;
+            HorizontalLayout {
+                spacing: 8px;
+                Text { text: t.title; font-weight: 700; color: Theme.text; overflow: elide; horizontal-stretch: 1; }
+                Text { text: t.time; font-size: Theme.font-xs; color: Theme.text-3; }
+            }
+            if t.state == 0: Progress { progress: t.progress; }
+            Text {
+                text: t.detail;
+                font-size: Theme.font-xs;
+                color: t.state == 2 ? Theme.danger : Theme.text-3;
+                wrap: word-wrap;
+            }
+        }
+        if t.state == 0 && t.cancellable: IconBtn { icon: Icons.x; tip: @tr("Cancel"); size: 30px; clicked => { Api.cancel-task(t.id); } }
+        if t.state == 2: IconBtn { icon: Icons.copy; tip: @tr("Copy error"); size: 30px; clicked => { Api.copy-text(t.detail); } }
+    }
+}
+
+export component ActivityPage inherits VerticalLayout {
+    padding: 28px;
+    padding-top: 22px;
+    spacing: 18px;
+    HorizontalLayout {
+        VerticalLayout {
+            alignment: center;
+            spacing: 2px;
+            Text { text: @tr("Activity"); font-size: Theme.font-2xl; font-weight: 800; color: Theme.text; }
+            Text { text: Store.running-tasks > 0 ? @tr("{} in progress", Store.running-tasks) : @tr("All done"); font-size: Theme.font-sm; color: Theme.text-3; }
+        }
+        Rectangle { }
+        if Store.tasks.length > 0: Btn { text: @tr("Clear completed"); variant: "ghost"; y: (parent.height - self.height) / 2; clicked => { Api.clear-tasks(); } }
+    }
+    if Store.tasks.length == 0: EmptyState {
+        vertical-stretch: 1;
+        icon: Icons.activity;
+        title: @tr("No activity");
+        text: @tr("Downloads, device creation, boots and installs show up here with real-time progress.");
+    }
+    if Store.tasks.length > 0: ScrollView {
+        vertical-stretch: 1;
+        content-height: l.preferred-height;
+        l := VerticalLayout {
+            width: parent.visible-width - 4px;
+            spacing: 8px;
+            for t in Store.tasks: TaskRow { t: t; }
+        }
+    }
+}
