@@ -1,0 +1,29 @@
+name: 🌍 Translation
+description: Request a new language or report a translation mistake
+labels: [i18n]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Translations live in `crates/emuzip-app/translations/`. See [docs/translations.md](https://github.com/LuisPeixoto/EmuZip/blob/main/docs/translations.md) — a pull request is the fastest way!
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What do you need?
+      options:
+        - A new language
+        - A correction in an existing language
+    validations:
+      required: true
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      placeholder: "Italiano (it)"
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: For corrections, include the original text, the current translation and your suggestion.
