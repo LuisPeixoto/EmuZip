@@ -1,0 +1,619 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { Store, Api, Player, LogLine } from "store.slint";
+import { Btn, IconBtn, Chip, Card, Icon, Divider, FieldRow, SectionTitle, Segmented, Progress } from "widgets.slint";
+import { LineEdit, SpinBox, ComboBox, Switch, ScrollView, Slider, Spinner, TextEdit, CheckBox, ListView } from "std-widgets.slint";
+import { NetworkPanel } from "network.slint";
+import { PerfPanel } from "perf.slint";
+
+component PanelTitle inherits VerticalLayout {
+    in property <string> title;
+    in property <string> subtitle;
+    spacing: 2px;
+    padding-bottom: 6px;
+    Text { text: root.title; font-size: Theme.font-lg; font-weight: 800; color: Theme.text; }
+    if root.subtitle != "": Text { text: root.subtitle; font-size: Theme.font-xs; color: Theme.text-3; wrap: word-wrap; }
+}
+
+component Labeled inherits VerticalLayout {
+    in property <string> label;
+    in property <string> value;
+    spacing: 4px;
+    HorizontalLayout {
+        Text { text: root.label; font-size: Theme.font-sm; font-weight: 600; color: Theme.text-2; }
+        Rectangle { }
+        Text { text: root.value; font-size: Theme.font-sm; color: Theme.primary; font-weight: 700; }
+    }
+    @children
+}
+
+component QuickBtn inherits Rectangle {
+    in property <string> text;
+    callback clicked;
+    height: 30px;
+    border-radius: 15px;
+    background: qa.has-hover ? Theme.primary-soft : Theme.surface-2;
+    border-width: 1px;
+    border-color: Theme.border;
+    HorizontalLayout {
+        padding-left: 12px;
+        padding-right: 12px;
+        Text { text: root.text; font-size: Theme.font-xs; font-weight: 600; color: Theme.text; vertical-alignment: center; }
+    }
+    qa := TouchArea { mouse-cursor: pointer; clicked => { root.clicked(); } }
+}
+
+component BatteryPanel inherits VerticalLayout {
+    spacing: 14px;
+    PanelTitle { title: @tr("Battery"); subtitle: @tr("Simulate charge level, charger and health."); }
+    Labeled {
+        label: @tr("Level");
+        value: round(Player.battery-level) + "%";
+        Slider { minimum: 0; maximum: 100; value <=> Player.battery-level; released => { Api.apply-battery(); } }
+    }
+    HorizontalLayout { spacing: 6px; for v in [5, 15, 50, 100]: QuickBtn { text: v + "%"; clicked => { Player.battery-level = v; Api.apply-battery(); } } }
+    Labeled { label: @tr("Charger"); ComboBox { model: [@tr("None"), @tr("Wall (AC)"), @tr("USB"), @tr("Wireless")]; current-index <=> Player.charger-index; selected => { Api.apply-battery(); } } }
+    Labeled { label: @tr("Status"); ComboBox { model: [@tr("Unknown"), @tr("Charging"), @tr("Discharging"), @tr("Not charging"), @tr("Full")]; current-index <=> Player.battery-status-index; selected => { Api.apply-battery(); } } }
+    Labeled { label: @tr("Health"); ComboBox { model: [@tr("Good"), @tr("Failed"), @tr("Dead"), @tr("Overvoltage"), @tr("Overheated")]; current-index <=> Player.battery-health-index; selected => { Api.apply-battery(); } } }
+}
+
+component GpsPanel inherits VerticalLayout {
+    spacing: 12px;
+    PanelTitle { title: @tr("GPS"); subtitle: @tr("Set the location or simulate a route."); }
+    Labeled { label: @tr("Latitude"); LineEdit { text <=> Player.lat; } }
+    Labeled { label: @tr("Longitude"); LineEdit { text <=> Player.lon; } }
+    Labeled { label: @tr("Altitude (m)"); LineEdit { text <=> Player.alt; } }
+    Btn { text: @tr("Apply position"); variant: "primary"; icon: Icons.map-pin; has-icon: true; clicked => { Api.apply-gps(); } }
+    Text { text: @tr("Places"); font-size: Theme.font-sm; font-weight: 600; color: Theme.text-2; }
+    GridLayout {
+        spacing: 6px;
+        Row { QuickBtn { text: @tr("São Paulo"); clicked => { Api.gps-preset("sp"); } } QuickBtn { text: @tr("Rio"); clicked => { Api.gps-preset("rj"); } } QuickBtn { text: @tr("Brasília"); clicked => { Api.gps-preset("bsb"); } } }
+        Row { QuickBtn { text: @tr("New York"); clicked => { Api.gps-preset("nyc"); } } QuickBtn { text: @tr("London"); clicked => { Api.gps-preset("lon"); } } QuickBtn { text: @tr("Tokyo"); clicked => { Api.gps-preset("tyo"); } } }
+        Row { QuickBtn { text: @tr("Lisbon"); clicked => { Api.gps-preset("lis"); } } QuickBtn { text: @tr("Sydney"); clicked => { Api.gps-preset("syd"); } } QuickBtn { text: @tr("Mountain View"); clicked => { Api.gps-preset("mtv"); } } }
+    }
+    Divider { }
+    Text { text: @tr("Simulated route: from the current position to Av. Paulista, in 60 steps of 1 s."); font-size: Theme.font-xs; color: Theme.text-3; wrap: word-wrap; }
+    Btn {
+        text: Player.route-running ? @tr("Stop route") : @tr("Simulate route");
+        variant: Player.route-running ? "danger" : "soft";
+        icon: Player.route-running ? Icons.stop : Icons.play;
+        has-icon: true;
+        clicked => { Api.gps-route(); }
+    }
+}
+
+component NetworkSimPanel inherits VerticalLayout {
+    spacing: 12px;
+    PanelTitle { title: @tr("Connectivity"); subtitle: @tr("Wi-Fi, data, speed, latency and signal."); }
+    FieldRow { label: @tr("Wi-Fi"); Switch { checked <=> Player.wifi; toggled => { Api.toggle-wifi(Player.wifi); } } }
+    FieldRow { label: @tr("Mobile data"); Switch { checked <=> Player.data; toggled => { Api.toggle-data(Player.data); } } }
+    FieldRow { label: @tr("Airplane mode"); Switch { checked <=> Player.airplane; toggled => { Api.toggle-airplane(Player.airplane); } } }
+    Divider { }
+    Labeled { label: @tr("Speed"); ComboBox { model: [@tr("Max"), @tr("5G"), @tr("LTE"), @tr("HSPA+"), @tr("3G (UMTS)"), @tr("EDGE"), @tr("GPRS"), @tr("GSM")]; current-index <=> Player.net-speed-index; selected => { Api.apply-network(); } } }
+    Labeled { label: @tr("Latency"); ComboBox { model: [@tr("f" => "None"), @tr("UMTS (35–200 ms)"), @tr("EDGE (80–400 ms)"), @tr("GPRS (150–550 ms)"), @tr("GSM")]; current-index <=> Player.net-delay-index; selected => { Api.apply-network(); } } }
+    Labeled { label: @tr("Signal strength"); ComboBox { model: [@tr("None"), @tr("Weak"), @tr("Moderate"), @tr("signal" => "Good"), @tr("Great")]; current-index <=> Player.signal-index; selected => { Api.apply-network(); } } }
+}
+
+component PhonePanel inherits VerticalLayout {
+    spacing: 12px;
+    PanelTitle { title: @tr("Phone and SMS"); subtitle: @tr("Simulate incoming calls and messages."); }
+    Labeled { label: @tr("Number"); LineEdit { text <=> Player.phone-number; } }
+    HorizontalLayout {
+        spacing: 6px;
+        Btn { text: @tr("Call"); variant: "success"; icon: Icons.phone; has-icon: true; clicked => { Api.phone-call("call"); } }
+        Btn { text: @tr("Answer"); clicked => { Api.phone-call("accept"); } }
+        Btn { text: @tr("End"); variant: "danger"; clicked => { Api.phone-call("end"); } }
+    }
+    HorizontalLayout {
+        spacing: 6px;
+        Btn { text: @tr("On hold"); small: true; clicked => { Api.phone-call("hold"); } }
+        Btn { text: @tr("Resume"); small: true; clicked => { Api.phone-call("unhold"); } }
+        Btn { text: @tr("Busy"); small: true; clicked => { Api.phone-call("busy"); } }
+    }
+    Divider { }
+    Labeled { label: @tr("SMS message"); TextEdit { height: 90px; text <=> Player.sms-text; wrap: word-wrap; } }
+    Btn { text: @tr("Send SMS"); variant: "primary"; icon: Icons.message; has-icon: true; clicked => { Api.send-sms(); } }
+}
+
+component SensorsPanel inherits VerticalLayout {
+    spacing: 10px;
+    PanelTitle { title: @tr("Sensors"); subtitle: @tr("Values are sent when you release the control."); }
+    Labeled { label: @tr("Accelerometer X"); value: round(Player.accel-x * 10) / 10 + " m/s²"; Slider { minimum: -19.6; maximum: 19.6; value <=> Player.accel-x; released => { Api.apply-sensors(); } } }
+    Labeled { label: @tr("Accelerometer Y"); value: round(Player.accel-y * 10) / 10 + " m/s²"; Slider { minimum: -19.6; maximum: 19.6; value <=> Player.accel-y; released => { Api.apply-sensors(); } } }
+    Labeled { label: @tr("Accelerometer Z"); value: round(Player.accel-z * 10) / 10 + " m/s²"; Slider { minimum: -19.6; maximum: 19.6; value <=> Player.accel-z; released => { Api.apply-sensors(); } } }
+    HorizontalLayout {
+        spacing: 6px;
+        QuickBtn { text: @tr("Portrait"); clicked => { Player.accel-x = 0; Player.accel-y = 9.8; Player.accel-z = 0; Api.apply-sensors(); } }
+        QuickBtn { text: @tr("Lying flat"); clicked => { Player.accel-x = 0; Player.accel-y = 0; Player.accel-z = 9.8; Api.apply-sensors(); } }
+        QuickBtn { text: @tr("Landscape"); clicked => { Player.accel-x = 9.8; Player.accel-y = 0; Player.accel-z = 0; Api.apply-sensors(); } }
+    }
+    Divider { }
+    Labeled { label: @tr("Ambient light"); value: round(Player.light) + " lux"; Slider { minimum: 0; maximum: 40000; value <=> Player.light; released => { Api.apply-sensors(); } } }
+    Labeled { label: @tr("Proximity"); value: round(Player.proximity) + " cm"; Slider { minimum: 0; maximum: 10; value <=> Player.proximity; released => { Api.apply-sensors(); } } }
+    Labeled { label: @tr("Temperature"); value: round(Player.temperature) + " °C"; Slider { minimum: -20; maximum: 60; value <=> Player.temperature; released => { Api.apply-sensors(); } } }
+    Labeled { label: @tr("Humidity"); value: round(Player.humidity) + " %"; Slider { minimum: 0; maximum: 100; value <=> Player.humidity; released => { Api.apply-sensors(); } } }
+    Labeled { label: @tr("Pressure"); value: round(Player.pressure) + " hPa"; Slider { minimum: 300; maximum: 1100; value <=> Player.pressure; released => { Api.apply-sensors(); } } }
+}
+
+component BiometricsPanel inherits VerticalLayout {
+    spacing: 12px;
+    PanelTitle { title: @tr("Biometrics"); subtitle: @tr("Enroll a fingerprint in Settings > Security, then tap here."); }
+    GridLayout {
+        spacing: 8px;
+        for i in 10: Rectangle {
+            row: floor(i / 5);
+            col: mod(i, 5);
+            height: 58px;
+            border-radius: Theme.radius;
+            background: fa.pressed ? Theme.primary : fa.has-hover ? Theme.primary-soft : Theme.surface-2;
+            border-width: 1px;
+            border-color: Theme.border;
+            VerticalLayout {
+                alignment: center;
+                spacing: 2px;
+                HorizontalLayout { alignment: center; Icon { source: Icons.fingerprint; color: fa.pressed ? white : Theme.primary; size: 20px; } }
+                Text { text: "#" + (i + 1); color: fa.pressed ? white : Theme.text-2; font-size: Theme.font-xs; horizontal-alignment: center; }
+            }
+            fa := TouchArea { mouse-cursor: pointer; clicked => { Api.fingerprint(i + 1); } }
+        }
+    }
+    Btn { text: @tr("Fingerprint not recognized"); variant: "danger"; clicked => { Api.fingerprint(99); } }
+}
+
+component IdentifiersPanel inherits VerticalLayout {
+    spacing: 12px;
+    PanelTitle { title: @tr("Identifiers"); subtitle: @tr("Android ID and phone number."); }
+    Labeled { label: @tr("Android ID"); LineEdit { text <=> Player.android-id; placeholder-text: @tr("16 hex digits"); } }
+    HorizontalLayout { spacing: 6px; Btn { text: @tr("Apply"); variant: "primary"; small: true; clicked => { Api.set-android-id(); } } Btn { text: @tr("Generate random"); small: true; clicked => { Api.random-android-id(); } } }
+    Labeled { label: @tr("Device number"); LineEdit { text <=> Player.own-number; } }
+    Btn { text: @tr("Apply number"); small: true; clicked => { Api.set-own-number(); } }
+    Divider { }
+    HorizontalLayout { Text { text: @tr("System properties"); font-weight: 700; color: Theme.text; } Rectangle { } Btn { text: @tr("Load"); small: true; icon: Icons.refresh; has-icon: true; clicked => { Api.load-props(); } } }
+    for p in Player.props: HorizontalLayout {
+        spacing: 8px;
+        Text { text: p.name; font-size: Theme.font-xs; color: Theme.text-3; width: 130px; overflow: elide; }
+        Text { text: p.value; font-size: Theme.font-xs; color: Theme.text; overflow: elide; horizontal-stretch: 1; }
+        IconBtn { icon: Icons.copy; size: 22px; clicked => { Api.copy-text(p.value); } }
+    }
+}
+
+component DisplayPanel inherits VerticalLayout {
+    spacing: 12px;
+    PanelTitle { title: @tr("Display"); subtitle: @tr("Brightness, theme, density and font."); }
+    Labeled { label: @tr("Brightness"); value: round(Player.brightness / 2.55) + "%"; Slider { minimum: 1; maximum: 255; value <=> Player.brightness; released => { Api.apply-display(); } } }
+    FieldRow { label: @tr("Android dark mode"); Switch { checked <=> Player.night-mode; toggled => { Api.apply-display(); } } }
+    FieldRow { label: @tr("Show taps"); Switch { checked <=> Player.show-touches; toggled => { Api.apply-display(); } } }
+    Labeled { label: @tr("Font scale"); value: round(Player.font-scale * 100) + "%"; Slider { minimum: 0.85; maximum: 2.0; value <=> Player.font-scale; released => { Api.apply-display(); } } }
+    Labeled { label: @tr("Density (DPI)"); LineEdit { text <=> Player.density; placeholder-text: @tr("Profile default"); accepted => { Api.apply-display(); } } }
+    HorizontalLayout { spacing: 6px; for v in ["240", "320", "420", "480"]: QuickBtn { text: v; clicked => { Player.density = v; Api.apply-display(); } } QuickBtn { text: @tr("Default"); clicked => { Player.density = ""; Api.apply-display(); } } }
+}
+
+component CameraPanel inherits VerticalLayout {
+    spacing: 12px;
+    PanelTitle { title: @tr("Cameras"); subtitle: @tr("Source for each camera. Takes effect on next boot."); }
+    Labeled { label: @tr("Rear"); ComboBox { model: [@tr("Virtual 3D scene"), @tr("Emulated"), @tr("Webcam"), @tr("f" => "None")]; current-index <=> Player.cam-back-index; } }
+    Labeled { label: @tr("Front"); ComboBox { model: [@tr("Emulated"), @tr("Webcam"), @tr("f" => "None")]; current-index <=> Player.cam-front-index; } }
+    Btn { text: @tr("Save and apply on next boot"); variant: "primary"; clicked => { Api.apply-camera(); } }
+}
+
+component AppsPanel inherits VerticalLayout {
+    spacing: 10px;
+    PanelTitle { title: @tr("Apps"); subtitle: @tr("Install, open, clear data and uninstall."); }
+    HorizontalLayout {
+        spacing: 6px;
+        Btn { text: @tr("Install APK…"); variant: "primary"; icon: Icons.package; has-icon: true; clicked => { Api.install-apk(); } }
+        Btn { icon: Icons.refresh; has-icon: true; loading: Player.packages-loading; clicked => { Api.load-packages(); } }
+    }
+    CheckBox { text: @tr("Show system apps"); checked <=> Player.show-system-apps; toggled => { Api.load-packages(); } }
+    Labeled { label: @tr("Open link / deep link"); HorizontalLayout { spacing: 6px; LineEdit { text <=> Player.deep-link; accepted => { Api.open-link(); } } Btn { icon: Icons.link; has-icon: true; clicked => { Api.open-link(); } } } }
+    Divider { }
+    if Player.packages.length == 0 && !Player.packages-loading: Text { text: @tr("Click refresh to list apps."); color: Theme.text-3; font-size: Theme.font-sm; }
+    for p in Player.packages: Rectangle {
+        height: 38px;
+        border-radius: 8px;
+        background: pa.has-hover ? Theme.surface-hover : transparent;
+        pa := TouchArea { }
+        HorizontalLayout {
+            padding-left: 8px;
+            spacing: 2px;
+            Icon { source: Icons.package; size: 14px; color: Theme.text-3; y: (parent.height - self.height) / 2; }
+            Text { text: p; font-size: Theme.font-xs; color: Theme.text; overflow: elide; vertical-alignment: center; horizontal-stretch: 1; }
+            IconBtn { icon: Icons.play; tip: @tr("Open"); size: 28px; tip-left: true; clicked => { Api.app-action("open", p); } }
+            IconBtn { icon: Icons.stop; tip: @tr("Force stop"); size: 28px; tip-left: true; clicked => { Api.app-action("stop", p); } }
+            IconBtn { icon: Icons.eraser; tip: @tr("Clear data"); size: 28px; tip-left: true; clicked => { Api.app-action("clear", p); } }
+            IconBtn { icon: Icons.trash; tip: @tr("Uninstall"); size: 28px; tint: Theme.danger; tip-left: true; clicked => { Api.app-action("uninstall", p); } }
+        }
+    }
+}
+
+component FilesPanel inherits VerticalLayout {
+    spacing: 12px;
+    PanelTitle { title: @tr("Files"); subtitle: @tr("Send files from your computer to the device, with progress."); }
+    Labeled { label: @tr("Destination folder"); LineEdit { text <=> Player.remote-dir; } }
+    HorizontalLayout { spacing: 6px; for d in ["/sdcard/Download", "/sdcard/DCIM", "/sdcard/Documents"]: QuickBtn { text: d; clicked => { Player.remote-dir = d; } } }
+    Btn { text: @tr("Send file…"); variant: "primary"; icon: Icons.upload; has-icon: true; clicked => { Api.push-file(); } }
+    Btn { text: @tr("Install APK…"); icon: Icons.package; has-icon: true; clicked => { Api.install-apk(); } }
+    Divider { }
+    PanelTitle { title: @tr("Clipboard"); subtitle: @tr("Share text between your computer and Android."); }
+    TextEdit { height: 80px; text <=> Player.clipboard; wrap: word-wrap; }
+    HorizontalLayout { spacing: 6px; Btn { text: @tr("Send to Android"); small: true; variant: "soft"; clicked => { Api.clipboard-send(); } } Btn { text: @tr("Read from Android"); small: true; clicked => { Api.clipboard-get(); } } }
+}
+
+component SnapshotsPanel inherits VerticalLayout {
+    spacing: 12px;
+    PanelTitle { title: @tr("Snapshots"); subtitle: @tr("Save the full state and return to it in seconds."); }
+    HorizontalLayout { spacing: 6px; LineEdit { text <=> Player.snapshot-name; placeholder-text: @tr("name"); } Btn { text: @tr("Save"); variant: "primary"; icon: Icons.save; has-icon: true; clicked => { Api.snapshot-action("save", Player.snapshot-name); } } }
+    HorizontalLayout { Text { text: @tr("Saved"); font-weight: 700; color: Theme.text; } Rectangle { } IconBtn { icon: Icons.refresh; size: 28px; clicked => { Api.load-snapshots(); } } }
+    if Player.snapshots.length == 0: Text { text: @tr("No snapshots saved."); color: Theme.text-3; font-size: Theme.font-sm; }
+    for s in Player.snapshots: Rectangle {
+        height: 44px;
+        border-radius: 10px;
+        background: Theme.surface-2;
+        border-width: 1px;
+        border-color: Theme.border;
+        HorizontalLayout {
+            padding-left: 12px;
+            spacing: 4px;
+            Icon { source: Icons.save; size: 15px; color: Theme.primary; y: (parent.height - self.height) / 2; }
+            Text { text: s; color: Theme.text; font-weight: 600; vertical-alignment: center; horizontal-stretch: 1; overflow: elide; }
+            Btn { text: @tr("Restore"); small: true; variant: "soft"; y: (parent.height - self.height) / 2; clicked => { Api.snapshot-action("load", s); } }
+            IconBtn { icon: Icons.trash; size: 30px; tint: Theme.danger; tip-left: true; tip: @tr("Delete"); y: (parent.height - self.height) / 2; clicked => { Api.snapshot-action("delete", s); } }
+        }
+    }
+}
+
+component LogcatPanel inherits VerticalLayout {
+    spacing: 8px;
+    PanelTitle { title: @tr("Logcat"); subtitle: @tr("Live stream (last 800 lines)."); }
+    HorizontalLayout {
+        spacing: 6px;
+        LineEdit { text <=> Player.logcat-filter; placeholder-text: @tr("Filter by tag or text"); }
+        ComboBox { width: 86px; model: [@tr("All"), @tr("D+"), @tr("I+"), @tr("W+"), @tr("E+")]; current-index <=> Player.logcat-level; }
+    }
+    HorizontalLayout {
+        spacing: 6px;
+        Btn { text: Player.logcat-paused ? @tr("Resume") : @tr("Pause"); small: true; icon: Player.logcat-paused ? Icons.play : Icons.pause; has-icon: true; clicked => { Player.logcat-paused = !Player.logcat-paused; } }
+        Btn { text: @tr("Clear"); small: true; clicked => { Api.logcat-clear(); } }
+        Btn { text: @tr("Export"); small: true; icon: Icons.download; has-icon: true; clicked => { Api.logcat-export(); } }
+    }
+    Rectangle {
+        height: 520px;
+        border-radius: 10px;
+        background: #0F1117;
+        ListView {
+            for l in Player.logcat: HorizontalLayout {
+                padding-left: 8px;
+                spacing: 6px;
+                Text {
+                    text: l.level;
+                    width: 12px;
+                    font-family: "Menlo";
+                    font-size: 10px;
+                    font-weight: 700;
+                    color: l.level == "E" || l.level == "F" ? #F87171 : l.level == "W" ? #FBBF24 : l.level == "I" ? #60A5FA : l.level == "D" ? #A3E635 : #9CA3AF;
+                }
+                Text { text: l.tag; width: 90px; overflow: elide; font-family: "Menlo"; font-size: 10px; color: #C4B5FD; }
+                Text { text: l.text; font-family: "Menlo"; font-size: 10px; color: #E5E7EB; overflow: elide; horizontal-stretch: 1; }
+            }
+        }
+    }
+}
+
+component ShellPanel inherits VerticalLayout {
+    spacing: 8px;
+    PanelTitle { title: @tr("Shell"); subtitle: @tr("Run adb shell commands."); }
+    Rectangle {
+        height: 440px;
+        border-radius: 10px;
+        background: #0F1117;
+        TextEdit {
+            text: Player.shell-output;
+            read-only: true;
+            font-size: 11px;
+        }
+    }
+    HorizontalLayout {
+        spacing: 6px;
+        LineEdit { text <=> Player.shell-cmd; placeholder-text: @tr("e.g. getprop ro.build.version.release"); accepted => { Api.run-shell(); } }
+        Btn { icon: Icons.terminal; has-icon: true; variant: "primary"; clicked => { Api.run-shell(); } }
+    }
+    HorizontalLayout { spacing: 6px; for c in ["pm list users", "dumpsys battery", "df -h", "ip addr"]: QuickBtn { text: c; clicked => { Player.shell-cmd = c; Api.run-shell(); } } }
+}
+
+component ProxyPanel inherits VerticalLayout {
+    spacing: 12px;
+    PanelTitle { title: @tr("Proxy and language"); subtitle: @tr("Android global HTTP proxy (useful with Charles/mitmproxy). 10.0.2.2 is your computer."); }
+    Labeled { label: @tr("Proxy (host:port)"); LineEdit { text <=> Player.proxy; } }
+    HorizontalLayout { spacing: 6px; Btn { text: @tr("Enable proxy"); variant: "primary"; small: true; clicked => { Api.apply-proxy(true); } } Btn { text: @tr("Disable"); small: true; clicked => { Api.apply-proxy(false); } } }
+    Divider { }
+    Labeled {
+        label: @tr("System language");
+        ComboBox { model: [@tr("Português (Brasil)"), @tr("English (US)"), @tr("Español"), @tr("Français"), @tr("Deutsch"), @tr("Italiano"), @tr("日本語"), @tr("中文")]; current-index <=> Player.locale-index; }
+    }
+    Btn { text: @tr("Apply language"); small: true; clicked => { Api.apply-locale(); } }
+}
+
+// Item da toolbar que abre um painel.
+component Tool inherits IconBtn {
+    in property <string> id;
+    size: 36px;
+    selected: Player.panel == id;
+    tip-left: true;
+    clicked => {
+        Player.panel = Player.panel == id ? "" : id;
+        if (Player.panel == "") { Player.panel-expanded = false; }
+        if (id == "apps" && Player.packages.length == 0) { Api.load-packages(); }
+        if (id == "snapshots") { Api.load-snapshots(); }
+        if (id == "perf") { Api.perf-open(); }
+    }
+}
+
+component ToolSep inherits Rectangle {
+    height: 9px;
+    Rectangle { y: 4px; height: 1px; width: 30px; background: Theme.border; }
+}
+
+// Tela do Android com entrada (toque, teclado, rolagem).
+component DeviceScreen inherits Rectangle {
+    in property <bool> bezel: true;
+    in property <length> pad: 24px;
+    in property <length> bottom-space: 0px;
+    in property <bool> mini: false;
+    property <length> frame: bezel ? 11px : 0px;
+    property <float> sc: max(0.01, min((self.width - 2 * pad - 2 * frame) / (Player.screen-w * 1px), (self.height - 2 * pad - 2 * frame - bottom-space) / (Player.screen-h * 1px)));
+    out property <length> sw: Player.screen-w * 1px * sc;
+    out property <length> sh: Player.screen-h * 1px * sc;
+    Rectangle {
+        width: root.sw + 2 * root.frame;
+        height: root.sh + 2 * root.frame;
+        y: (parent.height - root.bottom-space - self.height) / 2;
+        border-radius: root.bezel ? 34px : (root.mini ? 12px : 6px);
+        background: root.bezel ? #11131B : transparent;
+        drop-shadow-blur: root.bezel || root.mini ? 36px : 0px;
+        drop-shadow-offset-y: root.bezel ? 16px : 4px;
+        drop-shadow-color: root.bezel || root.mini ? #11131B55 : transparent;
+        Rectangle {
+            width: root.sw;
+            height: root.sh;
+            border-radius: root.bezel ? 24px : (root.mini ? 12px : 6px);
+            background: #000;
+            clip: true;
+            Image { width: parent.width; height: parent.height; source: Player.screen; image-fit: fill; }
+            if !Player.connected: VerticalLayout {
+                alignment: center;
+                spacing: 12px;
+                HorizontalLayout { alignment: center; Spinner { width: 34px; height: 34px; indeterminate: true; } }
+                if !root.mini: Text { text: Player.status; color: #C9CDDA; horizontal-alignment: center; wrap: word-wrap; }
+            }
+            fs := FocusScope {
+                key-pressed(e) => {
+                    if (e.text == Key.Escape && Player.fullscreen) { Api.toggle-fullscreen(); return accept; }
+                    if (e.text == Key.Escape && Player.panel-expanded) { Player.panel-expanded = false; return accept; }
+                    Api.key(e.text, true);
+                    accept
+                }
+                key-released(e) => { Api.key(e.text, false); accept }
+                TouchArea {
+                    mouse-cursor: crosshair;
+                    pointer-event(e) => {
+                        if (e.kind == PointerEventKind.down) { fs.focus(); Api.pointer(self.mouse-x / self.width, self.mouse-y / self.height, true); }
+                        if (e.kind == PointerEventKind.up) { Api.pointer(self.mouse-x / self.width, self.mouse-y / self.height, false); }
+                    }
+                    moved => { if (self.pressed) { Api.pointer(self.mouse-x / self.width, self.mouse-y / self.height, true); } }
+                    scroll-event(e) => { Api.scroll(e.delta-y / 1px); accept }
+                }
+            }
+        }
+    }
+}
+
+component NavBar inherits Rectangle {
+    height: 44px;
+    width: 260px;
+    border-radius: 22px;
+    background: Theme.surface;
+    border-width: 1px;
+    border-color: Theme.border;
+    drop-shadow-blur: 12px;
+    drop-shadow-color: Theme.shadow;
+    HorizontalLayout {
+        padding-left: 10px;
+        padding-right: 10px;
+        alignment: space-around;
+        IconBtn { icon: Icons.arrow-left; tip: @tr("Back"); size: 34px; y: 5px; clicked => { Api.nav("back"); } }
+        IconBtn { icon: Icons.home; tip: @tr("Home"); size: 34px; y: 5px; clicked => { Api.nav("home"); } }
+        IconBtn { icon: Icons.recents; tip: @tr("Recents"); size: 34px; y: 5px; clicked => { Api.nav("recents"); } }
+        IconBtn { icon: Icons.rotate; tip: @tr("Rotate"); size: 34px; y: 5px; clicked => { Api.rotate(true); } }
+    }
+}
+
+// Conteúdo do painel selecionado, com cabeçalho (expandir/fechar).
+component PanelHost inherits Rectangle {
+    in property <bool> expanded;
+    background: Theme.surface;
+    border-width: 1px;
+    border-color: Theme.border;
+    VerticalLayout {
+        HorizontalLayout {
+            padding: 8px;
+            padding-left: 14px;
+            spacing: 4px;
+            height: 46px;
+            Rectangle { }
+            IconBtn {
+                icon: root.expanded ? Icons.panel-collapse : Icons.panel-expand;
+                tip: root.expanded ? @tr("Collapse panel") : @tr("Expand panel");
+                size: 30px;
+                tip-left: true;
+                clicked => { Player.panel-expanded = !Player.panel-expanded; }
+            }
+            IconBtn { icon: Icons.x; tip: @tr("Close"); size: 30px; tip-left: true; clicked => { Player.panel = ""; Player.panel-expanded = false; } }
+        }
+        // Painéis grandes (rede, desempenho, logcat) ocupam toda a altura.
+        if Player.panel == "network": NetworkPanel { vertical-stretch: 1; expanded: root.expanded; }
+        if Player.panel == "perf": PerfPanel { vertical-stretch: 1; expanded: root.expanded; }
+        if Player.panel != "network" && Player.panel != "perf": ScrollView {
+            vertical-stretch: 1;
+            content-height: pv.preferred-height + 24px;
+            pv := VerticalLayout {
+                x: 18px;
+                width: min(parent.visible-width - 36px, root.expanded ? 900px : 400px);
+                if Player.panel == "battery": BatteryPanel { }
+                if Player.panel == "gps": GpsPanel { }
+                if Player.panel == "network-sim": NetworkSimPanel { }
+                if Player.panel == "phone": PhonePanel { }
+                if Player.panel == "sensors": SensorsPanel { }
+                if Player.panel == "biometrics": BiometricsPanel { }
+                if Player.panel == "ids": IdentifiersPanel { }
+                if Player.panel == "display": DisplayPanel { }
+                if Player.panel == "camera": CameraPanel { }
+                if Player.panel == "apps": AppsPanel { }
+                if Player.panel == "files": FilesPanel { }
+                if Player.panel == "snapshots": SnapshotsPanel { }
+                if Player.panel == "logcat": LogcatPanel { }
+                if Player.panel == "shell": ShellPanel { }
+                if Player.panel == "proxy": ProxyPanel { }
+            }
+        }
+    }
+}
+
+component Toolbar inherits Rectangle {
+    in property <bool> nav-in-toolbar;
+    width: 58px;
+    background: Theme.surface;
+    border-width: 1px;
+    border-color: Theme.border;
+    ScrollView {
+        content-height: tb.preferred-height;
+        tb := VerticalLayout {
+            width: 58px;
+            padding: 8px;
+            padding-left: 11px;
+            spacing: 2px;
+            alignment: start;
+            IconBtn { icon: Icons.arrow-left; tip: @tr("Back to Devices"); tip-left: true; size: 36px; clicked => { Api.close-player(); } }
+            Rectangle {
+                height: 18px;
+                Rectangle {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 4px;
+                    background: Player.connected ? Theme.success : Theme.warning;
+                    opacity: Player.connected ? 1 : 0.35 + 0.65 * abs(sin(animation-tick() / 700ms * 180deg));
+                }
+            }
+            ToolSep { }
+            IconBtn { icon: Icons.image; tip: @tr("Screenshot"); tip-left: true; size: 36px; clicked => { Api.screenshot(); } }
+            IconBtn {
+                icon: Player.recording ? Icons.stop : Icons.video;
+                tip: Player.recording ? @tr("Stop recording ({})", Player.record-time) : @tr("Record screen");
+                tint: Player.recording ? Theme.danger : Theme.text-2;
+                selected: Player.recording;
+                tip-left: true;
+                size: 36px;
+                clicked => { Api.toggle-record(); }
+            }
+            IconBtn { icon: Icons.package; tip: @tr("Install APK"); tip-left: true; size: 36px; clicked => { Api.install-apk(); } }
+            IconBtn { icon: Icons.power; tip: @tr("Power off device"); tint: Theme.danger; tip-left: true; size: 36px; clicked => { Api.stop(Player.device-id); Api.close-player(); } }
+            ToolSep { }
+            IconBtn { icon: Icons.zap; tip: @tr("Power button"); tip-left: true; size: 36px; clicked => { Api.nav("power"); } }
+            IconBtn { icon: Icons.volume-up; tip: @tr("Volume +"); tip-left: true; size: 36px; clicked => { Api.nav("vol-up"); } }
+            IconBtn { icon: Icons.volume-down; tip: @tr("Volume −"); tip-left: true; size: 36px; clicked => { Api.nav("vol-down"); } }
+            if root.nav-in-toolbar: IconBtn { icon: Icons.rotate; tip: @tr("Rotate"); tip-left: true; size: 36px; clicked => { Api.rotate(true); } }
+            if root.nav-in-toolbar: IconBtn { icon: Icons.arrow-left; tip: @tr("Back (Android)"); tip-left: true; size: 36px; clicked => { Api.nav("back"); } }
+            if root.nav-in-toolbar: IconBtn { icon: Icons.home; tip: @tr("Home"); tip-left: true; size: 36px; clicked => { Api.nav("home"); } }
+            if root.nav-in-toolbar: IconBtn { icon: Icons.recents; tip: @tr("Recents"); tip-left: true; size: 36px; clicked => { Api.nav("recents"); } }
+            ToolSep { }
+            Tool { id: "network"; icon: Icons.network; tip: @tr("Network inspector"); }
+            Tool { id: "perf"; icon: Icons.gauge; tip: @tr("Performance"); }
+            Tool { id: "logcat"; icon: Icons.file-text; tip: @tr("Logcat"); }
+            Tool { id: "shell"; icon: Icons.terminal; tip: @tr("Shell"); }
+            ToolSep { }
+            Tool { id: "battery"; icon: Icons.battery; tip: @tr("Battery"); }
+            Tool { id: "gps"; icon: Icons.map-pin; tip: @tr("GPS"); }
+            Tool { id: "network-sim"; icon: Icons.wifi; tip: @tr("Connectivity"); }
+            Tool { id: "phone"; icon: Icons.phone; tip: @tr("Phone and SMS"); }
+            Tool { id: "sensors"; icon: Icons.cpu; tip: @tr("Sensors"); }
+            Tool { id: "biometrics"; icon: Icons.fingerprint; tip: @tr("Biometrics"); }
+            Tool { id: "camera"; icon: Icons.camera; tip: @tr("Cameras"); }
+            Tool { id: "display"; icon: Icons.sun; tip: @tr("Display"); }
+            Tool { id: "ids"; icon: Icons.id-card; tip: @tr("Identifiers"); }
+            ToolSep { }
+            Tool { id: "apps"; icon: Icons.layout-grid; tip: @tr("Apps"); }
+            Tool { id: "files"; icon: Icons.upload; tip: @tr("Files and clipboard"); }
+            Tool { id: "snapshots"; icon: Icons.save; tip: @tr("Snapshots"); }
+            Tool { id: "proxy"; icon: Icons.globe; tip: @tr("Proxy and language"); }
+            ToolSep { }
+            IconBtn { icon: Icons.shrink; tip: @tr("Fit window to device"); tip-left: true; size: 36px; clicked => { Api.fit-window(); } }
+            IconBtn { icon: Icons.maximize; tip: Player.fullscreen ? @tr("Exit full screen (Esc)") : @tr("Full screen"); selected: Player.fullscreen; tip-left: true; size: 36px; clicked => { Api.toggle-fullscreen(); } }
+            IconBtn {
+                icon: Player.panel-expanded ? Icons.panel-collapse : Icons.panel-expand;
+                tip: Player.panel-expanded ? @tr("Collapse panel") : @tr("Expand panel");
+                selected: Player.panel-expanded;
+                enabled: Player.panel != "";
+                tip-left: true;
+                size: 36px;
+                clicked => { Player.panel-expanded = !Player.panel-expanded; }
+            }
+        }
+    }
+}
+
+export component PlayerPage inherits Rectangle {
+    background: Player.fullscreen ? #000 : Theme.bg;
+    // Breakpoints: largo (moldura + painel ao lado), médio (painel sobreposto), estreito (sem moldura).
+    property <length> content-w: self.width - (Player.fullscreen ? 0px : 58px);
+    property <bool> wide: content-w >= 1020px;
+    property <bool> narrow: content-w < 640px;
+    property <bool> side-panel: Player.panel != "" && !Player.panel-expanded && wide && !Player.fullscreen;
+    property <bool> overlay-panel: Player.panel != "" && !Player.panel-expanded && !wide && !Player.fullscreen;
+    property <bool> show-nav: wide && !Player.fullscreen && !Player.panel-expanded;
+
+    HorizontalLayout {
+        Rectangle {
+            horizontal-stretch: 1;
+            if !Player.panel-expanded: DeviceScreen {
+                width: parent.width;
+                height: parent.height;
+                bezel: root.wide && !Player.fullscreen;
+                pad: Player.fullscreen ? 0px : (root.narrow ? 4px : 20px);
+                bottom-space: root.show-nav ? 64px : 0px;
+            }
+            if root.show-nav && !Player.panel-expanded: NavBar {
+                x: (parent.width - self.width) / 2;
+                y: parent.height - 56px;
+            }
+            if Player.panel-expanded: HorizontalLayout {
+                width: parent.width;
+                height: parent.height;
+                PanelHost { horizontal-stretch: 1; expanded: true; }
+                // Miniatura viva da tela, em coluna própria.
+                Rectangle {
+                    width: min(260px, root.width * 0.22);
+                    background: Theme.surface-2;
+                    DeviceScreen { width: parent.width; height: parent.height; bezel: false; pad: 12px; mini: true; }
+                }
+            }
+        }
+        if root.side-panel: PanelHost { width: 360px; expanded: false; }
+        if !Player.fullscreen: Toolbar { nav-in-toolbar: !root.show-nav; }
+    }
+
+    // Painel sobreposto (janela média/estreita).
+    if root.overlay-panel: Rectangle {
+        x: root.width - 58px - self.width;
+        width: min(360px, root.width - 58px);
+        height: root.height;
+        drop-shadow-blur: 30px;
+        drop-shadow-color: #1B214040;
+        PanelHost { width: parent.width; height: parent.height; expanded: false; }
+    }
+
+    // Tela cheia: toolbar aparece ao passar o mouse na borda direita.
+    if Player.fullscreen: edge := TouchArea {
+        x: root.width - self.width;
+        width: self.has-hover ? 58px : 18px;
+        if edge.has-hover: Toolbar { width: 58px; height: edge.height; nav-in-toolbar: true; }
+    }
+}
