@@ -1,0 +1,149 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { Store, Api, Prefs } from "store.slint";
+import { Btn, IconBtn, Chip, Card, Icon, Divider, FieldRow, SectionTitle, Segmented } from "widgets.slint";
+import { LineEdit, SpinBox, ComboBox, Switch, ScrollView } from "std-widgets.slint";
+
+component PathRow inherits FieldRow {
+    in property <string> key;
+    in-out property <string> value;
+    in property <bool> valid;
+    in property <string> placeholder: @tr("Detect automatically");
+    LineEdit {
+        width: 340px;
+        text <=> root.value;
+        placeholder-text: root.placeholder;
+        edited => { Prefs.dirty = true; Api.validate-paths(); }
+    }
+    Rectangle {
+        width: 22px;
+        Icon { source: root.valid ? Icons.check : Icons.alert; color: root.valid ? Theme.success : Theme.warning; size: 16px; }
+    }
+    Btn { text: @tr("Browse…"); small: true; y: (parent.height - self.height) / 2; clicked => { Api.browse(root.key); } }
+}
+
+component Section inherits Card {
+    in property <string> title;
+    in property <string> subtitle;
+    in property <image> icon;
+    height: lay.preferred-height;
+    lay := VerticalLayout {
+        padding: 20px;
+        spacing: 12px;
+        HorizontalLayout {
+            spacing: 12px;
+            Rectangle {
+                width: 34px;
+                height: 34px;
+                border-radius: 9px;
+                background: Theme.primary-soft;
+                Icon { source: root.icon; color: Theme.primary; size: 17px; }
+            }
+            SectionTitle { title: root.title; subtitle: root.subtitle; }
+        }
+        Divider { }
+        @children
+    }
+}
+
+export component SettingsPage inherits VerticalLayout {
+    padding: 28px;
+    padding-top: 22px;
+    spacing: 18px;
+    HorizontalLayout {
+        spacing: 10px;
+        VerticalLayout {
+            alignment: center;
+            spacing: 2px;
+            Text { text: @tr("Settings"); font-size: Theme.font-2xl; font-weight: 800; color: Theme.text; }
+            Text { text: Prefs.dirty ? @tr("You have unsaved changes") : @tr("Saved to settings.toml"); font-size: Theme.font-sm; color: Prefs.dirty ? Theme.warning : Theme.text-3; }
+        }
+        Rectangle { }
+        Btn { text: @tr("Restore defaults"); variant: "ghost"; y: (parent.height - self.height) / 2; clicked => { Api.reset-prefs(); } }
+        Btn { text: @tr("Save"); variant: "primary"; icon: Icons.save; has-icon: true; enabled: Prefs.dirty; y: (parent.height - self.height) / 2; clicked => { Api.save-prefs(); } }
+    }
+    ScrollView {
+        vertical-stretch: 1;
+        content-height: col.preferred-height + 20px;
+        col := VerticalLayout {
+            width: parent.visible-width - 16px;
+            spacing: 16px;
+
+            Section {
+                title: @tr("Appearance");
+                subtitle: @tr("Light theme is the default.");
+                icon: Icons.sun;
+                FieldRow {
+                    label: @tr("Theme");
+                    Segmented { items: [@tr("Light"), @tr("Dark"), @tr("System")]; selected <=> Prefs.theme-index; changed(i) => { Prefs.dirty = true; Api.set-theme(i); } }
+                }
+                FieldRow {
+                    label: @tr("Language");
+                    hint: @tr("Applied instantly across the whole interface");
+                    ComboBox { width: 220px; model: Store.language-names; current-index <=> Prefs.language-index; selected => { Prefs.dirty = true; Api.set-language(Prefs.language-index); } }
+                }
+                FieldRow { label: @tr("Confirm destructive actions"); hint: @tr("Asks for confirmation before deleting or restoring"); Switch { checked <=> Prefs.confirm-destructive; toggled => { Prefs.dirty = true; } } }
+            }
+
+            Section {
+                title: @tr("Paths");
+                subtitle: @tr("Leave blank to detect automatically.");
+                icon: Icons.folder;
+                PathRow { label: @tr("Android SDK"); hint: @tr("Contains emulator/ and platform-tools/"); key: "sdk"; value <=> Prefs.sdk-path; valid: Prefs.sdk-valid; }
+                PathRow { label: @tr("Devices folder (AVD)"); hint: @tr("Default: ~/.android/avd"); key: "avd"; value <=> Prefs.avd-path; valid: Prefs.avd-valid; }
+                PathRow { label: @tr("QEMU"); hint: @tr("Folder with qemu-system-* and qemu-img (optional)"); key: "qemu"; value <=> Prefs.qemu-path; valid: Prefs.qemu-valid; placeholder: @tr("Search in PATH"); }
+                PathRow { label: @tr("Captures"); hint: @tr("Screenshots and screen recordings"); key: "captures"; value <=> Prefs.captures-path; valid: true; placeholder: @tr("~/Pictures/EmuZip"); }
+            }
+
+            Section {
+                title: @tr("Emulation");
+                subtitle: @tr("How devices are started and displayed.");
+                icon: Icons.monitor;
+                FieldRow { label: @tr("Embedded display in EmuZip"); hint: @tr("When off, opens the emulator's own window"); Switch { checked <=> Prefs.embedded; toggled => { Prefs.dirty = true; } } }
+                FieldRow { label: @tr("Display frame rate"); ComboBox { width: 160px; model: [@tr("15 fps"), @tr("24 fps"), @tr("30 fps"), @tr("60 fps")]; current-index <=> Prefs.fps-index; selected => { Prefs.dirty = true; } } }
+                FieldRow { label: @tr("Rendering (GPU)"); ComboBox { width: 220px; model: [@tr("Automatic"), @tr("Host GPU"), @tr("Software (SwiftShader)"), @tr("ANGLE")]; current-index <=> Prefs.gpu-index; selected => { Prefs.dirty = true; } } }
+                FieldRow { label: @tr("Fit window when opening the player"); hint: @tr("Sizes the window to the device screen"); Switch { checked <=> Prefs.auto-fit; toggled => { Prefs.dirty = true; } } }
+                FieldRow { label: @tr("Always cold boot"); hint: @tr("Skips the quick-boot snapshot on start"); Switch { checked <=> Prefs.cold-boot; toggled => { Prefs.dirty = true; } } }
+                FieldRow { label: @tr("Audio"); hint: @tr("Enables device sound and microphone"); Switch { checked <=> Prefs.audio; toggled => { Prefs.dirty = true; } } }
+                FieldRow {
+                    label: @tr("Hardware acceleration");
+                    hint: Store.accel-status;
+                    Chip { text: Store.accel-ok ? @tr("Available") : @tr("Unavailable"); kind: Store.accel-ok ? "success" : "warning"; dot: true; y: (parent.height - self.height) / 2; }
+                }
+            }
+
+            Section {
+                title: @tr("Defaults for new devices");
+                icon: Icons.phone-device;
+                FieldRow {
+                    label: @tr("Default profile");
+                    ComboBox {
+                        width: 220px;
+                        model: Store.profile-names;
+                        current-index <=> Prefs.profile-index;
+                        selected => { Prefs.dirty = true; }
+                    }
+                }
+                FieldRow { label: @tr("RAM (MB)"); SpinBox { width: 140px; minimum: 1024; maximum: 16384; step-size: 512; value <=> Prefs.ram; edited => { Prefs.dirty = true; } } }
+                FieldRow { label: @tr("Processors"); SpinBox { width: 140px; minimum: 1; maximum: 16; value <=> Prefs.cpus; edited => { Prefs.dirty = true; } } }
+            }
+
+            Section {
+                title: @tr("Network and downloads");
+                icon: Icons.globe;
+                FieldRow { label: @tr("Download proxy"); hint: @tr("e.g. http://user:password@proxy:3128"); LineEdit { width: 340px; text <=> Prefs.proxy; placeholder-text: @tr("No proxy"); edited => { Prefs.dirty = true; } } }
+                FieldRow { label: @tr("Repository mirror"); hint: @tr("Alternative base URL for sys-img"); LineEdit { width: 340px; text <=> Prefs.mirror; placeholder-text: @tr("https://dl.google.com/android/repository/sys-img"); edited => { Prefs.dirty = true; } } }
+                FieldRow { label: @tr("Download cache"); hint: Prefs.cache-size; Btn { text: @tr("Clear cache"); small: true; icon: Icons.trash; has-icon: true; clicked => { Api.clear-cache(); } } }
+            }
+
+            Section {
+                title: @tr("Diagnostics and about");
+                icon: Icons.info;
+                FieldRow { label: @tr("Version"); Text { text: @tr("EmuZip ") + Store.version + @tr(" · Rust + Slint"); color: Theme.text-2; vertical-alignment: center; } }
+                FieldRow { label: @tr("Backends"); Text { text: Store.backends; color: Theme.text-2; vertical-alignment: center; } }
+                FieldRow { label: @tr("Android SDK"); Text { text: Store.sdk-status; color: Store.sdk-ok ? Theme.success : Theme.danger; vertical-alignment: center; overflow: elide; max-width: 420px; } }
+                FieldRow { label: @tr("Export diagnostic logs"); hint: @tr("Creates a .zip with settings, versions and emulator logs"); Btn { text: @tr("Export…"); small: true; icon: Icons.download; has-icon: true; clicked => { Api.export-diagnostics(); } } }
+            }
+        }
+    }
+}
