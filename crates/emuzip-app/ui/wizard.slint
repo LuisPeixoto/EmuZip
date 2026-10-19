@@ -1,0 +1,289 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { Store, Api, Wizard } from "store.slint";
+import { Btn, IconBtn, Chip, Icon, Divider, FieldRow, DeviceShape, SectionTitle, Segmented } from "widgets.slint";
+import { LineEdit, SpinBox, ComboBox, Switch, ScrollView, CheckBox } from "std-widgets.slint";
+
+component StepDot inherits HorizontalLayout {
+    in property <int> n;
+    in property <string> label;
+    spacing: 8px;
+    property <bool> done: Wizard.step > n;
+    property <bool> current: Wizard.step == n;
+    Rectangle {
+        width: 26px;
+        height: 26px;
+        border-radius: 13px;
+        background: done || current ? Theme.primary : Theme.surface-hover;
+        animate background { duration: 200ms; }
+        if done: Icon { source: Icons.check; color: white; size: 14px; }
+        if !done: Text { text: n + 1; color: current ? white : Theme.text-3; font-size: Theme.font-sm; font-weight: 700; }
+    }
+    Text { text: root.label; color: current ? Theme.text : Theme.text-3; font-weight: current ? 700 : 500; vertical-alignment: center; }
+}
+
+component Selectable inherits Rectangle {
+    in property <bool> selected;
+    callback clicked;
+    border-radius: Theme.radius;
+    border-width: selected ? 2px : 1px;
+    border-color: selected ? Theme.primary : (sta.has-hover ? Theme.border-strong : Theme.border);
+    background: selected ? Theme.primary-soft : Theme.surface;
+    animate border-color, background { duration: 120ms; }
+    sta := TouchArea { mouse-cursor: pointer; clicked => { root.clicked(); } }
+    @children
+}
+
+component ImageStep inherits VerticalLayout {
+    spacing: 12px;
+    SectionTitle { title: @tr("Choose the Android image"); subtitle: @tr("Images with Google Play include the Play Store. Download other versions in the Images tab."); }
+    if Store.installed-images.length == 0: Rectangle {
+        height: 120px;
+        border-radius: Theme.radius;
+        background: Theme.warning-soft;
+        VerticalLayout {
+            alignment: center;
+            spacing: 10px;
+            Text { text: @tr("No images installed"); color: Theme.warning; font-weight: 700; horizontal-alignment: center; }
+            HorizontalLayout { alignment: center; Btn { text: @tr("Download images"); variant: "primary"; icon: Icons.download; has-icon: true; clicked => { Wizard.open = false; Store.page = 1; Api.load-catalog(); } } }
+        }
+    }
+    ScrollView {
+        vertical-stretch: 1;
+        content-height: lst.preferred-height;
+        lst := VerticalLayout {
+            width: parent.visible-width - 4px;
+            spacing: 8px;
+            for img[i] in Store.installed-images: Selectable {
+                height: 58px;
+                selected: Wizard.image-index == i;
+                clicked => { Wizard.image-index = i; }
+                HorizontalLayout {
+                    padding-left: 14px;
+                    padding-right: 14px;
+                    spacing: 12px;
+                    Rectangle {
+                        width: 34px;
+                        height: 34px;
+                        y: (parent.height - self.height) / 2;
+                        border-radius: 9px;
+                        background: Theme.brand;
+                        Text { text: img.api; color: white; font-weight: 800; font-size: Theme.font-sm; }
+                    }
+                    VerticalLayout {
+                        alignment: center;
+                        Text { text: img.title; font-weight: 700; color: Theme.text; }
+                        Text { text: img.subtitle; font-size: Theme.font-xs; color: Theme.text-3; }
+                    }
+                    Rectangle { }
+                    if img.tag == "google_apis_playstore": Chip { text: @tr("Play Store"); kind: "success"; y: (parent.height - self.height) / 2; }
+                    if Wizard.image-index == i: Icon { source: Icons.check; color: Theme.primary; y: (parent.height - self.height) / 2; }
+                }
+            }
+        }
+    }
+}
+
+component ProfileStep inherits VerticalLayout {
+    spacing: 12px;
+    SectionTitle { title: @tr("Hardware profile"); subtitle: @tr("Sets screen, density and features. Everything can be adjusted in the next step."); }
+    ScrollView {
+        vertical-stretch: 1;
+        property <int> cols: 3;
+        content-height: g.preferred-height;
+        g := GridLayout {
+            width: parent.visible-width - 4px;
+            spacing: 10px;
+            for p[i] in Store.profiles: Selectable {
+                row: floor(i / 3);
+                col: mod(i, 3);
+                height: 86px;
+                selected: Wizard.profile-index == i;
+                clicked => { Api.pick-profile(i); }
+                HorizontalLayout {
+                    padding: 12px;
+                    spacing: 12px;
+                    DeviceShape { box: 52px; aspect: p.width / p.height; kind: p.kind; on: Wizard.profile-index == i; y: (parent.height - self.height) / 2; }
+                    VerticalLayout {
+                        alignment: center;
+                        spacing: 2px;
+                        Text { text: p.name; font-weight: 700; color: Theme.text; overflow: elide; }
+                        Text { text: p.maker + " · " + (p.kind == "tablet" ? @tr("Tablet") : p.kind == "tv" ? @tr("TV") : p.kind == "wear" ? @tr("Watch") : @tr("Phone")); font-size: Theme.font-xs; color: Theme.text-3; }
+                        Text { text: p.width + "×" + p.height + " · " + p.density + " dpi"; font-size: Theme.font-xs; color: Theme.text-3; }
+                    }
+                }
+            }
+        }
+    }
+}
+
+component HardwareStep inherits ScrollView {
+    content-height: f.preferred-height;
+    f := VerticalLayout {
+        width: parent.visible-width - 12px;
+        spacing: 10px;
+        SectionTitle { title: @tr("Hardware and features"); subtitle: @tr("Higher values make Android faster but use more of your computer."); }
+        FieldRow { label: @tr("Name"); LineEdit { width: 260px; text <=> Wizard.name; } }
+        Divider { }
+        FieldRow { label: @tr("Processors"); hint: @tr("Virtual cores"); SpinBox { width: 140px; minimum: 1; maximum: 16; value <=> Wizard.cpus; } }
+        FieldRow {
+            label: @tr("RAM memory");
+            hint: @tr("In MB");
+            ComboBox {
+                width: 160px;
+                model: ["1536", "2048", "3072", "4096", "6144", "8192", "12288"];
+                current-value: Wizard.ram;
+                selected(v) => { Wizard.ram = v.to-float(); }
+            }
+        }
+        FieldRow { label: @tr("Internal storage"); hint: @tr("In GB"); SpinBox { width: 140px; minimum: 2; maximum: 128; value <=> Wizard.storage; } }
+        Divider { }
+        FieldRow {
+            label: @tr("Resolution");
+            hint: @tr("Width × height in pixels");
+            SpinBox { width: 120px; minimum: 240; maximum: 4096; value <=> Wizard.width; }
+            Text { text: @tr("×"); color: Theme.text-3; vertical-alignment: center; }
+            SpinBox { width: 120px; minimum: 240; maximum: 4096; value <=> Wizard.height; }
+        }
+        FieldRow { label: @tr("Density"); hint: @tr("DPI (120–640)"); SpinBox { width: 140px; minimum: 120; maximum: 640; value <=> Wizard.density; } }
+        Divider { }
+        FieldRow {
+            label: @tr("Rendering (GPU)");
+            hint: @tr("Auto picks the best for your system");
+            ComboBox { width: 220px; model: [@tr("Automatic"), @tr("Host GPU"), @tr("Software (SwiftShader)"), @tr("ANGLE")]; current-index <=> Wizard.gpu-index; }
+        }
+        FieldRow { label: @tr("Back camera"); ComboBox { width: 220px; model: [@tr("Virtual scene"), @tr("Emulated"), @tr("Webcam"), @tr("f" => "None")]; current-index <=> Wizard.cam-back-index; } }
+        FieldRow { label: @tr("Front camera"); ComboBox { width: 220px; model: [@tr("Emulated"), @tr("Webcam"), @tr("f" => "None")]; current-index <=> Wizard.cam-front-index; } }
+        FieldRow { label: @tr("Physical keyboard"); hint: @tr("Type on Android using your computer's keyboard"); Switch { checked <=> Wizard.keyboard; } }
+        FieldRow { label: @tr("Navigation buttons"); hint: @tr("Back/Home/Recents instead of gestures"); Switch { checked <=> Wizard.nav-buttons; } }
+    }
+}
+
+component ReviewStep inherits HorizontalLayout {
+    spacing: 28px;
+    VerticalLayout {
+        alignment: center;
+        spacing: 12px;
+        DeviceShape {
+            box: 180px;
+            aspect: Wizard.width / max(1, Wizard.height);
+            kind: Wizard.profile-index >= 0 && Wizard.profile-index < Store.profiles.length ? Store.profiles[Wizard.profile-index].kind : "phone";
+            on: true;
+        }
+        Text { text: Wizard.name; font-size: Theme.font-lg; font-weight: 800; color: Theme.text; horizontal-alignment: center; }
+    }
+    VerticalLayout {
+        spacing: 10px;
+        horizontal-stretch: 1;
+        SectionTitle { title: @tr("Review"); subtitle: Wizard.edit-id != "" ? @tr("Changes take effect on next boot.") : @tr("The device is created in seconds, with no downloads."); }
+        for row in [
+            { k: @tr("Android"), v: Wizard.image-index >= 0 && Wizard.image-index < Store.installed-images.length ? Store.installed-images[Wizard.image-index].title : "—" },
+            { k: @tr("Profile"), v: Wizard.profile-index >= 0 && Wizard.profile-index < Store.profiles.length ? Store.profiles[Wizard.profile-index].name : @tr("Custom") },
+            { k: @tr("Display"), v: Wizard.width + " × " + Wizard.height + " · " + Wizard.density + " dpi" },
+            { k: @tr("Processor"), v: @tr("{} cores", Wizard.cpus) },
+            { k: @tr("Memory"), v: Wizard.ram + " MB" },
+            { k: @tr("Storage"), v: Wizard.storage + " GB" },
+        ]: HorizontalLayout {
+            Text { text: row.k; color: Theme.text-3; width: 140px; }
+            Text { text: row.v; color: Theme.text; font-weight: 600; overflow: elide; }
+        }
+        Divider { }
+        if Wizard.edit-id == "": CheckBox { text: @tr("Start once created"); checked <=> Wizard.start-after; }
+        if Wizard.error != "": Rectangle {
+            border-radius: Theme.radius-sm;
+            background: Theme.danger-soft;
+            height: et.preferred-height + 16px;
+            et := Text { x: 10px; width: parent.width - 20px; text: Wizard.error; color: Theme.danger; wrap: word-wrap; }
+        }
+    }
+}
+
+export component WizardDialog inherits Rectangle {
+    background: Theme.scrim;
+    TouchArea { }
+    Rectangle {
+        width: min(900px, parent.width - 48px);
+        height: min(640px, parent.height - 48px);
+        background: Theme.surface;
+        border-radius: 20px;
+        drop-shadow-blur: 40px;
+        drop-shadow-offset-y: 16px;
+        drop-shadow-color: #0B0D1450;
+        clip: true;
+        VerticalLayout {
+            HorizontalLayout {
+                padding: 22px;
+                padding-bottom: 16px;
+                spacing: 10px;
+                Rectangle {
+                    width: 38px;
+                    height: 38px;
+                    border-radius: 10px;
+                    background: Theme.brand;
+                    Icon { source: Wizard.edit-id != "" ? Icons.sliders : Icons.plus; color: white; size: 20px; }
+                }
+                VerticalLayout {
+                    alignment: center;
+                    Text { text: Wizard.edit-id != "" ? @tr("Edit device") : @tr("New device"); font-size: Theme.font-xl; font-weight: 800; color: Theme.text; }
+                    Text { text: @tr("Step ") + (Wizard.step + 1) + @tr(" of 4"); font-size: Theme.font-sm; color: Theme.text-3; }
+                }
+                Rectangle { }
+                IconBtn { icon: Icons.x; tip: @tr("Close"); clicked => { Wizard.open = false; } }
+            }
+            HorizontalLayout {
+                padding-left: 22px;
+                padding-right: 22px;
+                padding-bottom: 16px;
+                spacing: 18px;
+                StepDot { n: 0; label: @tr("Image"); }
+                Rectangle { height: 1px; y: 13px; background: Theme.border; }
+                StepDot { n: 1; label: @tr("Profile"); }
+                Rectangle { height: 1px; y: 13px; background: Theme.border; }
+                StepDot { n: 2; label: @tr("Hardware"); }
+                Rectangle { height: 1px; y: 13px; background: Theme.border; }
+                StepDot { n: 3; label: @tr("Review"); }
+            }
+            Divider { }
+            Rectangle {
+                vertical-stretch: 1;
+                VerticalLayout {
+                    padding: 22px;
+                    if Wizard.step == 0: ImageStep { }
+                    if Wizard.step == 1: ProfileStep { }
+                    if Wizard.step == 2: HardwareStep { }
+                    if Wizard.step == 3: ReviewStep { }
+                }
+            }
+            Divider { }
+            HorizontalLayout {
+                padding: 16px;
+                padding-left: 22px;
+                padding-right: 22px;
+                spacing: 10px;
+                if Wizard.step == 0 && Wizard.image-index < 0 && Store.installed-images.length > 0: Text {
+                    text: @tr("Select an image to continue");
+                    color: Theme.text-3;
+                    vertical-alignment: center;
+                }
+                Rectangle { }
+                Btn { text: @tr("Cancel"); variant: "ghost"; clicked => { Wizard.open = false; } }
+                if Wizard.step > 0: Btn { text: @tr("Back"); clicked => { Wizard.step -= 1; } }
+                if Wizard.step < 3: Btn {
+                    text: @tr("Next");
+                    variant: "primary";
+                    enabled: Wizard.step != 0 || Wizard.image-index >= 0;
+                    clicked => { Wizard.step += 1; }
+                }
+                if Wizard.step == 3: Btn {
+                    text: Wizard.creating ? (Wizard.edit-id != "" ? @tr("Saving…") : @tr("Creating…")) : (Wizard.edit-id != "" ? @tr("Save changes") : @tr("Create device"));
+                    variant: "primary";
+                    icon: Icons.check;
+                    has-icon: true;
+                    loading: Wizard.creating;
+                    enabled: Wizard.name != "";
+                    clicked => { Api.wizard-create(); }
+                }
+            }
+        }
+    }
+}
