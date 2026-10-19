@@ -38,5 +38,5 @@ slint-build = "1"
 product-name = "EmuZip"
 identifier = "br.com.vidyacode.emuzip"
 description = "Fast, lightweight Android emulator written in Rust"
-icons = ["../../dist/icon-1024.png"]
+icons = ["../../dist/EmuZip.icns", "../../dist/EmuZip.ico", "../../dist/icons/32x32.png", "../../dist/icons/128x128.png", "../../dist/icons/256x256.png", "../../dist/icons/512x512.png"]
 formats = ["dmg", "app", "nsis", "deb", "appimage"]
