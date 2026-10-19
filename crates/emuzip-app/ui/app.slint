@@ -1,0 +1,150 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { Store, Api, Wizard, Prefs, Player, Net, Perf, DeviceItem, ImageItem, ProfileItem, TaskItem, ToastItem, LogLine, NamedValue, NetEntry, ProcItem } from "store.slint";
+import { Icon, Badge, Chip } from "widgets.slint";
+import { DevicesPage } from "devices.slint";
+import { ImagesPage } from "images.slint";
+import { ActivityPage, TaskRow } from "activity.slint";
+import { SettingsPage } from "settings.slint";
+import { PlayerPage } from "player.slint";
+import { WizardDialog } from "wizard.slint";
+import { ConfirmDialog, PromptDialog, Toasts } from "dialogs.slint";
+import { Palette } from "std-widgets.slint";
+
+export { Store, Api, Wizard, Prefs, Player, Net, Perf, Theme }
+
+component NavItem inherits Rectangle {
+    in property <image> icon;
+    in property <string> label;
+    in property <int> page;
+    in property <int> badge;
+    property <bool> active: Store.page == page;
+    height: 40px;
+    border-radius: 10px;
+    background: active ? Theme.primary-soft : ta.has-hover ? Theme.surface-hover : transparent;
+    animate background { duration: 120ms; }
+    Rectangle {
+        x: 0;
+        width: 3px;
+        height: active ? 20px : 0px;
+        border-radius: 2px;
+        background: Theme.primary;
+        animate height { duration: 160ms; }
+    }
+    HorizontalLayout {
+        padding-left: 12px;
+        padding-right: 10px;
+        spacing: 12px;
+        Icon { source: root.icon; color: active ? Theme.primary : Theme.text-2; size: 18px; y: (parent.height - self.height) / 2; }
+        Text { text: root.label; color: active ? Theme.primary : Theme.text; font-weight: active ? 700 : 500; vertical-alignment: center; horizontal-stretch: 1; }
+        Badge { count: root.badge; y: (parent.height - self.height) / 2; }
+    }
+    ta := TouchArea { mouse-cursor: pointer; clicked => { Store.page = root.page; if (root.page == 1 && Store.catalog.length == 0) { Api.load-catalog(); } } }
+}
+
+component StatusLine inherits HorizontalLayout {
+    in property <string> label;
+    in property <bool> ok;
+    spacing: 8px;
+    Rectangle { width: 7px; height: 7px; border-radius: 3.5px; background: root.ok ? Theme.success : Theme.warning; y: (parent.height - self.height) / 2; }
+    Text { text: root.label; font-size: Theme.font-xs; color: Theme.text-2; overflow: elide; vertical-alignment: center; }
+}
+
+export component MainWindow inherits Window {
+    title: @tr("EmuZip");
+    icon: @image-url("../../../dist/icon.png");
+    min-width: Store.page == 4 ? 320px : 980px;
+    min-height: Store.page == 4 ? 420px : 640px;
+    preferred-width: 1280px;
+    preferred-height: 820px;
+    background: Theme.bg;
+    default-font-size: 13px;
+    default-font-family: "Inter";
+
+    public function apply-scheme() { Palette.color-scheme = Theme.dark ? ColorScheme.dark : ColorScheme.light; }
+    init => { self.apply-scheme(); }
+
+    if Store.page == 4: PlayerPage { width: parent.width; height: parent.height; }
+
+    if Store.page != 4: HorizontalLayout {
+        // Sidebar
+        Rectangle {
+            width: 236px;
+            background: Theme.surface;
+            border-width: 1px;
+            border-color: Theme.border;
+            VerticalLayout {
+                padding: 18px;
+                padding-top: 22px;
+                spacing: 4px;
+                HorizontalLayout {
+                    spacing: 10px;
+                    padding-bottom: 22px;
+                    padding-left: 4px;
+                    Rectangle {
+                        width: 38px;
+                        height: 38px;
+                        border-radius: 11px;
+                        background: Theme.brand;
+                        drop-shadow-blur: 12px;
+                        drop-shadow-offset-y: 4px;
+                        drop-shadow-color: #5B5BF055;
+                        Text { text: @tr("Z"); color: white; font-size: 20px; font-weight: 900; }
+                    }
+                    VerticalLayout {
+                        alignment: center;
+                        Text { text: @tr("EmuZip"); font-size: 19px; font-weight: 900; color: Theme.text; }
+                        Text { text: @tr("Fast, lightweight Android"); font-size: Theme.font-xs; color: Theme.text-3; }
+                    }
+                }
+                Text { text: @tr("MENU"); font-size: 10px; font-weight: 700; color: Theme.text-3; letter-spacing: 1px; }
+                Rectangle { height: 4px; }
+                NavItem { icon: Icons.phone-device; label: @tr("Devices"); page: 0; badge: 0; }
+                NavItem { icon: Icons.download; label: @tr("Images"); page: 1; badge: 0; }
+                NavItem { icon: Icons.activity; label: @tr("Activity"); page: 2; badge: Store.running-tasks; }
+                NavItem { icon: Icons.settings; label: @tr("Settings"); page: 3; badge: 0; }
+                Rectangle { vertical-stretch: 1; }
+                // Atividade recente em andamento
+                for t[i] in Store.tasks: Rectangle {
+                    visible: t.state == 0 && i < 2;
+                    height: t.state == 0 && i < 2 ? self.preferred-height : 0px;
+                    VerticalLayout {
+                        padding-bottom: 8px;
+                        TaskRow { t: t; compact: true; }
+                    }
+                }
+                Rectangle {
+                    border-radius: 12px;
+                    background: Theme.surface-2;
+                    border-width: 1px;
+                    border-color: Theme.border;
+                    VerticalLayout {
+                        padding: 12px;
+                        spacing: 6px;
+                        Text { text: @tr("Environment"); font-size: Theme.font-xs; font-weight: 700; color: Theme.text; }
+                        StatusLine { label: Store.sdk-ok ? @tr("Android SDK found") : @tr("Android SDK not found"); ok: Store.sdk-ok; }
+                        StatusLine { label: Store.accel-status; ok: Store.accel-ok; }
+                        StatusLine { label: Store.backends; ok: Store.backends != "Nenhum backend"; }
+                    }
+                }
+            }
+        }
+        // Conteúdo
+        Rectangle {
+            horizontal-stretch: 1;
+            if Store.page == 0: DevicesPage { width: parent.width; height: parent.height; }
+            if Store.page == 1: ImagesPage { width: parent.width; height: parent.height; }
+            if Store.page == 2: ActivityPage { width: parent.width; height: parent.height; }
+            if Store.page == 3: SettingsPage { width: parent.width; height: parent.height; }
+        }
+    }
+
+    if Wizard.open: WizardDialog { width: parent.width; height: parent.height; }
+    if Store.confirm-open: ConfirmDialog { width: parent.width; height: parent.height; }
+    if Store.prompt-open: PromptDialog { width: parent.width; height: parent.height; }
+    Toasts {
+        x: parent.width - 400px;
+        y: parent.height - self.preferred-height - 20px;
+        width: 380px;
+    }
+}
