@@ -14,7 +14,7 @@ homepage = "https://github.com/LuisPeixoto/EmuZip"
 anyhow = "1"
 serde = { version = "1", features = ["derive"] }
 toml = "0.8"
-directories = "5"
+directories = "6"
 emuzip-core = { path = "crates/emuzip-core" }
 emuzip-adb = { path = "crates/emuzip-adb" }
 emuzip-backend = { path = "crates/emuzip-backend" }
