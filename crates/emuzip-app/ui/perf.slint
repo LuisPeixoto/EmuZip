@@ -1,0 +1,149 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { Perf, Api, ProcItem } from "store.slint";
+import { Btn, IconBtn, Chip, Icon, Divider, Segmented, Card } from "widgets.slint";
+import { Slider, ListView, ScrollView } from "std-widgets.slint";
+
+// Mini gráfico de barras (últimos 60 s), valores normalizados 0..1.
+component Spark inherits Rectangle {
+    in property <[float]> values;
+    in property <color> stroke: Theme.primary;
+    clip: true;
+    property <length> bw: self.width / 60;
+    for v[i] in root.values: Rectangle {
+        x: root.width - (root.values.length - i) * root.bw;
+        y: root.height - self.height;
+        width: max(1px, root.bw - 1px);
+        height: max(1px, root.height * clamp(v, 0, 1));
+        border-radius: 1px;
+        background: root.stroke;
+        opacity: 0.35 + 0.65 * (i + 1) / max(1, root.values.length);
+    }
+}
+
+component Metric inherits Rectangle {
+    in property <string> title;
+    in property <string> value;
+    in property <string> sub;
+    in property <[float]> path;
+    in property <color> accent: Theme.primary;
+    in property <image> icon;
+    height: 112px;
+    border-radius: 12px;
+    background: Theme.surface-2;
+    border-width: 1px;
+    border-color: Theme.border;
+    VerticalLayout {
+        padding: 12px;
+        spacing: 2px;
+        HorizontalLayout {
+            spacing: 6px;
+            Icon { source: root.icon; size: 14px; color: root.accent; y: (parent.height - self.height) / 2; }
+            Text { text: root.title; font-size: Theme.font-xs; font-weight: 700; color: Theme.text-2; overflow: elide; }
+        }
+        Text { text: root.value; font-size: 22px; font-weight: 800; color: Theme.text; }
+        Text { text: root.sub; font-size: Theme.font-xs; color: Theme.text-3; overflow: elide; }
+        Spark { vertical-stretch: 1; values: root.path; stroke: root.accent; }
+    }
+}
+
+export component PerfPanel inherits VerticalLayout {
+    in property <bool> expanded;
+    padding: 14px;
+    padding-top: 0px;
+    spacing: 10px;
+    HorizontalLayout {
+        VerticalLayout {
+            alignment: center;
+            Text { text: @tr("Performance"); font-size: Theme.font-lg; font-weight: 800; color: Theme.text; }
+            Text { text: Perf.fg-app != "" ? @tr("Foreground: {}", Perf.fg-app) : @tr("Updates every second"); font-size: Theme.font-xs; color: Theme.text-3; overflow: elide; }
+        }
+        Rectangle { }
+        Btn { text: root.expanded ? @tr("Export CSV") : ""; small: true; icon: Icons.download; has-icon: true; y: (parent.height - self.height) / 2; clicked => { Api.perf-export(); } }
+    }
+    ScrollView {
+        vertical-stretch: 1;
+        content-height: col.preferred-height + 10px;
+        col := VerticalLayout {
+            width: parent.visible-width - 8px;
+            spacing: 10px;
+            if root.expanded: GridLayout {
+                spacing: 8px;
+                Row {
+                    Metric { title: @tr("Emulator CPU (host)"); value: round(Perf.host-cpu) + "%"; sub: @tr("qemu process on your computer"); path: Perf.host-cpu-series; icon: Icons.cpu; accent: Theme.primary; }
+                    Metric { title: @tr("Emulator RAM (host)"); value: Perf.host-ram; sub: @tr("process resident memory"); path: Perf.host-ram-series; icon: Icons.memory; accent: Theme.primary-2; }
+                    Metric { title: @tr("GPU (slow frames)"); value: round(Perf.gpu-jank) + "%"; sub: Perf.gpu-text; path: Perf.gpu-series; icon: Icons.monitor; accent: Theme.warning; }
+                }
+                Row {
+                    Metric { title: @tr("Android CPU"); value: round(Perf.guest-cpu) + "%"; sub: @tr("sum of all processes"); path: Perf.guest-cpu-series; icon: Icons.cpu; accent: Theme.success; }
+                    Metric { title: @tr("Android RAM"); value: Perf.guest-ram; sub: @tr("{}% in use", round(Perf.guest-ram-used / max(1, Perf.guest-ram-total) * 100)); path: Perf.guest-ram-series; icon: Icons.memory; accent: Theme.info; }
+                    Rectangle { }
+                }
+            }
+            if !root.expanded: VerticalLayout {
+                spacing: 8px;
+                Metric { title: @tr("Emulator CPU (host)"); value: round(Perf.host-cpu) + "%"; sub: @tr("qemu process on your computer"); path: Perf.host-cpu-series; icon: Icons.cpu; accent: Theme.primary; }
+                Metric { title: @tr("Emulator RAM (host)"); value: Perf.host-ram; sub: @tr("process resident memory"); path: Perf.host-ram-series; icon: Icons.memory; accent: Theme.primary-2; }
+                Metric { title: @tr("Android CPU"); value: round(Perf.guest-cpu) + "%"; sub: @tr("sum of all processes"); path: Perf.guest-cpu-series; icon: Icons.cpu; accent: Theme.success; }
+                Metric { title: @tr("Android RAM"); value: Perf.guest-ram; sub: @tr("{}% in use", round(Perf.guest-ram-used / max(1, Perf.guest-ram-total) * 100)); path: Perf.guest-ram-series; icon: Icons.memory; accent: Theme.info; }
+                Metric { title: @tr("GPU (slow frames)"); value: round(Perf.gpu-jank) + "%"; sub: Perf.gpu-text; path: Perf.gpu-series; icon: Icons.monitor; accent: Theme.warning; }
+            }
+            Text { text: @tr("GPU is measured inside Android (frame time of the foreground app); macOS doesn't report per-process GPU usage."); font-size: Theme.font-xs; color: Theme.text-3; wrap: word-wrap; }
+            Divider { }
+            HorizontalLayout {
+                Text { text: @tr("Top consumers"); font-weight: 800; color: Theme.text; vertical-alignment: center; }
+                Rectangle { }
+                Segmented { items: [@tr("CPU"), @tr("RAM")]; selected: Perf.sort-ram ? 1 : 0; changed(i) => { Perf.sort-ram = i == 1; } }
+            }
+            for p in Perf.procs: Rectangle {
+                height: 34px;
+                border-radius: 8px;
+                background: pta.has-hover ? Theme.surface-hover : transparent;
+                pta := TouchArea { }
+                HorizontalLayout {
+                    padding-left: 8px;
+                    spacing: 8px;
+                    Text { text: p.name; font-size: Theme.font-sm; color: Theme.text; overflow: elide; horizontal-stretch: 1; vertical-alignment: center; }
+                    Text { text: round(p.cpu * 10) / 10 + "%"; width: 52px; font-size: Theme.font-sm; font-weight: 700; color: p.cpu > 30 ? Theme.danger : Theme.text-2; horizontal-alignment: right; vertical-alignment: center; }
+                    Text { text: p.ram; width: 66px; font-size: Theme.font-sm; color: Theme.text-2; horizontal-alignment: right; vertical-alignment: center; }
+                    IconBtn { icon: Icons.skull; tip: @tr("Kill process"); size: 28px; tint: Theme.danger; tip-left: true; clicked => { Api.perf-kill(p.pid, p.name); } }
+                }
+            }
+            Divider { }
+            Text { text: @tr("Memory stress"); font-weight: 800; color: Theme.text; }
+            Text {
+                text: Perf.rooted ? @tr("Fills real Android RAM in chunks to see how apps and the LMK react.") : @tr("No root on this image: sends official memory pressure (trim) signals to apps.");
+                font-size: Theme.font-xs;
+                color: Theme.text-3;
+                wrap: word-wrap;
+            }
+            if Perf.rooted: VerticalLayout {
+                spacing: 6px;
+                HorizontalLayout {
+                    Text { text: @tr("Amount"); font-size: Theme.font-sm; color: Theme.text-2; }
+                    Rectangle { }
+                    Text { text: round(Perf.fill-mb) + @tr(" MB"); font-size: Theme.font-sm; font-weight: 700; color: Theme.primary; }
+                }
+                Slider { minimum: 64; maximum: max(128, Perf.guest-ram-total * 0.95); value <=> Perf.fill-mb; }
+                HorizontalLayout {
+                    spacing: 6px;
+                    Btn { text: @tr("Fill memory"); variant: "primary"; icon: Icons.memory; has-icon: true; small: true; loading: Perf.filling; clicked => { Api.perf-fill(); } }
+                    Btn { text: @tr("Release"); small: true; enabled: Perf.filled-mb > 0; clicked => { Api.perf-release(); } }
+                }
+            }
+            if !Perf.rooted: HorizontalLayout {
+                spacing: 6px;
+                Btn { text: @tr("Moderate pressure"); small: true; clicked => { Api.perf-trim("RUNNING_LOW"); } }
+                Btn { text: @tr("Critical pressure"); small: true; variant: "danger"; clicked => { Api.perf-trim("RUNNING_CRITICAL"); } }
+                Btn { text: @tr("Release all"); small: true; clicked => { Api.perf-trim("COMPLETE"); } }
+            }
+            HorizontalLayout {
+                spacing: 8px;
+                Chip { text: @tr("Used: {} MB", Perf.filled-mb); kind: Perf.filled-mb > 0 ? "warning" : "neutral"; }
+                Chip { text: @tr("Killed by LMK: {}", Perf.lmk-kills); kind: Perf.lmk-kills > 0 ? "danger" : "neutral"; }
+                Rectangle { }
+            }
+            if Perf.note != "": Text { text: Perf.note; font-size: Theme.font-xs; color: Theme.text-3; wrap: word-wrap; }
+        }
+    }
+}
