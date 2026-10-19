@@ -1,0 +1,23 @@
+[package]
+name = "emuzip-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "emuzipctl, the EmuZip command-line tool"
+publish = false
+
+[[bin]]
+name = "emuzipctl"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+emuzip-core.workspace = true
+emuzip-adb.workspace = true
+emuzip-backend.workspace = true
+emuzip-grpc = { path = "../emuzip-grpc" }
+emuzip-repo = { path = "../emuzip-repo" }
+emuzip-console = { path = "../emuzip-console" }
