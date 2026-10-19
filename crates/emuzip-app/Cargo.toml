@@ -1,0 +1,42 @@
+[package]
+name = "emuzip-app"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "EmuZip desktop app"
+publish = false
+build = "build.rs"
+
+[[bin]]
+name = "EmuZip"
+path = "src/main.rs"
+
+[dependencies]
+slint = { version = "1", default-features = false, features = ["std", "backend-winit", "renderer-femtovg", "compat-1-2", "image-default-formats"] }
+rfd = "0.15"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time"] }
+anyhow.workspace = true
+sysinfo = { version = "0.33", default-features = false, features = ["system"] }
+zip = { version = "9", default-features = false, features = ["deflate"] }
+emuzip-core.workspace = true
+emuzip-adb.workspace = true
+emuzip-backend.workspace = true
+emuzip-console = { path = "../emuzip-console" }
+emuzip-grpc = { path = "../emuzip-grpc" }
+tonic = { version = "0.12", default-features = false }
+emuzip-repo = { path = "../emuzip-repo" }
+emuzip-netcap = { path = "../emuzip-netcap" }
+serde_json = "1"
+sys-locale = "0.3"
+
+[build-dependencies]
+slint-build = "1"
+
+[package.metadata.packager]
+product-name = "EmuZip"
+identifier = "br.com.vidyacode.emuzip"
+description = "Fast, lightweight Android emulator written in Rust"
+icons = ["../../dist/icon-1024.png"]
+formats = ["dmg", "app", "nsis", "deb", "appimage"]

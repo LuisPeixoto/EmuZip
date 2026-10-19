@@ -1,0 +1,110 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { Store, Api, ToastItem } from "store.slint";
+import { Btn, IconBtn, Icon } from "widgets.slint";
+import { LineEdit } from "std-widgets.slint";
+
+export component ConfirmDialog inherits Rectangle {
+    background: Theme.scrim;
+    TouchArea { clicked => { Store.confirm-open = false; } }
+    Rectangle {
+        width: 440px;
+        height: lay.preferred-height;
+        background: Theme.surface;
+        border-radius: 18px;
+        drop-shadow-blur: 40px;
+        drop-shadow-color: #0B0D1450;
+        TouchArea { }
+        lay := VerticalLayout {
+            padding: 24px;
+            spacing: 14px;
+            HorizontalLayout {
+                spacing: 12px;
+                Rectangle {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 20px;
+                    background: Store.confirm-danger ? Theme.danger-soft : Theme.primary-soft;
+                    Icon { source: Icons.alert; color: Store.confirm-danger ? Theme.danger : Theme.primary; size: 20px; }
+                }
+                Text { text: Store.confirm-title; font-size: Theme.font-lg; font-weight: 800; color: Theme.text; vertical-alignment: center; wrap: word-wrap; }
+            }
+            Text { text: Store.confirm-text; color: Theme.text-2; wrap: word-wrap; }
+            HorizontalLayout {
+                spacing: 10px;
+                alignment: end;
+                Btn { text: @tr("Cancel"); variant: "ghost"; clicked => { Store.confirm-open = false; } }
+                Btn { text: @tr("Confirm"); variant: Store.confirm-danger ? "danger" : "primary"; clicked => { Store.confirm-open = false; Api.confirm(); } }
+            }
+        }
+    }
+}
+
+export component PromptDialog inherits Rectangle {
+    background: Theme.scrim;
+    TouchArea { clicked => { Store.prompt-open = false; } }
+    Rectangle {
+        width: 440px;
+        height: lay.preferred-height;
+        background: Theme.surface;
+        border-radius: 18px;
+        drop-shadow-blur: 40px;
+        drop-shadow-color: #0B0D1450;
+        TouchArea { }
+        lay := VerticalLayout {
+            padding: 24px;
+            spacing: 14px;
+            Text { text: Store.prompt-title; font-size: Theme.font-lg; font-weight: 800; color: Theme.text; }
+            Text { text: Store.prompt-label; color: Theme.text-2; }
+            input := LineEdit {
+                text <=> Store.prompt-value;
+                accepted => { Store.prompt-open = false; Api.prompt-submit(); }
+            }
+            HorizontalLayout {
+                spacing: 10px;
+                alignment: end;
+                Btn { text: @tr("Cancel"); variant: "ghost"; clicked => { Store.prompt-open = false; } }
+                Btn { text: @tr("OK"); variant: "primary"; enabled: Store.prompt-value != ""; clicked => { Store.prompt-open = false; Api.prompt-submit(); } }
+            }
+        }
+    }
+}
+
+component Toast inherits Rectangle {
+    in property <ToastItem> t;
+    width: 380px;
+    height: lay.preferred-height;
+    border-radius: 12px;
+    background: Theme.surface;
+    border-width: 1px;
+    border-color: Theme.border;
+    drop-shadow-blur: 24px;
+    drop-shadow-offset-y: 8px;
+    drop-shadow-color: #1B214030;
+    Rectangle {
+        x: 0;
+        width: 4px;
+        height: parent.height;
+        border-radius: 2px;
+        background: t.kind == 1 ? Theme.success : t.kind == 2 ? Theme.danger : Theme.primary;
+    }
+    lay := HorizontalLayout {
+        padding: 12px;
+        padding-left: 16px;
+        spacing: 10px;
+        Icon {
+            source: t.kind == 1 ? Icons.check : t.kind == 2 ? Icons.alert : Icons.info;
+            color: t.kind == 1 ? Theme.success : t.kind == 2 ? Theme.danger : Theme.primary;
+            size: 18px;
+        }
+        Text { text: t.text; color: Theme.text; wrap: word-wrap; horizontal-stretch: 1; vertical-alignment: center; }
+        if t.action != "": Btn { text: t.action; small: true; variant: "soft"; clicked => { Api.toast-action(t.id); } }
+        IconBtn { icon: Icons.x; size: 26px; clicked => { Api.dismiss-toast(t.id); } }
+    }
+}
+
+export component Toasts inherits VerticalLayout {
+    spacing: 8px;
+    alignment: end;
+    for t in Store.toasts: Toast { t: t; }
+}

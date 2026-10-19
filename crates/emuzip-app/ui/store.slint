@@ -1,0 +1,448 @@
+// Estado compartilhado entre Rust e a UI (globals) e todos os callbacks.
+
+export struct DeviceItem {
+    id: string,
+    name: string,
+    android: string,
+    tag: string,
+    specs: string,
+    // 0 parado, 1 iniciando, 2 rodando, 3 quebrado, 4 parando
+    state: int,
+    busy: bool,
+    busy-text: string,
+    problem: string,
+    backend: string,
+    aspect: float,
+    kind: string,
+    boot-progress: float,
+}
+
+export struct ImageItem {
+    id: string,
+    title: string,
+    subtitle: string,
+    size: string,
+    tag: string,
+    installed: bool,
+    downloading: bool,
+    progress: float,
+    status: string,
+    api: int,
+}
+
+export struct ProfileItem {
+    id: string,
+    name: string,
+    maker: string,
+    kind: string,
+    width: int,
+    height: int,
+    density: int,
+    ram: int,
+    cpus: int,
+    storage: int,
+}
+
+export struct TaskItem {
+    id: int,
+    title: string,
+    detail: string,
+    // -1 indeterminado
+    progress: float,
+    // 0 rodando, 1 ok, 2 erro, 3 cancelado
+    state: int,
+    cancellable: bool,
+    time: string,
+}
+
+export struct ToastItem {
+    id: int,
+    text: string,
+    // 0 info, 1 sucesso, 2 erro
+    kind: int,
+    action: string,
+}
+
+export struct LogLine {
+    level: string,
+    tag: string,
+    text: string,
+}
+
+export struct NamedValue {
+    name: string,
+    value: string,
+}
+
+export struct NetEntry {
+    id: int,
+    method: string,
+    status: int,
+    host: string,
+    path: string,
+    kind: string,
+    size: string,
+    time: string,
+    error: bool,
+    tls: bool,
+    decrypted: bool,
+}
+
+export struct ProcItem {
+    pid: int,
+    name: string,
+    user: string,
+    cpu: float,
+    ram: string,
+    ram-mb: float,
+}
+
+export global Net {
+    in-out property <bool> capturing;
+    in-out property <bool> decrypt;
+    in-out property <bool> starting;
+    in-out property <bool> paused;
+    in-out property <int> port;
+    in-out property <string> ca-status;
+    in-out property <bool> ca-system;
+    in-out property <[NetEntry]> entries;
+    in-out property <int> total;
+    in-out property <string> stats;
+    in-out property <string> filter;
+    in-out property <int> kind-filter: 0;
+    in-out property <int> selected: -1;
+    in-out property <int> detail-tab: 0;
+    in-out property <string> d-url;
+    in-out property <string> d-summary;
+    in-out property <string> d-req-headers;
+    in-out property <string> d-req-body;
+    in-out property <string> d-resp-headers;
+    in-out property <string> d-resp-body;
+    in-out property <string> d-timing;
+    in-out property <image> d-image;
+    in-out property <bool> d-has-image;
+    in-out property <int> export-format: 0;
+    in-out property <int> export-scope: 0;
+}
+
+export global Perf {
+    in-out property <bool> active;
+    in-out property <float> host-cpu;
+    in-out property <float> host-ram-mb;
+    in-out property <string> host-ram;
+    in-out property <float> guest-cpu;
+    in-out property <float> guest-ram-used;
+    in-out property <float> guest-ram-total: 1;
+    in-out property <string> guest-ram;
+    in-out property <float> gpu-jank;
+    in-out property <string> gpu-text;
+    in-out property <string> fg-app;
+    in-out property <[float]> host-cpu-series;
+    in-out property <[float]> host-ram-series;
+    in-out property <[float]> guest-cpu-series;
+    in-out property <[float]> guest-ram-series;
+    in-out property <[float]> gpu-series;
+    in-out property <[ProcItem]> procs;
+    in-out property <bool> sort-ram;
+    in-out property <float> fill-mb: 256;
+    in-out property <int> filled-mb;
+    in-out property <bool> filling;
+    in-out property <bool> rooted;
+    in-out property <int> lmk-kills;
+    in-out property <string> note;
+}
+
+export global Store {
+    // Navegação: 0 dispositivos, 1 imagens, 2 atividades, 3 configurações, 4 player
+    in-out property <int> page: 0;
+    in-out property <[DeviceItem]> devices;
+    in-out property <bool> devices-loading: true;
+    in-out property <string> search;
+    in-out property <int> filter: 0;
+    in-out property <bool> grid-view: true;
+
+    in-out property <[ImageItem]> installed-images;
+    in-out property <[ImageItem]> catalog;
+    in-out property <bool> catalog-loading: false;
+    in-out property <string> catalog-error;
+    in-out property <int> catalog-filter: 0;
+    in-out property <string> catalog-search;
+
+    in-out property <[ProfileItem]> profiles;
+    in-out property <[string]> profile-names;
+    in-out property <[string]> language-names;
+    in-out property <[TaskItem]> tasks;
+    in-out property <int> running-tasks: 0;
+    in-out property <[ToastItem]> toasts;
+
+    // Status do ambiente
+    in-out property <string> sdk-status;
+    in-out property <bool> sdk-ok;
+    in-out property <string> accel-status;
+    in-out property <bool> accel-ok;
+    in-out property <string> backends;
+    in-out property <string> version: "0.2.0";
+
+    // Diálogo de confirmação
+    in-out property <bool> confirm-open;
+    in-out property <string> confirm-title;
+    in-out property <string> confirm-text;
+    in-out property <string> confirm-action;
+    in-out property <bool> confirm-danger: true;
+
+    // Diálogo de texto (renomear/clonar)
+    in-out property <bool> prompt-open;
+    in-out property <string> prompt-title;
+    in-out property <string> prompt-label;
+    in-out property <string> prompt-value;
+    in-out property <string> prompt-action;
+}
+
+export global Wizard {
+    in-out property <bool> open;
+    in-out property <int> step: 0;
+    in-out property <int> image-index: -1;
+    in-out property <int> profile-index: 0;
+    in-out property <string> name: "Meu Android";
+    in-out property <int> cpus: 4;
+    in-out property <int> ram: 4096;
+    in-out property <int> storage: 8;
+    in-out property <int> width: 1080;
+    in-out property <int> height: 2424;
+    in-out property <int> density: 420;
+    in-out property <int> gpu-index: 0;
+    in-out property <int> cam-back-index: 0;
+    in-out property <int> cam-front-index: 0;
+    in-out property <bool> keyboard: true;
+    in-out property <bool> nav-buttons: false;
+    in-out property <bool> start-after: true;
+    in-out property <bool> creating;
+    in-out property <string> error;
+    // Edição de um dispositivo existente
+    in-out property <string> edit-id;
+}
+
+export global Prefs {
+    in-out property <string> sdk-path;
+    in-out property <string> avd-path;
+    in-out property <string> qemu-path;
+    in-out property <string> captures-path;
+    in-out property <bool> sdk-valid;
+    in-out property <bool> avd-valid;
+    in-out property <bool> qemu-valid;
+    in-out property <int> theme-index: 0;
+    in-out property <bool> embedded: true;
+    in-out property <int> fps-index: 2;
+    in-out property <int> gpu-index: 0;
+    in-out property <bool> cold-boot;
+    in-out property <bool> audio;
+    in-out property <int> profile-index: 0;
+    in-out property <int> ram: 4096;
+    in-out property <int> cpus: 4;
+    in-out property <string> proxy;
+    in-out property <string> mirror;
+    in-out property <bool> confirm-destructive: true;
+    in-out property <int> language-index: 0;
+    in-out property <bool> auto-fit;
+    in-out property <string> cache-size;
+    in-out property <bool> dirty;
+}
+
+export global Player {
+    in-out property <string> device-id;
+    in-out property <string> device-name;
+    in-out property <string> device-info;
+    in-out property <image> screen;
+    in-out property <int> screen-w: 1080;
+    in-out property <int> screen-h: 1920;
+    in-out property <bool> connected;
+    in-out property <string> status: "Conectando…";
+    in-out property <int> fps;
+    // Painel lateral aberto: "" nenhum
+    in-out property <string> panel: "";
+    in-out property <bool> panel-expanded;
+    in-out property <bool> fullscreen;
+    in-out property <bool> recording;
+    in-out property <string> record-time;
+
+    // Bateria
+    in-out property <float> battery-level: 80;
+    in-out property <int> charger-index: 1;
+    in-out property <int> battery-status-index: 1;
+    in-out property <int> battery-health-index: 0;
+    // GPS
+    in-out property <string> lat: "-23.5505";
+    in-out property <string> lon: "-46.6333";
+    in-out property <string> alt: "760";
+    in-out property <bool> route-running;
+    // Rede
+    in-out property <int> net-speed-index: 0;
+    in-out property <int> net-delay-index: 0;
+    in-out property <int> signal-index: 4;
+    in-out property <bool> wifi: true;
+    in-out property <bool> data: true;
+    in-out property <bool> airplane: false;
+    // Telefone
+    in-out property <string> phone-number: "+5511987654321";
+    in-out property <string> sms-text: "Olá do EmuZip 👋";
+    // Sensores
+    in-out property <float> accel-x: 0;
+    in-out property <float> accel-y: 9.8;
+    in-out property <float> accel-z: 0;
+    in-out property <float> light: 400;
+    in-out property <float> proximity: 5;
+    in-out property <float> temperature: 25;
+    in-out property <float> humidity: 50;
+    in-out property <float> pressure: 1013;
+    // Identificadores
+    in-out property <string> android-id;
+    in-out property <string> own-number: "+5511999990000";
+    in-out property <string> device-props;
+    // Display
+    in-out property <float> brightness: 180;
+    in-out property <bool> night-mode;
+    in-out property <bool> show-touches;
+    in-out property <string> density: "";
+    in-out property <float> font-scale: 1.0;
+    // Câmera
+    in-out property <int> cam-back-index: 0;
+    in-out property <int> cam-front-index: 0;
+    // Apps
+    in-out property <[string]> packages;
+    in-out property <bool> packages-loading;
+    in-out property <bool> show-system-apps;
+    in-out property <string> deep-link: "https://www.google.com";
+    // Arquivos
+    in-out property <string> remote-dir: "/sdcard/Download";
+    // Snapshots
+    in-out property <[string]> snapshots;
+    in-out property <string> snapshot-name: "rapido";
+    // Logcat
+    in-out property <[LogLine]> logcat;
+    in-out property <bool> logcat-paused;
+    in-out property <string> logcat-filter;
+    in-out property <int> logcat-level: 0;
+    // Shell
+    in-out property <string> shell-cmd;
+    in-out property <string> shell-output: "$ ";
+    // Proxy
+    in-out property <string> proxy: "10.0.2.2:8888";
+    // Locale
+    in-out property <int> locale-index: 0;
+    // Clipboard
+    in-out property <string> clipboard;
+    // Propriedades
+    in-out property <[NamedValue]> props;
+}
+
+export global Api {
+    // Navegação e listas
+    callback refresh();
+    callback filter-changed();
+    callback catalog-filter-changed();
+    callback open-player(string);
+    callback close-player();
+    // Dispositivos
+    callback start(string);
+    callback cold-boot(string);
+    callback stop(string);
+    callback restart(string);
+    callback edit(string);
+    callback ask-clone(string);
+    callback ask-rename(string);
+    callback ask-wipe(string);
+    callback ask-delete(string);
+    callback repair(string);
+    callback open-folder(string);
+    callback show-log(string);
+    callback confirm();
+    callback prompt-submit();
+    // Wizard
+    callback open-wizard();
+    callback wizard-create();
+    callback pick-profile(int);
+    // Imagens
+    callback load-catalog();
+    callback download-image(string);
+    callback cancel-download(string);
+    callback remove-image(string);
+    // Tarefas e toasts
+    callback cancel-task(int);
+    callback clear-tasks();
+    callback dismiss-toast(int);
+    callback toast-action(int);
+    callback copy-text(string);
+    // Configurações
+    callback save-prefs();
+    callback reset-prefs();
+    callback browse(string);
+    callback validate-paths();
+    callback export-diagnostics();
+    callback clear-cache();
+    callback set-theme(int);
+    // Player — layout
+    callback fit-window();
+    callback toggle-fullscreen();
+    // Rede
+    callback net-start();
+    callback net-stop();
+    callback net-clear();
+    callback net-select(int);
+    callback net-filter-changed();
+    callback net-export();
+    callback net-copy-curl();
+    callback net-save-body(string);
+    callback net-install-ca();
+    callback net-set-decrypt(bool);
+    // Desempenho
+    callback perf-open();
+    callback perf-kill(int, string);
+    callback perf-fill();
+    callback perf-release();
+    callback perf-trim(string);
+    callback perf-export();
+    // Idioma
+    callback set-language(int);
+    // Player — entrada
+    callback pointer(float, float, bool);
+    callback key(string, bool);
+    callback text-input(string);
+    callback scroll(float);
+    callback nav(string);
+    callback rotate(bool);
+    // Player — ferramentas
+    callback screenshot();
+    callback toggle-record();
+    callback install-apk();
+    callback push-file();
+    callback apply-battery();
+    callback apply-gps();
+    callback gps-preset(string);
+    callback gps-route();
+    callback apply-network();
+    callback toggle-wifi(bool);
+    callback toggle-data(bool);
+    callback toggle-airplane(bool);
+    callback phone-call(string);
+    callback send-sms();
+    callback apply-sensors();
+    callback fingerprint(int);
+    callback set-android-id();
+    callback random-android-id();
+    callback set-own-number();
+    callback apply-display();
+    callback apply-camera();
+    callback load-packages();
+    callback app-action(string, string);
+    callback open-link();
+    callback load-snapshots();
+    callback snapshot-action(string, string);
+    callback logcat-clear();
+    callback logcat-export();
+    callback run-shell();
+    callback apply-proxy(bool);
+    callback apply-locale();
+    callback clipboard-send();
+    callback clipboard-get();
+    callback load-props();
+}

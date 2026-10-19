@@ -1,0 +1,40 @@
+// Tokens de design do EmuZip (tema claro padrão, com variante escura).
+export global Theme {
+    in-out property <bool> dark: false;
+
+    out property <color> bg: dark ? #0F1117 : #F5F6FA;
+    out property <color> surface: dark ? #171A23 : #FFFFFF;
+    out property <color> surface-2: dark ? #1E2230 : #F8F9FC;
+    out property <color> surface-hover: dark ? #232838 : #F1F3F9;
+    out property <color> border: dark ? #2A2F3F : #E6E8F0;
+    out property <color> border-strong: dark ? #3A4155 : #D5D9E4;
+    out property <color> text: dark ? #ECEEF5 : #161A26;
+    out property <color> text-2: dark ? #A9AFC2 : #5B6275;
+    out property <color> text-3: dark ? #7A8197 : #8C93A7;
+    out property <color> primary: #5B5BF0;
+    out property <color> primary-hover: #4B4BDE;
+    out property <color> primary-2: #7C3AED;
+    out property <color> primary-soft: dark ? #26264A : #EEEEFE;
+    out property <color> success: #16A34A;
+    out property <color> success-soft: dark ? #12301F : #E8F7EE;
+    out property <color> warning: #D97706;
+    out property <color> warning-soft: dark ? #33260F : #FEF5E6;
+    out property <color> danger: #DC2626;
+    out property <color> danger-soft: dark ? #3A1717 : #FDECEC;
+    out property <color> info: #0EA5E9;
+    out property <color> info-soft: dark ? #10293A : #E7F6FD;
+    out property <color> scrim: #0B0D14A0;
+    out property <brush> brand: @linear-gradient(135deg, #5B5BF0 0%, #7C3AED 100%);
+    out property <color> shadow: dark ? #00000080 : #1B21401A;
+
+    out property <length> radius-sm: 8px;
+    out property <length> radius: 12px;
+    out property <length> radius-lg: 16px;
+    out property <length> font-xs: 11px;
+    out property <length> font-sm: 12px;
+    out property <length> font: 13px;
+    out property <length> font-md: 14px;
+    out property <length> font-lg: 16px;
+    out property <length> font-xl: 20px;
+    out property <length> font-2xl: 26px;
+}
