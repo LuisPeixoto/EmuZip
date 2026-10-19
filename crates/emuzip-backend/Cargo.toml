@@ -1,0 +1,17 @@
+[package]
+name = "emuzip-backend"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "AVD and QEMU device backends"
+publish = false
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+toml.workspace = true
+directories.workspace = true
+emuzip-core.workspace = true
+emuzip-adb.workspace = true
