@@ -1,0 +1,13 @@
+[package]
+name = "emuzip-console"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Android emulator console client"
+publish = false
+
+[dependencies]
+anyhow.workspace = true
+emuzip-core.workspace = true
