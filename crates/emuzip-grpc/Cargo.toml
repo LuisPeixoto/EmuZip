@@ -17,4 +17,4 @@ anyhow.workspace = true
 
 [build-dependencies]
 tonic-build = { version = "0.12", default-features = false, features = ["prost", "transport"] }
-protox = "0.7"
+protox = "0.10"
