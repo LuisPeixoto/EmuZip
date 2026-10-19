@@ -1,0 +1,301 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { Store, Api, DeviceItem } from "store.slint";
+import { Btn, IconBtn, Chip, Card, Icon, Segmented, EmptyState, Skeleton, DeviceShape, Progress } from "widgets.slint";
+import { LineEdit, ScrollView } from "std-widgets.slint";
+
+component StateChip inherits Chip {
+    in property <DeviceItem> d;
+    text: d.busy ? d.busy-text : d.state == 2 ? @tr("Running") : d.state == 1 ? @tr("Starting…") : d.state == 3 ? @tr("Error") : d.state == 4 ? @tr("Stopping…") : @tr("Stopped");
+    kind: d.busy ? "info" : d.state == 2 ? "success" : d.state == 1 ? "warning" : d.state == 3 ? "danger" : "neutral";
+    dot: true;
+    pulse: d.busy || d.state == 1 || d.state == 4;
+}
+
+// Menu de ações (popup).
+component ActionsMenu inherits PopupWindow {
+    in property <DeviceItem> d;
+    width: 220px;
+    Rectangle {
+        background: Theme.surface;
+        border-radius: Theme.radius;
+        border-width: 1px;
+        border-color: Theme.border;
+        drop-shadow-blur: 24px;
+        drop-shadow-offset-y: 8px;
+        drop-shadow-color: #1B214033;
+        VerticalLayout {
+            padding: 6px;
+            for item in [
+                { id: "edit", label: @tr("Edit hardware…"), icon: Icons.sliders, danger: false, show: d.state != 2 && d.state != 1 },
+                { id: "cold", label: @tr("Cold boot"), icon: Icons.snowflake, danger: false, show: d.state == 0 },
+                { id: "restart", label: @tr("Restart"), icon: Icons.refresh, danger: false, show: d.state == 2 },
+                { id: "clone", label: @tr("Clone…"), icon: Icons.layers, danger: false, show: d.state != 3 },
+                { id: "rename", label: @tr("Rename…"), icon: Icons.edit, danger: false, show: d.state != 3 },
+                { id: "folder", label: @tr("Open folder"), icon: Icons.folder, danger: false, show: d.state != 3 },
+                { id: "log", label: @tr("View emulator log"), icon: Icons.file-text, danger: false, show: true },
+                { id: "wipe", label: @tr("Factory reset…"), icon: Icons.eraser, danger: true, show: d.state == 0 },
+                { id: "delete", label: @tr("Delete…"), icon: Icons.trash, danger: true, show: d.state != 2 && d.state != 1 },
+            ]: Rectangle {
+                visible: item.show;
+                height: item.show ? 34px : 0px;
+                border-radius: 6px;
+                background: mta.has-hover ? (item.danger ? Theme.danger-soft : Theme.surface-hover) : transparent;
+                HorizontalLayout {
+                    padding-left: 10px;
+                    spacing: 10px;
+                    Icon { source: item.icon; size: 15px; color: item.danger ? Theme.danger : Theme.text-2; y: (parent.height - self.height) / 2; }
+                    Text { text: item.label; color: item.danger ? Theme.danger : Theme.text; font-size: Theme.font; vertical-alignment: center; }
+                }
+                mta := TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        if (item.id == "edit") { Api.edit(d.id); }
+                        if (item.id == "cold") { Api.cold-boot(d.id); }
+                        if (item.id == "restart") { Api.restart(d.id); }
+                        if (item.id == "clone") { Api.ask-clone(d.id); }
+                        if (item.id == "rename") { Api.ask-rename(d.id); }
+                        if (item.id == "folder") { Api.open-folder(d.id); }
+                        if (item.id == "log") { Api.show-log(d.id); }
+                        if (item.id == "wipe") { Api.ask-wipe(d.id); }
+                        if (item.id == "delete") { Api.ask-delete(d.id); }
+                    }
+                }
+            }
+        }
+    }
+}
+
+component PrimaryAction inherits HorizontalLayout {
+    in property <DeviceItem> d;
+    spacing: 8px;
+    if d.state == 0: Btn {
+        text: @tr("Start");
+        variant: "primary";
+        icon: Icons.play;
+        has-icon: true;
+        loading: d.busy;
+        clicked => { Api.start(d.id); }
+    }
+    if d.state == 1: Btn {
+        text: @tr("View boot");
+        variant: "soft";
+        icon: Icons.monitor;
+        has-icon: true;
+        clicked => { Api.open-player(d.id); }
+    }
+    if d.state == 2: Btn {
+        text: @tr("Open");
+        variant: "primary";
+        icon: Icons.external;
+        has-icon: true;
+        clicked => { Api.open-player(d.id); }
+    }
+    if d.state == 1 || d.state == 2: Btn {
+        text: @tr("Stop");
+        variant: "danger";
+        icon: Icons.stop;
+        has-icon: true;
+        loading: d.busy;
+        clicked => { Api.stop(d.id); }
+    }
+    if d.state == 3: Btn {
+        text: @tr("Repair");
+        variant: "danger";
+        icon: Icons.wrench;
+        has-icon: true;
+        loading: d.busy;
+        clicked => { Api.repair(d.id); }
+    }
+}
+
+export component DeviceCard inherits Card {
+    in property <DeviceItem> d;
+    hoverable: true;
+    height: 196px;
+    VerticalLayout {
+        padding: 18px;
+        spacing: 12px;
+        HorizontalLayout {
+            spacing: 14px;
+            DeviceShape {
+                box: 58px;
+                aspect: d.aspect;
+                kind: d.kind;
+                on: d.state == 2;
+            }
+            VerticalLayout {
+                spacing: 6px;
+                alignment: start;
+                Text { text: d.name; font-size: Theme.font-lg; font-weight: 700; color: Theme.text; overflow: elide; }
+                HorizontalLayout {
+                    spacing: 6px;
+                    alignment: start;
+                    StateChip { d: root.d; }
+                    if d.android != "": Chip { text: d.android; kind: "primary"; }
+                }
+                Text {
+                    text: d.state == 3 ? d.problem : d.tag + (d.tag != "" ? " · " : "") + d.backend;
+                    font-size: Theme.font-sm;
+                    color: d.state == 3 ? Theme.danger : Theme.text-3;
+                    overflow: elide;
+                }
+            }
+            VerticalLayout {
+                alignment: start;
+                more := IconBtn {
+                    icon: Icons.more;
+                    tip: @tr("More actions");
+                    size: 32px;
+                    clicked => { menu.show(); }
+                }
+            }
+        }
+        if d.state == 1: VerticalLayout {
+            spacing: 4px;
+            Progress { progress: d.boot-progress; }
+            Text { text: @tr("Booting Android…"); font-size: Theme.font-xs; color: Theme.text-3; }
+        }
+        if d.state != 1 && d.specs != "": HorizontalLayout {
+            spacing: 6px;
+            Icon { source: Icons.cpu; size: 13px; color: Theme.text-3; y: (parent.height - self.height) / 2; }
+            Text { text: d.specs; font-size: Theme.font-xs; color: Theme.text-3; overflow: elide; vertical-alignment: center; }
+        }
+        Rectangle { }
+        PrimaryAction { d: root.d; alignment: start; }
+    }
+    menu := ActionsMenu {
+        d: root.d;
+        x: root.width - 230px;
+        y: 54px;
+    }
+}
+
+component DeviceRow inherits Rectangle {
+    in property <DeviceItem> d;
+    height: 64px;
+    border-radius: Theme.radius;
+    background: rta.has-hover ? Theme.surface-hover : Theme.surface;
+    rta := TouchArea { }
+    HorizontalLayout {
+        padding-left: 14px;
+        padding-right: 10px;
+        spacing: 14px;
+        DeviceShape { box: 36px; aspect: d.aspect; kind: d.kind; on: d.state == 2; y: (parent.height - self.height) / 2; }
+        VerticalLayout {
+            alignment: center;
+            horizontal-stretch: 2;
+            Text { text: d.name; font-weight: 700; color: Theme.text; overflow: elide; }
+            Text { text: d.state == 3 ? d.problem : d.specs; font-size: Theme.font-xs; color: d.state == 3 ? Theme.danger : Theme.text-3; overflow: elide; }
+        }
+        HorizontalLayout { alignment: start; horizontal-stretch: 1; StateChip { d: root.d; y: (parent.height - self.height) / 2; } }
+        Text { text: d.android; color: Theme.text-2; vertical-alignment: center; horizontal-stretch: 1; }
+        PrimaryAction { d: root.d; y: (parent.height - 36px) / 2; height: 36px; }
+        IconBtn { icon: Icons.more; size: 32px; y: (parent.height - self.height) / 2; clicked => { menu.show(); } }
+    }
+    menu := ActionsMenu { d: root.d; x: root.width - 230px; y: 50px; }
+}
+
+export component DevicesPage inherits VerticalLayout {
+    property <length> min-card: 330px;
+    padding: 28px;
+    padding-top: 22px;
+    spacing: 18px;
+
+    HorizontalLayout {
+        spacing: 10px;
+        VerticalLayout {
+            alignment: center;
+            spacing: 2px;
+            Text { text: @tr("Devices"); font-size: Theme.font-2xl; font-weight: 800; color: Theme.text; }
+            Text {
+                text: Store.devices-loading ? @tr("Loading…") : @tr("{} device(s)", Store.devices.length);
+                font-size: Theme.font-sm;
+                color: Theme.text-3;
+            }
+        }
+        Rectangle { horizontal-stretch: 1; }
+        LineEdit {
+            width: 240px;
+            placeholder-text: @tr("Search devices…");
+            text <=> Store.search;
+            edited => { Api.filter-changed(); }
+            y: (parent.height - self.height) / 2;
+        }
+        IconBtn { icon: Store.grid-view ? Icons.list : Icons.layout-grid; tip: Store.grid-view ? @tr("List view") : @tr("Grid view"); clicked => { Store.grid-view = !Store.grid-view; } y: (parent.height - self.height) / 2; }
+        IconBtn { icon: Icons.refresh; tip: @tr("Refresh"); clicked => { Api.refresh(); } y: (parent.height - self.height) / 2; }
+        Btn {
+            text: @tr("New device");
+            variant: "primary";
+            icon: Icons.plus;
+            has-icon: true;
+            clicked => { Api.open-wizard(); }
+            y: (parent.height - self.height) / 2;
+        }
+    }
+
+    HorizontalLayout {
+        alignment: start;
+        Segmented {
+            items: [@tr("devices" => "All"), @tr("Running"), @tr("filter" => "Stopped"), @tr("Error")];
+            selected <=> Store.filter;
+            changed => { Api.filter-changed(); }
+        }
+    }
+
+    if Store.devices-loading && Store.devices.length == 0: HorizontalLayout {
+        spacing: 16px;
+        for i in 3: Card {
+            height: 196px;
+            VerticalLayout {
+                padding: 18px;
+                spacing: 12px;
+                HorizontalLayout {
+                    spacing: 14px;
+                    Skeleton { width: 58px; height: 58px; }
+                    VerticalLayout { spacing: 8px; Skeleton { height: 16px; } Skeleton { height: 12px; width: 120px; } }
+                }
+                Skeleton { height: 10px; }
+                Rectangle { }
+                Skeleton { height: 34px; width: 110px; }
+            }
+        }
+    }
+
+    if !Store.devices-loading && Store.devices.length == 0: EmptyState {
+        vertical-stretch: 1;
+        icon: Icons.phone-device;
+        title: Store.search != "" || Store.filter != 0 ? @tr("Nothing found") : @tr("No devices yet");
+        text: Store.search != "" || Store.filter != 0 ? @tr("Adjust your search or filter.") : @tr("Create your first virtual Android in a few clicks.");
+        HorizontalLayout {
+            alignment: center;
+            Btn { text: @tr("Create device"); variant: "primary"; icon: Icons.plus; has-icon: true; clicked => { Api.open-wizard(); } }
+        }
+    }
+
+    if Store.devices.length > 0 && Store.grid-view: ScrollView {
+        vertical-stretch: 1;
+        property <int> cols: max(1, floor((self.visible-width + 16px) / (root.min-card + 16px)));
+        content-height: grid.preferred-height + 8px;
+        grid := GridLayout {
+            width: parent.visible-width - 4px;
+            spacing: 16px;
+            padding-bottom: 8px;
+            for d[i] in Store.devices: DeviceCard {
+                d: d;
+                row: floor(i / cols);
+                col: mod(i, cols);
+            }
+        }
+    }
+
+    if Store.devices.length > 0 && !Store.grid-view: ScrollView {
+        vertical-stretch: 1;
+        content-height: lst.preferred-height;
+        lst := VerticalLayout {
+            width: parent.visible-width - 4px;
+            spacing: 6px;
+            for d in Store.devices: DeviceRow { d: d; }
+        }
+    }
+}
